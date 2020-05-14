@@ -24,6 +24,8 @@ public:
 	string StageName;
 	// The name of the folder for this stage
 	string StageID;
+    // The scene flags for this stage
+    int Flags;
 
 	// List of unlocks to enable for a given stage
 	vector<IZStage_UnlockCode*> Unlocks;

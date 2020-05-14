@@ -12,9 +12,8 @@ string InfinityZone::OnFileLoad(string path)
 	if (!currentStageID)
 		return path;
 
-    // Hardcoded to Mania Mode For Now
-    // TODO: Make Editable by the XML File
-    SonicMania::SceneFlags = 3;
+    // Set Custom Stage Scene Flags
+    SonicMania::SceneFlags = registeredStages[*currentStageID]->Flags;
 
 	// Replace the stage ID with the custom stage ID from the file path
 	ReplaceString(path, oldStageID, *currentStageID);

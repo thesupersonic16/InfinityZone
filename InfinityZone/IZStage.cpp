@@ -17,6 +17,7 @@ bool IZStage::LoadXML(string path)
         auto xmlStage = document.FirstChildElement("Stage");
         StageName = xmlStage->Attribute("stageName");
         StageID   = xmlStage->Attribute("stageID");
+        Flags = xmlStage->IntAttribute("flags");
         auto xmlUnlocks = xmlStage->FirstChildElement("StageUnlocks");
         for (auto child = xmlUnlocks->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
         {
