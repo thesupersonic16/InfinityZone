@@ -12,6 +12,10 @@ string InfinityZone::OnFileLoad(string path)
 	if (!currentStageID)
 		return path;
 
+    // Hardcoded to Mania Mode For Now
+    // TODO: Make Editable by the XML File
+    SonicMania::SceneFlags = 3;
+
 	// Replace the stage ID with the custom stage ID from the file path
 	ReplaceString(path, oldStageID, *currentStageID);
 
@@ -37,8 +41,9 @@ void InfinityZone::OnFrame()
 	//	SonicMania::GameState = SonicMania::GameState_NotRunning;
 	//}
 
-	if (currentStageID && SonicMania::CurrentScene < SonicMania::Scene_GHZ1)
+	if (currentStageID && (short)SonicMania::CurrentScene != currentLevelID)
 	{
+        currentLevelID = SonicMania::CurrentScene;
 	    // Unload custom stage
 		auto stage = registeredStages[*currentStageID];
 		stage->DisableUnlocks();
@@ -68,7 +73,8 @@ void InfinityZone::ChangeStage(string id)
 	// Set current modded stage ID
     currentStageID = &stage->StageID;
 	// Reset the scene (This needs changing)
-	SonicMania::CurrentScene = SonicMania::Scene_GHZ1;
+	SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
+    currentLevelID = SonicMania::Scene_ThanksForPlaying;
 	SonicMania::GameState = SonicMania::GameState_NotRunning;
 	
 	std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << registeredStages[*currentStageID]->StageName << "\"" << std::endl;

@@ -135,6 +135,7 @@ namespace SonicMania
 	
 	DataPointer(Scene, CurrentScene, 0x00A535C4);
 	DataPointer(GameStates, GameState, 0x00A535E2);
+    DataPointer(int, SceneFlags, 0x00A535E3);
 
 	extern char* CurrentSceneName;
 

@@ -13,6 +13,7 @@ class InfinityZone
 {
 protected:
 	string* currentStageID;
+    short currentLevelID;
 	bool resetting;
 public:
 	unordered_map<string, IZStage*> registeredStages;
