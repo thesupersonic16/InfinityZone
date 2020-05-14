@@ -40,7 +40,7 @@ void InfinityZone::OnFrame()
 	//	SonicMania::GameState = SonicMania::GameState_NotRunning;
 	//}
 
-	if (currentStageID && (short)SonicMania::CurrentScene != currentLevelID)
+	if (currentStageID && SonicMania::CurrentScene != currentLevelID)
 	{
         currentLevelID = SonicMania::CurrentScene;
 	    // Unload custom stage

@@ -132,10 +132,19 @@ namespace SonicMania
 		Scene_GoodEnd,
 		Scene_TrueEnd
 	};
+
+    enum Filter : char
+    {
+        Filter_None = 0b0000,   // 0
+        Filter_Common = 0b0001, // 1
+        Filter_Mania = 0b0010,  // 2
+        Filter_Encore = 0b0100  // 4
+    };
+    BitFlag(Filter, char)
 	
 	DataPointer(Scene, CurrentScene, 0x00A535C4);
 	DataPointer(GameStates, GameState, 0x00A535E2);
-    DataPointer(short, SceneFlags, 0x00A535E3);
+    DataPointer(Filter, SceneFlags, 0x00A535E3);
 
 	extern char* CurrentSceneName;
 
