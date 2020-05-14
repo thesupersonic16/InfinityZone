@@ -20,7 +20,7 @@ public:
 	string OnFileLoad(string path);
 	void OnFrame();
 	void Init();
-	void LoadStage(string path);
+	void LoadStages(string path);
 	void ChangeStage(string id);
 };
 

@@ -1,4 +1,5 @@
 #include "InfinityZone.h"
+#include "depends\tinyxml2\tinyxml2.h"
 
 string InfinityZone::OnFileLoad(string path)
 {
@@ -56,12 +57,26 @@ void InfinityZone::Init()
 }
 
 // Loads and registers the stage information
-void InfinityZone::LoadStage(string path)
+void InfinityZone::LoadStages(string path)
 {
-    auto stage = new IZStage();
-	stage->LoadXML(path);
-	registeredStages[stage->StageID] = stage;
-	std::cout << "[InfinityZone::LoadStage] Registered \"" << stage->StageName << "\"" << std::endl;
+    unordered_map<string, IZStage*> stages;
+    int size = 0;
+    void* xml = LoadAndReadFile(path.c_str(), &size);
+    if (xml && size)
+    {
+        tinyxml2::XMLDocument document;
+        document.Parse(static_cast<const char*>(xml), size);
+
+        auto xmlStages = document.FirstChildElement("Stages");
+        for (auto xmlStage = xmlStages->FirstChildElement(); xmlStage != nullptr; xmlStage = xmlStage->NextSiblingElement())
+        {
+            auto stage = new IZStage();
+            stage->LoadXML(xmlStage);
+            registeredStages[stage->StageID] = stage;
+            std::cout << "[InfinityZone::LoadStage] Registered \"" << stage->StageName << "\"" << std::endl;
+        }
+    }
+    delete xml;
 }
 
 void InfinityZone::ChangeStage(string id)
@@ -104,7 +119,7 @@ extern "C"
 			IZInstance = new InfinityZone();
 			IZInstance->Init();
 			// Test load stage
-			IZInstance->LoadStage("Data/Stage.xml");
+			IZInstance->LoadStages("Data/Stage.xml");
 			FirstStart = true;
 
 			// Hook ManiaModLoader.CheckFile_i

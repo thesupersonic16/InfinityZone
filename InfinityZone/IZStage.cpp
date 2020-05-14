@@ -5,40 +5,28 @@ using SonicMania::Filter;
 
 static vector<IZStage_UnlockCode*> EnabledUnlocks;
 
-bool IZStage::LoadXML(string path)
+bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
 {
-    int size = 0;
-    void* xml = LoadAndReadFile(path.c_str(), &size);
-    if (xml && size)
+    StageName = xmlStage->Attribute("stageName");
+    StageID = xmlStage->Attribute("stageID");
+    Flags = (Filter)xmlStage->IntAttribute("flags", Filter::Filter_Common | Filter::Filter_Mania); // Filter_Common | Filter_Mania = 3
+
+    auto xmlUnlocks = xmlStage->FirstChildElement("StageUnlocks");
+    for (auto child = xmlUnlocks->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
     {
-        tinyxml2::XMLDocument document;
-        document.Parse(static_cast<const char*>(xml), size);
-
-        // Read XML data
-        auto xmlStage = document.FirstChildElement("Stage");
-        StageName = xmlStage->Attribute("stageName");
-        StageID   = xmlStage->Attribute("stageID");
-        Flags     = (Filter)xmlStage->IntAttribute("flags", Filter::Filter_Common | Filter::Filter_Mania); // Filter_Common | Filter_Mania = 3
-
-        auto xmlUnlocks = xmlStage->FirstChildElement("StageUnlocks");
-        for (auto child = xmlUnlocks->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
-        {
-            auto unlock = FindUnlock(child->Name());
-            if (unlock)
-                for (auto &code : unlock->UnlockCodes)
-                    Unlocks.push_back(&code);
-            else
-                printf("[InfinityZone::IZStage::LoadXML] Unlock \"%s\" was not found! Check Spelling?\n", child->Name());
-        }
-
-        auto xmlAssets = xmlStage->FirstChildElement("StageAssets");
-        for (auto child = xmlAssets->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
-            Assets[child->Attribute("basePath")] = child->Attribute("newPath");
-
-        delete xml;
-        return true;
+        auto unlock = FindUnlock(child->Name());
+        if (unlock)
+            for (auto& code : unlock->UnlockCodes)
+                Unlocks.push_back(&code);
+        else
+            printf("[InfinityZone::IZStage::LoadXML] Unlock \"%s\" was not found! Check Spelling?\n", child->Name());
     }
-    return false;
+
+    auto xmlAssets = xmlStage->FirstChildElement("StageAssets");
+    for (auto child = xmlAssets->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
+        Assets[child->Attribute("basePath")] = child->Attribute("newPath");
+
+    return true;
 }
 
 bool IZStage::EnableUnlocks()

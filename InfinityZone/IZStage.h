@@ -1,6 +1,7 @@
 #pragma once
 #include "Common.h"
 #include "Helpers.h"
+#include "depends\tinyxml2\tinyxml2.h"
 
 // 
 struct IZStage_UnlockCode
@@ -33,7 +34,7 @@ public:
 	unordered_map<string, string> Assets;
 
 	// Loads XML stage data form a file
-	bool LoadXML(string path);
+	bool LoadXML(tinyxml2::XMLElement* xmlStage);
 	// Write all the needed unlocks
 	bool EnableUnlocks();
     // Restore all the unlocks
