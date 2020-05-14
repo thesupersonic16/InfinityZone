@@ -9,10 +9,11 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
 {
     StageName = xmlStage->Attribute("stageName");
     StageID = xmlStage->Attribute("stageID");
+    StageKey = xmlStage->Attribute("stageKey");
     Flags = (Filter)xmlStage->IntAttribute("flags", Filter::Filter_Common | Filter::Filter_Mania); // Filter_Common | Filter_Mania = 3
 
     auto xmlUnlocks = xmlStage->FirstChildElement("StageUnlocks");
-    for (auto child = xmlUnlocks->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+    for (auto child = xmlUnlocks->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
     {
         auto unlock = FindUnlock(child->Name());
         if (unlock)

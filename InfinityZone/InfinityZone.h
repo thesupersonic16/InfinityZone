@@ -12,7 +12,7 @@ using std::unordered_map;
 class InfinityZone
 {
 protected:
-	string* currentStageID;
+	string* currentStageKey;
     short currentLevelID;
 	bool resetting;
 public:

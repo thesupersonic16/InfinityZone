@@ -10,18 +10,21 @@ string InfinityZone::OnFileLoad(string path)
 	auto oldStageID = string(SonicMania::CurrentSceneName);
 
     // Check if a custom stage is loaded
-	if (!currentStageID)
+	if (!currentStageKey)
 		return path;
 
+    // The loaded custom stage
+    auto stage = registeredStages[*currentStageKey];
+
     // Set Custom Stage Scene Flags
-    SonicMania::SceneFlags = registeredStages[*currentStageID]->Flags;
+    SonicMania::SceneFlags = stage->Flags;
 
 	// Replace the stage ID with the custom stage ID from the file path
-	ReplaceString(path, oldStageID, *currentStageID);
+	ReplaceString(path, oldStageID, stage->StageID);
 
 	// Load custom stage assets
-    const auto iter = registeredStages[*currentStageID]->Assets.find(path);
-	if (iter != registeredStages[*currentStageID]->Assets.cend())
+    const auto iter = stage->Assets.find(path);
+	if (iter != stage->Assets.cend())
 	{
 		path = iter->second;
 		std::cout << "[InfinityZone::OnFileLoad] Loading Asset: " << path << std::endl;
@@ -35,19 +38,19 @@ void InfinityZone::OnFrame()
 	//{
 	//	std::cout << "[InfinityZone::OnFrame] Resetting..." << std::endl;
 	//	resetting = false;
-	//	strcpy_s(SonicMania::CurrentSceneName, 12, currentStageID->c_str());
+	//	strcpy_s(SonicMania::CurrentSceneName, 12, currentStageKey->c_str());
 	//	
 	//	// Reset
 	//	SonicMania::GameState = SonicMania::GameState_NotRunning;
 	//}
 
-	if (currentStageID && SonicMania::CurrentScene != currentLevelID)
+	if (currentStageKey && SonicMania::CurrentScene != currentLevelID)
 	{
         currentLevelID = SonicMania::CurrentScene;
 	    // Unload custom stage
-		auto stage = registeredStages[*currentStageID];
+		auto stage = registeredStages[*currentStageKey];
 		stage->DisableUnlocks();
-		currentStageID = nullptr;
+		currentStageKey = nullptr;
 	}
 }
 
@@ -72,8 +75,8 @@ void InfinityZone::LoadStages(string path)
         {
             auto stage = new IZStage();
             stage->LoadXML(xmlStage);
-            registeredStages[stage->StageID] = stage;
-            std::cout << "[InfinityZone::LoadStage] Registered \"" << stage->StageName << "\"" << std::endl;
+            registeredStages[stage->StageKey] = stage;
+            std::cout << "[InfinityZone::LoadStages] Registered \"" << stage->StageName << "\"" << std::endl;
         }
     }
     delete xml;
@@ -85,13 +88,13 @@ void InfinityZone::ChangeStage(string id)
 	stage->EnableUnlocks();
 
 	// Set current modded stage ID
-    currentStageID = &stage->StageID;
+    currentStageKey = &stage->StageKey;
 	// Reset the scene (This needs changing)
 	SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
     currentLevelID = SonicMania::Scene_ThanksForPlaying;
 	SonicMania::GameState = SonicMania::GameState_NotRunning;
 	
-	std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << registeredStages[*currentStageID]->StageName << "\"" << std::endl;
+	std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << registeredStages[*currentStageKey]->StageName << "\"" << std::endl;
 }
 
 

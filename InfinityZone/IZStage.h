@@ -23,7 +23,9 @@ protected:
 public:
 	// The name of the stage
 	string StageName;
-	// The name of the folder for this stage
+    // The internal name of this stage (Must be unique)
+    string StageKey;
+    // The name of the folder for this stage
 	string StageID;
     // The scene flags for this stage
     SonicMania::Filter Flags;
