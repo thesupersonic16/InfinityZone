@@ -27,7 +27,7 @@ static __declspec(naked) WORD DevMenu_DrawText_(int XPosition, const char* text,
     }
 }
 
-void PatchInfinityZone()
+void PatchInfinityZoneDevMenu()
 {
     WriteCall((void*)(baseAddress + 0x001C25DB), InfinityZone_MainDevMenu);
     WriteJump((void*)(baseAddress + 0x001C25E0), (void*)(baseAddress + 0x001C2A25));

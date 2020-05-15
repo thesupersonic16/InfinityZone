@@ -166,7 +166,7 @@
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="InfinityZone.h" />
     <ClInclude Include="IZStage.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="IZStageUnlocks.h" />
     <ClInclude Include="SonicMania.h" />
   </ItemGroup>
   <ItemGroup>
@@ -176,12 +176,7 @@
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="InfinityZone.cpp" />
     <ClCompile Include="IZStage.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="IZStageUnlocks.cpp" />
     <ClCompile Include="SonicMania.cpp" />
   </ItemGroup>
   <ItemGroup>

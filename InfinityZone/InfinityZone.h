@@ -12,16 +12,16 @@ using std::unordered_map;
 class InfinityZone
 {
 protected:
-	string* currentStageKey;
+    string* currentStageKey;
     short currentLevelID;
-	bool resetting;
+    bool resetting;
 public:
-	unordered_map<string, IZStage*> registeredStages;
-	string OnFileLoad(string path);
-	void OnFrame();
-	void Init();
-	void LoadStages(string path);
-	void ChangeStage(string id);
+    unordered_map<string, IZStage*> registeredStages;
+    string OnFileLoad(string path);
+    void OnFrame();
+    void Init();
+    void LoadStages(string path);
+    void ChangeStage(string id);
 };
 
 extern "C" extern InfinityZone* IZInstance;

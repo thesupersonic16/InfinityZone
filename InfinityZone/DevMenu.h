@@ -3,4 +3,4 @@
 
 extern int InfinityZone_MainDevMenu();
 extern int InfinityZone_StageSelect();
-extern void PatchInfinityZone();
+extern void PatchInfinityZoneDevMenu();
