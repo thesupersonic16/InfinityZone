@@ -19,6 +19,7 @@ public:
     unordered_map<string, IZStage*> registeredStages;
     string OnFileLoad(string path);
     void OnFrame();
+    void OnActCompleted();
     void Init();
     void LoadStages(string path);
     void StartAssetReset();

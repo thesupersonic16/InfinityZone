@@ -61,6 +61,12 @@ void InfinityZone::OnFrame()
         ++resetting;
 }
 
+void InfinityZone::OnActCompleted()
+{
+    std::cout << "[InfinityZone::OnActCompleted] Act Completed" << std::endl;
+}
+
+
 void InfinityZone::Init()
 {
     std::cout << "[InfinityZone::Init] Starting InfinityZone..." << std::endl;
@@ -161,6 +167,13 @@ extern "C"
         return ((decltype(CheckFile_i_wrapper)*)CheckFile_addr)(buf);
     }
 
+    SonicMania::GameStates ActComplete_hook()
+    {
+        IZInstance->OnActCompleted();
+        return SonicMania::GameState;
+    }
+
+
     IZ_EXPORT void OnFrame()
     {
         if (!FirstStart)
@@ -173,6 +186,9 @@ extern "C"
             intptr_t addr = GetAddressFromJump(baseAddress + 0x1C540E) + 7;
             CheckFile_addr = GetAddressFromJump(addr);
             WriteCall((void*)addr, CheckFile_i_wrapper);
+
+            // Hook ActComplete
+            WriteJump((void*)(baseAddress + 0x001EF0B2), ActComplete_hook);
 
         }
         IZInstance->OnFrame();
