@@ -14,13 +14,14 @@ class InfinityZone
 protected:
     string* currentStageKey;
     short currentLevelID;
-    bool resetting;
+    char resetting;
 public:
     unordered_map<string, IZStage*> registeredStages;
     string OnFileLoad(string path);
     void OnFrame();
     void Init();
     void LoadStages(string path);
+    void StartAssetReset();
     void ChangeStage(string id);
 };
 

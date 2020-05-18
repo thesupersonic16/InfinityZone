@@ -3,9 +3,12 @@
 
 string InfinityZone::OnFileLoad(string path)
 {
-    // Ignore when resetting
+    // Load Null Space Zone when performing asset resetting
     if (resetting)
+    {
+        strcpy_s(SonicMania::CurrentSceneName, 12, "IZ_NSZ");
         return path;
+    }
 
     auto oldStageID = string(SonicMania::CurrentSceneName);
 
@@ -34,17 +37,18 @@ string InfinityZone::OnFileLoad(string path)
 
 void InfinityZone::OnFrame()
 {
-    //if (SonicMania::GameState & SonicMania::GameState_Running && resetting)
-    //{
-    //  std::cout << "[InfinityZone::OnFrame] Resetting..." << std::endl;
-    //  resetting = false;
-    //  strcpy_s(SonicMania::CurrentSceneName, 12, currentStageKey->c_str());
-    //  
-    //  // Reset
-    //  SonicMania::GameState = SonicMania::GameState_NotRunning;
-    //}
+    // Asset Reset
+    if (SonicMania::GameState & SonicMania::GameState_Running && resetting >= 2)
+    {
+      std::cout << "[InfinityZone::OnFrame] Finalising asset reset..." << std::endl;
+      // Stop the reset timer
+      resetting = 0;
 
-    if (currentStageKey && SonicMania::CurrentScene != currentLevelID)
+      SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
+      SonicMania::GameState = SonicMania::GameState_NotRunning;
+    }
+
+    if (currentStageKey && SonicMania::CurrentScene != currentLevelID && !resetting)
     {
         currentLevelID = SonicMania::CurrentScene;
         // Unload custom stage
@@ -52,11 +56,16 @@ void InfinityZone::OnFrame()
         stage->DisableUnlocks();
         currentStageKey = nullptr;
     }
+
+    if (resetting)
+        ++resetting;
 }
 
 void InfinityZone::Init()
 {
-    std::cout << "[InfinityZone::Init] Started InfinityZone" << std::endl;
+    std::cout << "[InfinityZone::Init] Starting InfinityZone..." << std::endl;
+    // Test load stage
+    IZInstance->LoadStages("Data/Stage.xml");
 }
 
 // Loads and registers the stage information
@@ -94,18 +103,43 @@ void InfinityZone::LoadStages(string path)
     delete xml;
 }
 
+void InfinityZone::StartAssetReset()
+{
+    // Set reset phase to 1
+    resetting = 1;
+
+    // Can really be any stage that's not Thanks For Playing
+    SonicMania::CurrentScene = SonicMania::Scene_GHZ1;
+    SonicMania::GameState = SonicMania::GameState_NotRunning;
+    std::cout << "[InfinityZone::StartAssetReset] Performing asset reset..." << std::endl;
+}
+
 void InfinityZone::ChangeStage(string id)
 {
     auto stage = registeredStages[id];
-    stage->EnableUnlocks();
 
-    // Set current modded stage ID
-    currentStageKey = &stage->StageKey;
-    // Reset the scene (This needs changing)
-    SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
-    currentLevelID = SonicMania::Scene_ThanksForPlaying;
-    SonicMania::GameState = SonicMania::GameState_NotRunning;
-    
+    if (currentStageKey && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
+    {
+        // Disable old unlocks
+        registeredStages[*currentStageKey]->DisableUnlocks();
+        
+        // Set current modded stage ID
+        currentStageKey = &stage->StageKey;
+        
+        // Enable new unlocks
+        registeredStages[*currentStageKey]->EnableUnlocks();;
+        StartAssetReset();
+    }
+    else
+    {
+        stage->EnableUnlocks();
+        // Set current modded stage ID
+        currentStageKey = &stage->StageKey;
+        // Reset the scene (This needs changing)
+        SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
+        currentLevelID = SonicMania::Scene_ThanksForPlaying;
+        SonicMania::GameState = SonicMania::GameState_NotRunning;
+    }
     std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << registeredStages[*currentStageKey]->StageName << "\"" << std::endl;
 }
 
@@ -133,8 +167,6 @@ extern "C"
         {
             IZInstance = new InfinityZone();
             IZInstance->Init();
-            // Test load stage
-            IZInstance->LoadStages("Data/Stage.xml");
             FirstStart = true;
 
             // Hook ManiaModLoader.CheckFile_i
