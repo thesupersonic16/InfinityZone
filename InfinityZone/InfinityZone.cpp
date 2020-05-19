@@ -1,4 +1,5 @@
 #include "InfinityZone.h"
+#include "IZAPI.h"
 #include "depends\tinyxml2\tinyxml2.h"
 
 string InfinityZone::OnFileLoad(string path)
@@ -51,8 +52,18 @@ void InfinityZone::OnFrame()
     if (currentStageKey && SonicMania::CurrentScene != currentLevelID && !resetting)
     {
         currentLevelID = SonicMania::CurrentScene;
+        
         // Unload custom stage
         auto stage = registeredStages[*currentStageKey];
+
+        // Raise OnStageUnload event
+        for (auto& event : OnStageUnload)
+            event({
+                    stage->StageKey.c_str(),
+                    stage->StageID.c_str(),
+                    stage->StageName.c_str()
+                });
+
         stage->DisableUnlocks();
         currentStageKey = nullptr;
     }
@@ -126,18 +137,42 @@ void InfinityZone::ChangeStage(string id)
 
     if (currentStageKey && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
     {
+        // Raise OnStageUnload event
+        for (auto& event : OnStageUnload)
+            event({
+                    stage->StageKey.c_str(),
+                    stage->StageID.c_str(),
+                    stage->StageName.c_str()
+                });
+
         // Disable old unlocks
         registeredStages[*currentStageKey]->DisableUnlocks();
         
         // Set current modded stage ID
         currentStageKey = &stage->StageKey;
-        
+
+        // Raise OnStageLoad event
+        for (auto& event : OnStageLoad)
+            event({
+                    stage->StageKey.c_str(),
+                    stage->StageID.c_str(),
+                    stage->StageName.c_str()
+                });
+
         // Enable new unlocks
         registeredStages[*currentStageKey]->EnableUnlocks();;
         StartAssetReset();
     }
     else
     {
+        // Raise OnStageLoad event
+        for (auto& event : OnStageLoad)
+            event({
+                    stage->StageKey.c_str(),
+                    stage->StageID.c_str(),
+                    stage->StageName.c_str()
+                });
+
         stage->EnableUnlocks();
         // Set current modded stage ID
         currentStageKey = &stage->StageKey;
@@ -147,6 +182,11 @@ void InfinityZone::ChangeStage(string id)
         SonicMania::GameState = SonicMania::GameState_NotRunning;
     }
     std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << registeredStages[*currentStageKey]->StageName << "\"" << std::endl;
+}
+
+IZStage* InfinityZone::GetCurrentStage()
+{
+    return registeredStages[*currentStageKey];
 }
 
 

@@ -24,6 +24,7 @@ public:
     void LoadStages(string path);
     void StartAssetReset();
     void ChangeStage(string id);
+    IZStage* GetCurrentStage();
 };
 
 extern "C" extern InfinityZone* IZInstance;
