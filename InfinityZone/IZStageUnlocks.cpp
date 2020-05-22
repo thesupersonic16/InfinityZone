@@ -212,6 +212,8 @@ vector<IZStage_Unlock> AllUnlocks =
     { "HPZ_Stegway",        {{ 0x0018F070, 2} }},
     { "HPZ_Batbot",         {{ 0x000D90C0, 2} }},
 
+    // UI/Internal
+    { "Summary_UIPicture",  {{ 0x00151148, 2} }},
 
     // Dummy - Please don't actually use this
     { "Dummy",           {{ 0x00000000, 2} }}
