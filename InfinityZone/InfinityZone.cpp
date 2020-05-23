@@ -1,6 +1,7 @@
 #include "InfinityZone.h"
 #include "IZAPI.h"
 #include "depends\tinyxml2\tinyxml2.h"
+#include <fstream>
 
 string InfinityZone::OnFileLoad(string path)
 {
@@ -81,8 +82,6 @@ void InfinityZone::OnActCompleted()
 void InfinityZone::Init()
 {
     std::cout << "[InfinityZone::Init] Starting InfinityZone..." << std::endl;
-    // Test load stage
-    IZInstance->LoadStages("Data/Stage.xml");
 }
 
 // Loads and registers the stage information
@@ -90,7 +89,21 @@ void InfinityZone::LoadStages(string path)
 {
     unordered_map<string, IZStage*> stages;
     int size = 0;
-    void* xml = LoadAndReadFile(path.c_str(), &size);
+    //void* xml = LoadAndReadFile(path.c_str(), &size);
+
+    // Open file
+    std::ifstream file(path);
+
+    // Get size and allocate memory
+    file.seekg(0, std::ios::end);
+    size = file.tellg();
+    char* xml = (char*)malloc(size);
+    file.seekg(0, std::ios::beg);
+    
+    // Read file
+    file.read(xml, size);
+
+    
     if (xml && size)
     {
         tinyxml2::XMLDocument document;
@@ -117,7 +130,7 @@ void InfinityZone::LoadStages(string path)
             std::cerr << R"([InfinityZone::LoadStages] Failed to find "Stages" element in ")" << path << R"(". Make sure the structure is correct!)" << std::endl;
         }
     }
-    delete xml;
+    free(xml);
 }
 
 void InfinityZone::StartAssetReset()
@@ -218,8 +231,6 @@ extern "C"
     {
         if (!FirstStart)
         {
-            IZInstance = new InfinityZone();
-            IZInstance->Init();
             FirstStart = true;
 
             // Hook ManiaModLoader.CheckFile_i
@@ -229,13 +240,16 @@ extern "C"
 
             // Hook ActComplete
             WriteJump((void*)(baseAddress + 0x001EF0B2), ActComplete_hook);
-
         }
         IZInstance->OnFrame();
     }
 
     IZ_EXPORT void Init(const char* path)
     {
+
+        IZInstance = new InfinityZone();
+        IZInstance->Init();
+
         // Apply DevMenu patches for IZ
         PatchInfinityZoneDevMenu();
     }
