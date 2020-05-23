@@ -124,7 +124,7 @@ int InfinityZone_MainDevMenu()
                 DevMenu_Scroll = 0;
                 break;
             case 5:
-                *(bool*)(baseAddress + 0x1681D8) = false;
+                *(bool*)(baseAddress + 0x2681D8) = false;
                 break;
             default:
                 break;
