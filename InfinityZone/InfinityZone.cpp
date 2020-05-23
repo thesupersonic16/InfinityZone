@@ -208,8 +208,6 @@ extern "C"
     InfinityZone* IZInstance;
 
     // Workaround
-    static bool FirstStart = false;
-    static string Path;
     static intptr_t CheckFile_addr;
 
 
@@ -229,19 +227,19 @@ extern "C"
 
     IZ_EXPORT void OnFrame()
     {
-        if (!FirstStart)
-        {
-            FirstStart = true;
-
-            // Hook ManiaModLoader.CheckFile_i
-            intptr_t addr = GetAddressFromJump(baseAddress + 0x1C540E) + 7;
-            CheckFile_addr = GetAddressFromJump(addr);
-            WriteCall((void*)addr, CheckFile_i_wrapper);
-
-            // Hook ActComplete
-            WriteJump((void*)(baseAddress + 0x001EF0B2), ActComplete_hook);
-        }
         IZInstance->OnFrame();
+    }
+
+    IZ_EXPORT void PostInit(const char* path)
+    {
+        printf("test\n");
+        // Hook ManiaModLoader.CheckFile_i
+        intptr_t addr = GetAddressFromJump(baseAddress + 0x1C540E) + 7;
+        CheckFile_addr = GetAddressFromJump(addr);
+        WriteCall((void*)addr, CheckFile_i_wrapper);
+
+        // Hook ActComplete
+        WriteJump((void*)(baseAddress + 0x001EF0B2), ActComplete_hook);
     }
 
     IZ_EXPORT void Init(const char* path)
