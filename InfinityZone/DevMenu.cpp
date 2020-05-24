@@ -32,6 +32,27 @@ void PatchInfinityZoneDevMenu()
     WriteCall((void*)(baseAddress + 0x001C25DB), InfinityZone_MainDevMenu);
     WriteJump((void*)(baseAddress + 0x001C25E0), (void*)(baseAddress + 0x001C2A25));
     WriteJump((void*)(baseAddress + 0x001C2A31), (void*)(baseAddress + 0x001C2A8C));
+
+    // Options
+    WriteData((char*)(baseAddress + 0x001C3103), (char)84); // Rect height
+    WriteData((char*)(baseAddress + 0x001C3170), (char)0x0F); // Space options out
+    WriteData((char*)(baseAddress + 0x001C3189), (char)0x0F); // Space options out
+    WriteData((char*)(baseAddress + 0x001C31A2), (char)0x0F); // Space options out
+    WriteData((char*)(baseAddress + 0x001C31BB), (char)0x0F); // Space options out
+    WriteData((int*)(baseAddress + 0x001C33DB), 4); // Set the Back button's return index to the main menu's forth option
+    // Video Settings
+    WriteData((char*)(baseAddress + 0x001C3484), (char)84); // Rect height
+    WriteData((char*)(baseAddress + 0x001C363C), (char)0x1C); // Move Confirm and Cancel buttons down
+    // Audio Settings
+    WriteData((char*)(baseAddress + 0x001C3AA4), (char)84); // Rect height
+    WriteData((char*)(baseAddress + 0x001C3C24), (char)0x1C); // Move Back button down
+    // Input Settings
+    WriteData((char*)(baseAddress + 0x001C3EB3), (char)84);   // Rect height
+    WriteData((char*)(baseAddress + 0x001C3F6B), (char)0x1E); // Move Back button down
+    WriteData((int*)(baseAddress + 0x001C4012), 2); // Fixed option bug we never caused
+    // Debug Flags
+    WriteData((char*)(baseAddress + 0x001C44B4), (char)84); // Rect height
+    WriteData((char*)(baseAddress + 0x001C4685), (char)10); // Change spacing
 }
 
 int InfinityZone_MainDevMenu()
