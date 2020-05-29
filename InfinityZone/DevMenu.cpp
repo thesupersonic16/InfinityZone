@@ -182,16 +182,10 @@ int InfinityZone_StageSelect()
     // Bottom Panel
     DevMenu_DrawRect(centerX - 128, YPosition - 8, 256, 84, 0x00000080, 255, 0, 1);
 
-
-
-    int optionColours[64];
-    for (int i = 0; i < sizeof optionColours / sizeof(int); ++i)
-        optionColours[i] = 0x808090;
-
     // Give selected Option a lighter colour
     if ((DevMenu_Option - DevMenu_Scroll) < 0)
         DevMenu_Scroll = 0;
-    optionColours[DevMenu_Option - DevMenu_Scroll] = 0xF0F0F0;
+    
     YPosition -= 10;
     for (int i = DevMenu_Scroll; i <= IZInstance->registeredStages.size(); ++i)
     {
@@ -199,9 +193,9 @@ int InfinityZone_StageSelect()
             break;
         YPosition += 10;
         if (i == IZInstance->registeredStages.size())
-            DevMenu_DrawText_(centerX, "Back", YPosition, Alignment_Center, optionColours[i - DevMenu_Scroll]);
+            DevMenu_DrawText_(centerX, "Back", YPosition, Alignment_Center, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
         else
-            DevMenu_DrawText_(centerX, IZInstance->registeredStages[i]->StageName.c_str(), YPosition, Alignment_Center, optionColours[i - DevMenu_Scroll]);
+            DevMenu_DrawText_(centerX, IZInstance->registeredStages[i]->StageName.c_str(), YPosition, Alignment_Center, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
     }
     
     if (Key_Up)
