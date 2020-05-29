@@ -176,7 +176,8 @@ namespace SonicMania
         /* 0x00000078 */ ControllerInput Start;
         /* 0x00000084 */ ControllerInput Select;
     };
-
+    
+    DataPointer(HWND, MainWindowHandle, 0x00A53C10);
     DataPointer(bool, DevMenu_Enabled, 0x002FC867);
     DataPointer(void*, DevMenu_Address, 0x002FBB40);
     DataPointer(int, DevMenu_Option, 0x002FBB44);

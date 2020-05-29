@@ -3,6 +3,29 @@
 #include "depends\tinyxml2\tinyxml2.h"
 #include <fstream>
 
+static bool TrackerL, TrackerR;
+
+bool GetCtrlKeyState()
+{
+    if (SonicMania::MainWindowHandle == GetActiveWindow())
+        return GetAsyncKeyState(VK_LCONTROL) & 1 << 15 || GetAsyncKeyState(VK_RCONTROL) & 1 << 15;
+    return false;
+}
+
+bool CheckKey(char key, bool state, bool* tracker)
+{
+    state &= static_cast<bool>(GetAsyncKeyState(key) & 1 << 15);
+    if (*tracker && !state)
+        *tracker = false;
+    if (!*tracker && state)
+    {
+        *tracker = true;
+        return true;
+    }
+    return false;
+}
+
+
 IZStage* InfinityZone::FindIZStage(const string key)
 {
     for (IZStage* stage : registeredStages)
@@ -87,6 +110,19 @@ void InfinityZone::OnFrame()
         stage->DisableUnlocks();
         currentStageKey = nullptr;
     }
+    bool keyState = GetCtrlKeyState();
+
+    if (CheckKey('L', keyState, &TrackerL))
+    {
+        // TODO: Add stage list reloading
+    }
+
+    if (CheckKey('R', keyState, &TrackerR))
+    {
+        // Check if a custom stage is loaded
+        if (currentStageKey)
+            StartAssetReset();
+    }
 
     if (resetting)
         ++resetting;
@@ -95,6 +131,7 @@ void InfinityZone::OnFrame()
 void InfinityZone::OnActCompleted()
 {
     std::cout << "[InfinityZone::OnActCompleted] Act Completed" << std::endl;
+
 }
 
 
