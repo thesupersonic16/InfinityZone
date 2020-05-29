@@ -50,9 +50,17 @@ void PatchInfinityZoneDevMenu()
     WriteData((char*)(baseAddress + 0x001C3EB3), (char)84);   // Rect height
     WriteData((char*)(baseAddress + 0x001C3F6B), (char)0x1E); // Move Back button down
     WriteData((int*)(baseAddress + 0x001C4012), 2); // Fixed option bug we never caused
+    // Input Settings (2)
+    WriteData((char*)(baseAddress + 0x001C40C4), (char)84);   // Rect height
     // Debug Flags
     WriteData((char*)(baseAddress + 0x001C44B4), (char)84); // Rect height
     WriteData((char*)(baseAddress + 0x001C4685), (char)10); // Change spacing
+
+    // Stage Select
+    WriteData((char*)(baseAddress + 0x001C2BD4), (char)84); // Rect height
+    WriteData((char*)(baseAddress + 0x001C2C8E), (char)10); // Change spacing
+    WriteData((char*)(baseAddress + 0x001C2E24), (char)84); // Rect height
+    WriteData((char*)(baseAddress + 0x001C2EF7), (char)10); // Change spacing
 }
 
 int InfinityZone_MainDevMenu()
@@ -176,7 +184,7 @@ int InfinityZone_StageSelect()
 
 
 
-    int optionColours[32];
+    int optionColours[64];
     for (int i = 0; i < sizeof optionColours / sizeof(int); ++i)
         optionColours[i] = 0x808090;
 
@@ -185,26 +193,17 @@ int InfinityZone_StageSelect()
         DevMenu_Scroll = 0;
     optionColours[DevMenu_Option - DevMenu_Scroll] = 0xF0F0F0;
     YPosition -= 10;
-//    for (int i = DevMenu_Scroll; i < IZInstance->registeredStages.size(); ++i)
-    std::string key = "";
-    auto it = IZInstance->registeredStages.begin();
-    unsigned int i = DevMenu_Scroll;
-    while (it != IZInstance->registeredStages.end())
+    for (int i = DevMenu_Scroll; i <= IZInstance->registeredStages.size(); ++i)
     {
-        YPosition += 12;
-        if (i - DevMenu_Scroll > 5)
+        if (i - DevMenu_Scroll > 6)
             break;
-        DevMenu_DrawText_(centerX, it->second->StageName.c_str(), YPosition, Alignment_Center, optionColours[i - DevMenu_Scroll]);
-        if (DevMenu_Option - DevMenu_Scroll == i) key = it->first;
-        ++it;
-        ++i;
+        YPosition += 10;
+        if (i == IZInstance->registeredStages.size())
+            DevMenu_DrawText_(centerX, "Back", YPosition, Alignment_Center, optionColours[i - DevMenu_Scroll]);
+        else
+            DevMenu_DrawText_(centerX, IZInstance->registeredStages[i]->StageName.c_str(), YPosition, Alignment_Center, optionColours[i - DevMenu_Scroll]);
     }
-    if (i == IZInstance->registeredStages.size())
-    {
-        YPosition += 12;
-        DevMenu_DrawText_(centerX, "Back", YPosition, Alignment_Center, optionColours[i - DevMenu_Scroll]);
-    }
-
+    
     if (Key_Up)
     {
         if (!dword_6F0AE4)
@@ -213,9 +212,11 @@ int InfinityZone_StageSelect()
             if (DevMenu_Option < 0)
             {
                 DevMenu_Option = IZInstance->registeredStages.size();
-                DevMenu_Scroll = DevMenu_Option - 5;
+                DevMenu_Scroll = DevMenu_Option - 6;
                 if (DevMenu_Scroll < 0) DevMenu_Scroll = 0;
             }
+            if (DevMenu_Option - DevMenu_Scroll < 0 && DevMenu_Scroll > 0)
+                --DevMenu_Scroll;
         }
         result = (dword_6F0AE4 + 1) & 7;
         dword_6F0AE4 = result;
@@ -225,7 +226,7 @@ int InfinityZone_StageSelect()
         if (!dword_6F0AE4)
         {
             ++DevMenu_Option;
-            if ((DevMenu_Option - DevMenu_Scroll) > 5)
+            if ((DevMenu_Option - DevMenu_Scroll) > 6)
                 ++DevMenu_Scroll;
             if (DevMenu_Option > static_cast<int>(IZInstance->registeredStages.size()))
                 DevMenu_Option = 0;
@@ -247,7 +248,7 @@ int InfinityZone_StageSelect()
             }
             else
             {
-                IZInstance->ChangeStage(key);
+                IZInstance->ChangeStage(IZInstance->registeredStages[DevMenu_Option]->StageKey);
             }
         }
     }

@@ -7,7 +7,6 @@
 
 using std::string;
 using std::vector;
-using std::unordered_map;
 
 class InfinityZone
 {
@@ -16,8 +15,10 @@ protected:
     short currentLevelID;
     char resetting;
 public:
-    unordered_map<string, IZStage*> registeredStages;
+    vector<IZStage*> registeredStages;
     string OnFileLoad(string path);
+    IZStage* FindIZStage(string key);
+    void SetIZStage(IZStage* stage);
     void OnFrame();
     void OnActCompleted();
     void Init();

@@ -3,6 +3,25 @@
 #include "depends\tinyxml2\tinyxml2.h"
 #include <fstream>
 
+IZStage* InfinityZone::FindIZStage(const string key)
+{
+    for (IZStage* stage : registeredStages)
+    {
+        if (stage->StageKey == key)
+            return stage;
+    }
+    return nullptr;
+}
+
+void InfinityZone::SetIZStage(IZStage* stage)
+{
+    // Check if stage exists
+    auto izStage = FindIZStage(stage->StageKey);
+    if (izStage)
+        registeredStages.erase(std::remove(registeredStages.begin(), registeredStages.end(), izStage));
+    registeredStages.push_back(stage);
+}
+
 string InfinityZone::OnFileLoad(string path)
 {
     // Load Null Space Zone when performing asset resetting
@@ -19,7 +38,7 @@ string InfinityZone::OnFileLoad(string path)
         return path;
 
     // The loaded custom stage
-    auto stage = registeredStages[*currentStageKey];
+    auto stage = FindIZStage(*currentStageKey);
 
     // Set Custom Stage Scene Flags
     SonicMania::SceneFlags = stage->Flags;
@@ -55,7 +74,7 @@ void InfinityZone::OnFrame()
         currentLevelID = SonicMania::CurrentScene;
         
         // Unload custom stage
-        auto stage = registeredStages[*currentStageKey];
+        auto stage = FindIZStage(*currentStageKey);
 
         // Raise OnStageUnload event
         for (auto& event : OnStageUnload)
@@ -117,10 +136,10 @@ void InfinityZone::LoadStages(string path)
                 auto stage = new IZStage();
                 if (stage->LoadXML(xmlStage))
                 {
-                    if (registeredStages[stage->StageKey] != nullptr)
+                    if (FindIZStage(stage->StageKey) != nullptr)
                         std::cerr << "[InfinityZone::LoadStages] Duplicate stage key of \"" << stage->StageKey << "\" has been detected! Keys need to unique to work" << std::endl;
 
-                    registeredStages[stage->StageKey] = stage;
+                    SetIZStage(stage);
                     std::cout << "[InfinityZone::LoadStages] Registered \"" << stage->StageName << "\"" << std::endl;
                 }
             }
@@ -146,7 +165,7 @@ void InfinityZone::StartAssetReset()
 
 void InfinityZone::ChangeStage(string id)
 {
-    auto stage = registeredStages[id];
+    auto stage = FindIZStage(id);
 
     if (currentStageKey && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
     {
@@ -159,7 +178,7 @@ void InfinityZone::ChangeStage(string id)
                 });
 
         // Disable old unlocks
-        registeredStages[*currentStageKey]->DisableUnlocks();
+        FindIZStage(*currentStageKey)->DisableUnlocks();
         
         // Set current modded stage ID
         currentStageKey = &stage->StageKey;
@@ -173,7 +192,7 @@ void InfinityZone::ChangeStage(string id)
                 });
 
         // Enable new unlocks
-        registeredStages[*currentStageKey]->EnableUnlocks();;
+        FindIZStage(*currentStageKey)->EnableUnlocks();;
         StartAssetReset();
     }
     else
@@ -194,12 +213,12 @@ void InfinityZone::ChangeStage(string id)
         currentLevelID = SonicMania::Scene_ThanksForPlaying;
         SonicMania::GameState = SonicMania::GameState_NotRunning;
     }
-    std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << registeredStages[*currentStageKey]->StageName << "\"" << std::endl;
+    std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << FindIZStage(*currentStageKey)->StageName << "\"" << std::endl;
 }
 
 IZStage* InfinityZone::GetCurrentStage()
 {
-    return registeredStages[*currentStageKey];
+    return FindIZStage(*currentStageKey);
 }
 
 
