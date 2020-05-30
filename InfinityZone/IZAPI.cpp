@@ -20,7 +20,7 @@ extern "C"
     // Loads and registers all stages
     IZ_EXPORT void LoadStagesFile(const char* path)
     {
-        IZInstance->LoadStages(path);
+        IZInstance->LoadStages(path, true);
     }
 
     // Switches custom stages

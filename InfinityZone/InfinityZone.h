@@ -14,6 +14,7 @@ protected:
     string* currentStageKey;
     short currentLevelID;
     char resetting;
+    vector<string*> loadedStageLists;
 public:
     vector<IZStage*> registeredStages;
     string OnFileLoad(string path);
@@ -22,7 +23,8 @@ public:
     void OnFrame();
     void OnActCompleted();
     void Init();
-    void LoadStages(string path);
+    void LoadStages(string path, bool registerList);
+    void ReloadStageLists();
     void StartAssetReset();
     void ChangeStage(string id);
     IZStage* GetCurrentStage();

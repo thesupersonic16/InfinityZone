@@ -114,7 +114,7 @@ void InfinityZone::OnFrame()
 
     if (CheckKey('L', keyState, &TrackerL))
     {
-        // TODO: Add stage list reloading
+        ReloadStageLists();
     }
 
     if (CheckKey('R', keyState, &TrackerR))
@@ -141,9 +141,8 @@ void InfinityZone::Init()
 }
 
 // Loads and registers the stage information
-void InfinityZone::LoadStages(string path)
+void InfinityZone::LoadStages(string path, bool registerList)
 {
-    unordered_map<string, IZStage*> stages;
     int size = 0;
     //void* xml = LoadAndReadFile(path.c_str(), &size);
 
@@ -162,6 +161,9 @@ void InfinityZone::LoadStages(string path)
     
     if (xml && size)
     {
+        // Record the file path to the stage list
+        if (registerList)
+            loadedStageLists.push_back(new string(path));
         tinyxml2::XMLDocument document;
         document.Parse(static_cast<const char*>(xml), size);
 
@@ -189,6 +191,43 @@ void InfinityZone::LoadStages(string path)
     free(xml);
 }
 
+void InfinityZone::ReloadStageLists()
+{
+    std::cerr << "[InfinityZone::ReloadStageLists] Reloading stage lists..." << std::endl;
+    // Backup the current stage key
+    string currentStageKeyBackup = "";
+    if (currentStageKey)
+        currentStageKeyBackup += *currentStageKey;
+
+    // Clear soon to be invalid key
+    currentStageKey = nullptr;
+
+    // Remove all registered stages
+    for (auto stage : registeredStages)
+        delete stage;
+    registeredStages.clear();
+
+    // Load all stage lists
+    for (auto filepath : loadedStageLists)
+        LoadStages(*filepath, false);
+
+    // Check if the stage still exists
+    if (!currentStageKeyBackup.empty())
+    {
+        IZStage* stage = FindIZStage(currentStageKeyBackup);
+
+        if (!stage)
+        {
+            std::cerr << "[InfinityZone::ReloadStageLists] WARNING: Current stage no longer exists! Returning to the title screen..." << std::endl;
+            SonicMania::CurrentScene = SonicMania::Scene_Title;
+            SonicMania::GameState = SonicMania::GameState_NotRunning;
+        }
+        else
+        {
+            currentStageKey = &stage->StageKey;
+        }
+    }
+}
 void InfinityZone::StartAssetReset()
 {
     // Set reset phase to 1
