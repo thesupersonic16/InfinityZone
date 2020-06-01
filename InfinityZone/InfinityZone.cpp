@@ -2,6 +2,7 @@
 #include "IZAPI.h"
 #include "depends\tinyxml2\tinyxml2.h"
 #include <fstream>
+#include <algorithm>
 
 static bool TrackerL, TrackerR;
 
@@ -143,7 +144,7 @@ void InfinityZone::Init()
 // Loads and registers the stage information
 void InfinityZone::LoadStages(string path, bool registerList)
 {
-    int size = 0;
+    unsigned int size = 0;
     //void* xml = LoadAndReadFile(path.c_str(), &size);
 
     // Open file
@@ -151,7 +152,7 @@ void InfinityZone::LoadStages(string path, bool registerList)
 
     // Get size and allocate memory
     file.seekg(0, std::ios::end);
-    size = file.tellg();
+    size = static_cast<unsigned int>(file.tellg());
     char* xml = (char*)malloc(size);
     file.seekg(0, std::ios::beg);
     

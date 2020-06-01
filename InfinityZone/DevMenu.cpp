@@ -187,7 +187,7 @@ int InfinityZone_StageSelect()
         DevMenu_Scroll = 0;
     
     YPosition -= 10;
-    for (int i = DevMenu_Scroll; i <= IZInstance->registeredStages.size(); ++i)
+    for (int i = DevMenu_Scroll; i <= static_cast<int>(IZInstance->registeredStages.size()); ++i)
     {
         if (i - DevMenu_Scroll > 6)
             break;
