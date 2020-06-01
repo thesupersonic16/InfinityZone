@@ -336,6 +336,11 @@ extern "C"
 
         // Hook ActComplete
         WriteJump((void*)(baseAddress + 0x001EF0B2), ActComplete_hook);
+
+#ifdef _DEBUG
+        const std::string path_cpp = path;
+        IZInstance->LoadStages((path_cpp + "\\Stages.xml").c_str(), true);
+#endif
     }
 
     IZ_EXPORT void Init(const char* path)
