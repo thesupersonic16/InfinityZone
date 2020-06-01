@@ -5,6 +5,13 @@ extern "C"
 {
     namespace IZAPI
     {
+        // Enums
+        enum StageLoadPhase
+        {
+            StageLoadPhase_NotLoaded,
+            StageLoadPhase_Load,
+            StageLoadPhase_Loaded
+        };
         
         // Structs
         struct StageInfo
@@ -14,8 +21,9 @@ extern "C"
             const char* StageName;
         };
 
+
         // Function Types
-        typedef void(__cdecl* StageLoadEvent)(StageInfo);
+        typedef void(__cdecl* StageLoadEvent)(StageInfo, StageLoadPhase);
 
         // Functions
         extern void IZInit();

@@ -4,6 +4,15 @@
 extern "C"
 {
 
+    // Enums
+    enum StageLoadPhase
+    {
+        StageLoadPhase_NotLoaded,
+        StageLoadPhase_Load,
+        StageLoadPhase_Loaded
+    };
+
+    // Structs
     struct StageInfo
     {
         const char* StageKey;
@@ -11,7 +20,7 @@ extern "C"
         const char* StageName;
     };
 
-    typedef void(__cdecl* StageLoadEvent)(StageInfo);
+    typedef void(__cdecl* StageLoadEvent)(StageInfo, StageLoadPhase);
 
     extern vector<StageLoadEvent> OnStageLoad;
     extern vector<StageLoadEvent> OnStageUnload;
