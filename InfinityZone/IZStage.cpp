@@ -43,7 +43,7 @@ bool IZStage::EnableUnlocks()
         return false;
 
     // NOP bytes
-    char nops[8];
+    char nops[24];
     memset(nops, 0x90, sizeof nops);
     
     // Write all the unlocks
