@@ -28,6 +28,12 @@ extern "C"
         // Functions
         extern void IZInit();
 
+        // Gets the version of InfinityZone
+        extern int GetIZVersion();
+
+        // Gets the supported version of IZAPI
+        extern int GetIZAPIMajorVersion();
+
         // Registers an event for when a stage loads
         extern void RegisterStageLoadEvent(StageLoadEvent event);
 

@@ -5,6 +5,18 @@ extern "C"
     vector<StageLoadEvent> OnStageLoad;
     vector<StageLoadEvent> OnStageUnload;
 
+    // Gets the version of InfinityZone
+    IZ_EXPORT int GetIZVersion()
+    {
+        return IZ_VERSION;
+    }
+
+    // Gets the min supported version of IZAPI
+    IZ_EXPORT int GetIZAPIMajorVersion()
+    {
+        return IZAPI_MAJORVERSION;
+    }
+
     // Registers an event for when a stage loads
     IZ_EXPORT void RegisterStageLoadEvent(StageLoadEvent event)
     {
