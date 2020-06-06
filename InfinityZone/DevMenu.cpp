@@ -185,17 +185,26 @@ int InfinityZone_StageSelect()
     // Give selected Option a lighter colour
     if ((DevMenu_Option - DevMenu_Scroll) < 0)
         DevMenu_Scroll = 0;
-    
+
+    // Buffer
+    char stringBuffer[255];
+    IZStage* lastStage = nullptr;
     YPosition -= 10;
-    for (int i = DevMenu_Scroll; i <= static_cast<int>(IZInstance->registeredStages.size()); ++i)
+    for (int i = DevMenu_Scroll; i <= static_cast<int>(IZInstance->registeredScenes.size()); ++i)
     {
         if (i - DevMenu_Scroll > 6)
             break;
         YPosition += 10;
-        if (i == IZInstance->registeredStages.size())
+        if (i == IZInstance->registeredScenes.size())
             DevMenu_DrawText_(centerX, "Back", YPosition, Alignment_Center, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
         else
-            DevMenu_DrawText_(centerX, IZInstance->registeredStages[i]->StageName.c_str(), YPosition, Alignment_Center, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
+        {
+            auto stage = IZInstance->registeredScenes[i]->Parent;
+            sprintf_s(stringBuffer, "%s %s", 
+                lastStage != stage ? IZInstance->registeredScenes[i]->Parent->StageName.c_str() : "", IZInstance->registeredScenes[i]->SceneID.c_str());
+            DevMenu_DrawText_(centerX + 96, stringBuffer, YPosition, Alignment_Right, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
+            lastStage = stage;
+        }
     }
     
     if (Key_Up)
@@ -205,7 +214,7 @@ int InfinityZone_StageSelect()
             --DevMenu_Option;
             if (DevMenu_Option < 0)
             {
-                DevMenu_Option = IZInstance->registeredStages.size();
+                DevMenu_Option = IZInstance->registeredScenes.size();
                 DevMenu_Scroll = DevMenu_Option - 6;
                 if (DevMenu_Scroll < 0) DevMenu_Scroll = 0;
             }
@@ -222,7 +231,7 @@ int InfinityZone_StageSelect()
             ++DevMenu_Option;
             if ((DevMenu_Option - DevMenu_Scroll) > 6)
                 ++DevMenu_Scroll;
-            if (DevMenu_Option > static_cast<int>(IZInstance->registeredStages.size()))
+            if (DevMenu_Option > static_cast<int>(IZInstance->registeredScenes.size()))
                 DevMenu_Option = 0;
         }
         result = (dword_6F0AE4 + 1) & 7;
@@ -234,7 +243,7 @@ int InfinityZone_StageSelect()
         dword_6F0AE4 = 0;
         if ((Key_Enter | Controller_A) == 1)
         {
-            if (DevMenu_Option == IZInstance->registeredStages.size())
+            if (DevMenu_Option == IZInstance->registeredScenes.size())
             {
                 DevMenu_Address = InfinityZone_MainDevMenu;
                 DevMenu_Option = 3;
@@ -242,7 +251,7 @@ int InfinityZone_StageSelect()
             }
             else
             {
-                IZInstance->ChangeStage(IZInstance->registeredStages[DevMenu_Option]->StageKey);
+                IZInstance->ChangeScene(IZInstance->registeredScenes[DevMenu_Option]);
             }
         }
     }

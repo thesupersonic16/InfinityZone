@@ -5,11 +5,19 @@ using SonicMania::Filter;
 
 static vector<IZStage_UnlockCode*> EnabledUnlocks;
 
+IZStage::~IZStage()
+{
+    // Remove all scenes
+    for (auto scene : Scenes)
+        delete scene;
+    Scenes.clear();
+}
+
 bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
 {
-    StageName = xmlStage->Attribute("stageName");
-    StageID = xmlStage->Attribute("stageID");
-    StageKey = xmlStage->Attribute("stageKey");
+    StageName = xmlStage->Attribute("stageName"); // Required
+    StageID = xmlStage->Attribute("stageID");     // Required
+    StageKey = xmlStage->Attribute("stageKey");   // Required
     Flags = (Filter)xmlStage->IntAttribute("flags", Filter::Filter_Common | Filter::Filter_Mania); // Filter_Common | Filter_Mania = 3
 
     auto xmlUnlocks = xmlStage->FirstChildElement("StageUnlocks");
@@ -32,6 +40,28 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
         for (auto child = xmlAssets->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
             Assets[child->Attribute("basePath")] = child->Attribute("newPath");
     }
+
+    auto xmlScenes = xmlStage->FirstChildElement("Scenes");
+    if (xmlScenes)
+    {
+        for (auto child = xmlScenes->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
+        {
+            const char* sceneID    = child->Attribute("id"); // Required
+            if (!sceneID)
+            {
+                std::cerr << "[InfinityZone::IZStage::LoadXML] The id attribute was not detected for one or more scenes, skipping!" << std::endl;
+                continue;
+            }
+
+            auto scene = new IZScene();
+            scene->Parent = this;
+            scene->SceneID = sceneID;
+            scene->Flags = static_cast<Filter>(child->IntAttribute("flags", Flags));
+            Scenes.push_back(scene);
+
+        }
+    }
+
 
     return true;
 }

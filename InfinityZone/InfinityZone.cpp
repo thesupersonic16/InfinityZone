@@ -46,13 +46,35 @@ IZStage* InfinityZone::FindIZStage(const string key)
     return nullptr;
 }
 
+IZScene* InfinityZone::FindIZScene(const IZStage* stage, string id)
+{
+    if (!stage)
+        return nullptr;
+    for (IZScene* scene : stage->Scenes)
+    {
+        if (scene->SceneID == id)
+            return scene;
+    }
+    return nullptr;
+}
+
 void InfinityZone::SetIZStage(IZStage* stage)
 {
     // Check if stage exists
     auto izStage = FindIZStage(stage->StageKey);
     if (izStage)
+    {
+        // Clear
         registeredStages.erase(std::remove(registeredStages.begin(), registeredStages.end(), izStage));
+        for (auto scene : izStage->Scenes)
+            registeredScenes.erase(std::remove(registeredScenes.begin(), registeredScenes.end(), scene));
+    }
     registeredStages.push_back(stage);
+    if (stage)
+    {
+        for (auto scene : stage->Scenes)
+            registeredScenes.push_back(scene);
+    }
 }
 
 string InfinityZone::OnFileLoad(string path)
@@ -67,24 +89,32 @@ string InfinityZone::OnFileLoad(string path)
     auto oldStageID = string(SonicMania::CurrentSceneName);
 
     // Check if a custom stage is loaded
-    if (!currentStageKey)
+    if (!currentCustomScene)
         return path;
 
-    // The loaded custom stage
-    auto stage = FindIZStage(*currentStageKey);
+    // The loaded custom scene
+    auto &scene = *currentCustomScene;
 
-    // Set Custom Stage Scene Flags
-    SonicMania::SceneFlags = stage->Flags;
+    // Set custom scene flags
+    SonicMania::SceneFlags = scene.Flags;
 
     // Replace the stage ID with the custom stage ID from the file path
-    ReplaceString(path, oldStageID, stage->StageID);
+    ReplaceString(path, oldStageID, scene.Parent->StageID);
 
     // Load custom stage assets
-    const auto iter = stage->Assets.find(path);
-    if (iter != stage->Assets.cend())
+    const auto iter = scene.Parent->Assets.find(path);
+    if (iter != scene.Parent->Assets.cend())
     {
         path = iter->second;
         std::cout << "[InfinityZone::OnFileLoad] Loading Asset: " << path << std::endl;
+    }else
+    {
+        auto position = path.find("/Scene");
+        if (position != string::npos && path.find(".bin") != string::npos)
+        {
+            position += 6;
+            return path.substr(0, position) + currentCustomScene->SceneID + ".bin";
+        }
     }
     return path;
 }
@@ -98,9 +128,9 @@ void InfinityZone::OnFrame()
 
         SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
         SonicMania::GameState = SonicMania::GameState_NotRunning;
-        if (currentStageKey)
+        if (currentCustomScene)
         {
-            auto stage = FindIZStage(*currentStageKey);
+            auto stage = currentCustomScene->Parent;
             if (stage)
                 RaseStageEvent(stage, OnStageLoad, StageLoadPhase_Load);
         }
@@ -109,9 +139,9 @@ void InfinityZone::OnFrame()
     {
         // Stop the reset timer
         resetting = 0;
-        if (currentStageKey)
+        if (currentCustomScene)
         {
-            auto stage = FindIZStage(*currentStageKey);
+            auto stage = currentCustomScene->Parent;
             if (stage)
                 RaseStageEvent(stage, OnStageLoad, StageLoadPhase_Loaded);
         }
@@ -119,18 +149,18 @@ void InfinityZone::OnFrame()
     if (resetting)
         ++resetting;
 
-    if (currentStageKey && SonicMania::CurrentScene != currentLevelID && !resetting)
+    if (currentCustomScene && SonicMania::CurrentScene != currentLevelID && !resetting)
     {
         currentLevelID = SonicMania::CurrentScene;
         
         // Unload custom stage
-        auto stage = FindIZStage(*currentStageKey);
+        auto stage = currentCustomScene->Parent;
 
         // Raise OnStageUnload event
         RaseStageEvent(stage, OnStageUnload, StageLoadPhase_NotLoaded);
 
         stage->DisableUnlocks();
-        currentStageKey = nullptr;
+        currentCustomScene = nullptr;
     }
     bool keyState = GetCtrlKeyState();
 
@@ -142,9 +172,9 @@ void InfinityZone::OnFrame()
     if (CheckKey('R', keyState, &TrackerR))
     {
         // Check if a custom stage is loaded
-        if (currentStageKey)
+        if (currentCustomScene)
         {
-            auto stage = FindIZStage(*currentStageKey);
+            auto stage = currentCustomScene->Parent;
             RaseStageEvent(stage, OnStageUnload, StageLoadPhase_Load);
             RaseStageEvent(stage, OnStageLoad, StageLoadPhase_NotLoaded);
             StartAssetReset();
@@ -220,17 +250,24 @@ void InfinityZone::ReloadStageLists()
 {
     std::cerr << "[InfinityZone::ReloadStageLists] Reloading stage lists..." << std::endl;
     // Backup the current stage key
-    string currentStageKeyBackup = "";
-    if (currentStageKey)
-        currentStageKeyBackup += *currentStageKey;
+    string currentStageKeyBackup;
+    string currentSceneIDBackup;
+    if (currentCustomScene)
+    {
+        currentStageKeyBackup += currentCustomScene->Parent->StageKey;
+        currentSceneIDBackup += currentCustomScene->SceneID;
+    }
 
     // Clear soon to be invalid key
-    currentStageKey = nullptr;
+    currentCustomScene = nullptr;
 
     // Remove all registered stages
     for (auto stage : registeredStages)
         delete stage;
     registeredStages.clear();
+
+    // Clear Scene List (IZStage will deallocate the data)
+    registeredScenes.clear();
 
     // Load all stage lists
     for (auto filepath : loadedStageLists)
@@ -240,16 +277,17 @@ void InfinityZone::ReloadStageLists()
     if (!currentStageKeyBackup.empty())
     {
         IZStage* stage = FindIZStage(currentStageKeyBackup);
+        IZScene* scene = FindIZScene(stage, currentSceneIDBackup);
 
-        if (!stage)
+        if (!scene)
         {
-            std::cerr << "[InfinityZone::ReloadStageLists] WARNING: Current stage no longer exists! Returning to the title screen..." << std::endl;
+            std::cerr << "[InfinityZone::ReloadStageLists] WARNING: Current scene no longer exists! Returning to the title screen..." << std::endl;
             SonicMania::CurrentScene = SonicMania::Scene_Title;
             SonicMania::GameState = SonicMania::GameState_NotRunning;
         }
         else
         {
-            currentStageKey = &stage->StageKey;
+            currentCustomScene = scene;
         }
     }
 }
@@ -264,27 +302,28 @@ void InfinityZone::StartAssetReset()
     std::cout << "[InfinityZone::StartAssetReset] Performing asset reset..." << std::endl;
 }
 
-void InfinityZone::ChangeStage(string id)
+void InfinityZone::ChangeStage(string id, string sceneID)
 {
     auto stage = FindIZStage(id);
+    auto scene = FindIZScene(stage, sceneID);
 
-    if (currentStageKey && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
+    if (currentCustomScene && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
     {
-        auto oldStage = FindIZStage(*currentStageKey);
+        auto oldStage = currentCustomScene->Parent;
         // Raise OnStageUnload event
         RaseStageEvent(oldStage, OnStageUnload, StageLoadPhase_NotLoaded);
 
         // Disable old unlocks
-        FindIZStage(*currentStageKey)->DisableUnlocks();
+        oldStage->DisableUnlocks();
         
-        // Set current modded stage ID
-        currentStageKey = &stage->StageKey;
+        // Set current modded scene
+        currentCustomScene = scene;
 
         // Raise OnStageLoad event
         RaseStageEvent(stage, OnStageLoad, StageLoadPhase_NotLoaded);
 
         // Enable new unlocks
-        FindIZStage(*currentStageKey)->EnableUnlocks();;
+        stage->EnableUnlocks();;
         StartAssetReset();
     }
     else
@@ -293,8 +332,8 @@ void InfinityZone::ChangeStage(string id)
         RaseStageEvent(stage, OnStageLoad, StageLoadPhase_Load);
 
         stage->EnableUnlocks();
-        // Set current modded stage ID
-        currentStageKey = &stage->StageKey;
+        // Set current modded scene
+        currentCustomScene = scene;
         // Reset the scene (This needs changing)
         SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
         currentLevelID = SonicMania::Scene_ThanksForPlaying;
@@ -302,12 +341,51 @@ void InfinityZone::ChangeStage(string id)
         // Skip Asset Reset
         resetting = 2;
     }
-    std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << FindIZStage(*currentStageKey)->StageName << "\"" << std::endl;
+    std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << stage->StageName << "\" with \"Scene" << scene->SceneID << ".bin\"" << std::endl;
 }
 
-IZStage* InfinityZone::GetCurrentStage()
+void InfinityZone::ChangeScene(IZScene* scene)
 {
-    return FindIZStage(*currentStageKey);
+    if (currentCustomScene && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
+    {
+        auto oldStage = currentCustomScene->Parent;
+        // Raise OnStageUnload event
+        RaseStageEvent(oldStage, OnStageUnload, StageLoadPhase_NotLoaded);
+
+        // Disable old unlocks
+        oldStage->DisableUnlocks();
+
+        // Set current modded scene
+        currentCustomScene = scene;
+
+        // Raise OnStageLoad event
+        RaseStageEvent(scene->Parent, OnStageLoad, StageLoadPhase_NotLoaded);
+
+        // Enable new unlocks
+        scene->Parent->EnableUnlocks();;
+        StartAssetReset();
+    }
+    else
+    {
+        // Raise OnStageLoad event
+        RaseStageEvent(scene->Parent, OnStageLoad, StageLoadPhase_Load);
+
+        scene->Parent->EnableUnlocks();
+        // Set current modded scene
+        currentCustomScene = scene;
+        // Reset the scene (This needs changing)
+        SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
+        currentLevelID = SonicMania::Scene_ThanksForPlaying;
+        SonicMania::GameState = SonicMania::GameState_NotRunning;
+        // Skip Asset Reset
+        resetting = 2;
+    }
+    std::cout << "[InfinityZone::ChangeScene] Loading Stage: \"" << scene->Parent->StageName << "\" with \"Scene" << scene->SceneID << ".bin\"" << std::endl;
+}
+
+IZScene* InfinityZone::GetCurrentScene() const
+{
+    return currentCustomScene;
 }
 
 

@@ -35,10 +35,11 @@ extern "C"
         IZInstance->LoadStages(path, true);
     }
 
+    // TODO: FIXME
     // Switches custom stages
     IZ_EXPORT void ChangeStage(const char* key)
     {
-        IZInstance->ChangeStage(key);
+        //IZInstance->ChangeStage(key);
     }
 
     // Performs an asset reset
@@ -47,10 +48,11 @@ extern "C"
         IZInstance->StartAssetReset();
     }
 
+    // TODO: Output scene data instead
     // Gets the key of the current custom stage
     IZ_EXPORT StageInfo GetCurrentStage()
     {
-        const auto stage = IZInstance->GetCurrentStage();
+        const auto stage = IZInstance->GetCurrentScene()->Parent;
         if (stage == nullptr)
             return {};
         return

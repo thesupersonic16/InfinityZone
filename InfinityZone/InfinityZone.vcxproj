@@ -166,6 +166,7 @@
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="InfinityZone.h" />
     <ClInclude Include="IZAPI.h" />
+    <ClInclude Include="IZScene.h" />
     <ClInclude Include="IZStage.h" />
     <ClInclude Include="IZStageUnlocks.h" />
     <ClInclude Include="SonicMania.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="InfinityZone.cpp" />
     <ClCompile Include="IZAPI.cpp" />
+    <ClCompile Include="IZScene.cpp" />
     <ClCompile Include="IZStage.cpp" />
     <ClCompile Include="IZStageUnlocks.cpp" />
     <ClCompile Include="SonicMania.cpp" />

@@ -3,11 +3,14 @@
 #include "Helpers.h"
 #include "depends\tinyxml2\tinyxml2.h"
 #include "IZStageUnlocks.h"
+#include "IZScene.h"
 
 class IZStage
 {
 protected:
 public:
+    // List of scenes
+    vector<IZScene*> Scenes;
     // The name of the stage
     string StageName;
     // The internal name of this stage (Must be unique)
@@ -28,7 +31,8 @@ public:
     bool EnableUnlocks();
     // Restore all the unlocks
     bool DisableUnlocks();
-
+    
+    ~IZStage();
 };
 
 extern IZStage_Unlock* FindUnlock(string name);
