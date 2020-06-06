@@ -19,6 +19,7 @@ extern "C"
             const char* StageKey;
             const char* StageID;
             const char* StageName;
+            const char* SceneID;
         };
 
 
@@ -44,7 +45,7 @@ extern "C"
         extern void LoadStagesFile(const char* path);
 
         // Switches custom stages
-        extern void ChangeStage(const char* key);
+        extern void ChangeStage(const char* key, const char* sceneID = nullptr);
 
         // Performs an asset reset
         extern void PerformAssetReset();

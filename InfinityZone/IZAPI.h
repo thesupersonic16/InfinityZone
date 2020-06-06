@@ -18,6 +18,7 @@ extern "C"
         const char* StageKey;
         const char* StageID;
         const char* StageName;
+        const char* SceneID;
     };
 
     typedef void(__cdecl* StageLoadEvent)(StageInfo, StageLoadPhase);

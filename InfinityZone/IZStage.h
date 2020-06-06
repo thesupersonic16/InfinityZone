@@ -18,7 +18,7 @@ public:
     // The name of the folder for this stage
     string StageID;
     // The scene flags for this stage
-    SonicMania::Filter Flags;
+    SonicMania::Filter Flags = SonicMania::Filter_Common | SonicMania::Filter_Mania;
 
     // List of unlocks to enable for a given stage
     vector<IZStage_UnlockCode*> Unlocks;

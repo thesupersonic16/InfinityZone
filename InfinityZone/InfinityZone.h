@@ -11,9 +11,9 @@ using std::vector;
 class InfinityZone
 {
 protected:
-    IZScene* currentCustomScene;
-    short currentLevelID;
-    char resetting;
+    IZScene* currentCustomScene = nullptr;
+    short currentLevelID = 0;
+    char resetting = 0;
     vector<string*> loadedStageLists;
 public:
     vector<IZStage*> registeredStages;

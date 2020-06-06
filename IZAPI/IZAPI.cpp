@@ -14,7 +14,8 @@ extern "C"
         // Function Types
         typedef int(__cdecl* GetIZVersion_type)();
         typedef void(__cdecl* RegisterStageLoadEvent_type)(StageLoadEvent);
-        typedef void(__cdecl* CStringFunc)(const char*);
+        typedef void(__cdecl* CStringFunc)(const char*, const char*);
+        typedef void(__cdecl* CString2Func)(const char*);
         typedef void(__cdecl* Func)();
         typedef StageInfo(__cdecl* GetCurrentStage_type)();
 
@@ -22,7 +23,7 @@ extern "C"
         GetIZVersion_type GetIZAPIMajorVersion_ptr = nullptr;
         RegisterStageLoadEvent_type RegisterStageLoadEvent_ptr = nullptr;
         RegisterStageLoadEvent_type RegisterStageUnloadEvent_ptr = nullptr;
-        CStringFunc LoadStagesFile_ptr = nullptr;
+        CString2Func LoadStagesFile_ptr = nullptr;
         CStringFunc ChangeStage_ptr = nullptr;
         Func PerformAssetReset_ptr = nullptr;
         GetCurrentStage_type GetCurrentStage_ptr = nullptr;
@@ -49,7 +50,7 @@ extern "C"
             GetIZAPIMajorVersion_ptr     = (GetIZVersion_type)GetProcAddress(InfinityZoneModule, "GetIZAPIMajorVersion");
             RegisterStageLoadEvent_ptr   = (RegisterStageLoadEvent_type)GetProcAddress(InfinityZoneModule, "RegisterStageLoadEvent");
             RegisterStageUnloadEvent_ptr = (RegisterStageLoadEvent_type)GetProcAddress(InfinityZoneModule, "RegisterStageUnloadEvent");
-            LoadStagesFile_ptr           = (CStringFunc)GetProcAddress(InfinityZoneModule, "LoadStagesFile");
+            LoadStagesFile_ptr           = (CString2Func)GetProcAddress(InfinityZoneModule, "LoadStagesFile");
             ChangeStage_ptr              = (CStringFunc)GetProcAddress(InfinityZoneModule, "ChangeStage");
             PerformAssetReset_ptr        = (Func)GetProcAddress(InfinityZoneModule, "PerformAssetReset");
             GetCurrentStage_ptr          = (GetCurrentStage_type)GetProcAddress(InfinityZoneModule, "GetCurrentStage");
@@ -96,9 +97,9 @@ extern "C"
         }
 
         // Switches custom stages
-        void ChangeStage(const char* key)
+        void ChangeStage(const char* key, const char* sceneID)
         {
-            (*ChangeStage_ptr)(key);
+            (*ChangeStage_ptr)(key, sceneID);
         }
 
         // Performs an asset reset
