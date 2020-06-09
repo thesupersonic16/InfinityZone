@@ -13,7 +13,7 @@ event({ \
         stage->StageName.c_str(), \
     }, phase); \
 
-static bool TrackerL, TrackerR;
+static bool TrackerL, TrackerR, InSpecialStage;
 
 bool GetCtrlKeyState()
 {
@@ -89,7 +89,7 @@ string InfinityZone::OnFileLoad(string path)
     auto oldStageID = string(SonicMania::CurrentSceneName);
 
     // Check if a custom stage is loaded
-    if (!currentCustomScene)
+    if (!currentCustomScene || InSpecialStage)
         return path;
 
     // The loaded custom scene
@@ -149,7 +149,7 @@ void InfinityZone::OnFrame()
     if (resetting)
         ++resetting;
 
-    if (currentCustomScene && SonicMania::CurrentScene != currentLevelID && !resetting)
+    if (currentCustomScene && SonicMania::CurrentScene != currentLevelID && !resetting && !InSpecialStage)
     {
         currentLevelID = SonicMania::CurrentScene;
         
@@ -291,6 +291,7 @@ void InfinityZone::ReloadStageLists()
         }
     }
 }
+
 void InfinityZone::StartAssetReset()
 {
     // Set reset phase to 1
@@ -410,6 +411,20 @@ extern "C"
         return SonicMania::GameState;
     }
 
+    int __cdecl mid_EnterSpecialStage_hook()
+    {
+        InSpecialStage = true;
+        auto orig = (decltype(mid_EnterSpecialStage_hook)*)(baseAddress + 0x949F0);
+        return orig();
+    }
+
+    int __cdecl mid_ExitSpecialStage_hook()
+    {
+        InSpecialStage = false;
+        auto orig = (decltype(mid_ExitSpecialStage_hook)*)(*(int*)(baseAddress + 0xAA7798));
+        return orig();
+    }
+
 
     IZ_EXPORT void OnFrame()
     {
@@ -426,6 +441,13 @@ extern "C"
 
         // Hook ActComplete
         WriteJump((void*)(baseAddress + 0x001EF0B2), ActComplete_hook);
+
+        // Hook mid_EnterSpecialStage
+        WriteCall((void*)(baseAddress + 0x0005B134), mid_EnterSpecialStage_hook);
+
+        // 00166F59
+        // NOTE: Might not be stable
+        WriteJump((void*)(baseAddress + 0x00166F59), mid_ExitSpecialStage_hook);
 
 #ifdef _DEBUG
         const std::string path_cpp = path;
