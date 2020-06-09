@@ -14,5 +14,6 @@ using std::unordered_map;
 
 // Macros
 #define IZ_EXPORT __declspec(dllexport)
+#define IZ_APPLICATIONNAME "InfinityZone"
 #define IZ_VERSION 0
 #define IZAPI_MAJORVERSION 0

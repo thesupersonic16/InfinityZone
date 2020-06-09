@@ -30,7 +30,7 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
                 for (auto& code : unlock->UnlockCodes)
                     Unlocks.push_back(&code);
             else
-                std::cerr << "[InfinityZone::IZStage::LoadXML] Attribute \"" << child->Name() << "\" is not defined, aborting!" << std::endl;
+                LogWarn("InfinityZone::IZStage::LoadXML", "The unlock code \"%s\" was not found! Check Spelling!", child->Name());
         }
     }
 
@@ -49,7 +49,7 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
             const char* sceneID    = child->Attribute("id"); // Required
             if (!sceneID)
             {
-                std::cerr << "[InfinityZone::IZStage::LoadXML] The id attribute was not detected for one or more scenes, skipping!" << std::endl;
+                LogError("InfinityZone::IZStage::LoadXML", "The id attribute for a scene from the stage \"%s\" was not found! Current scene will be skipped!", StageName.c_str());
                 continue;
             }
 

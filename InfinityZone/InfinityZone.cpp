@@ -106,7 +106,7 @@ string InfinityZone::OnFileLoad(string path)
     if (iter != scene.Parent->Assets.cend())
     {
         path = iter->second;
-        std::cout << "[InfinityZone::OnFileLoad] Loading Asset: " << path << std::endl;
+        LogDebug("InfinityZone::OnFileLoad", "Loading Asset: %s", path.c_str());
     }else
     {
         auto position = path.find("/Scene");
@@ -124,7 +124,7 @@ void InfinityZone::OnFrame()
     // Asset Reset
     if (SonicMania::GameState & SonicMania::GameState_Running && resetting == 2)
     {
-        std::cout << "[InfinityZone::OnFrame] Finalising asset reset..." << std::endl;
+        LogDebug("InfinityZone::OnFrame", "Finalising asset reset...");
 
         SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
         SonicMania::GameState = SonicMania::GameState_NotRunning;
@@ -185,19 +185,19 @@ void InfinityZone::OnFrame()
 
 void InfinityZone::OnActCompleted()
 {
-    std::cout << "[InfinityZone::OnActCompleted] Act Completed" << std::endl;
-
+    LogDebug("InfinityZone::OnActCompleted", "Act Completed");
 }
 
 
 void InfinityZone::Init()
 {
-    std::cout << "[InfinityZone::Init] Starting InfinityZone..." << std::endl;
+    LogDebug("InfinityZone::Init", "Starting InfinityZone...");
 }
 
 // Loads and registers the stage information
 void InfinityZone::LoadStages(string path, bool registerList)
 {
+    LogDebug("InfinityZone::LoadStages", "Loading Stage List: %s", path.c_str());
     unsigned int size = 0;
     //void* xml = LoadAndReadFile(path.c_str(), &size);
 
@@ -231,16 +231,16 @@ void InfinityZone::LoadStages(string path, bool registerList)
                 if (stage->LoadXML(xmlStage))
                 {
                     if (FindIZStage(stage->StageKey) != nullptr)
-                        std::cerr << "[InfinityZone::LoadStages] Duplicate stage key of \"" << stage->StageKey << "\" has been detected! Keys need to unique to work" << std::endl;
+                        LogWarn("InfinityZone::LoadStages", "Duplicate stage key of \"%s\" has been detected! Keys must be unique to work correctly.", stage->StageKey.c_str());
 
                     SetIZStage(stage);
-                    std::cout << "[InfinityZone::LoadStages] Registered \"" << stage->StageName << "\"" << std::endl;
+                    LogDebug("InfinityZone::LoadStages", "Loaded Stage \"%s\"", stage->StageName.c_str());
                 }
             }
         }
         else
         {
-            std::cerr << R"([InfinityZone::LoadStages] Failed to find "Stages" element in ")" << path << R"(". Make sure the structure is correct!)" << std::endl;
+            LogError("InfinityZone::LoadStages", "Failed to find the \"Stages\" element in \"%s\". Make sure the file structure is correct!", path.c_str());
         }
     }
     free(xml);
@@ -248,7 +248,7 @@ void InfinityZone::LoadStages(string path, bool registerList)
 
 void InfinityZone::ReloadStageLists()
 {
-    std::cerr << "[InfinityZone::ReloadStageLists] Reloading stage lists..." << std::endl;
+    LogDebug("InfinityZone::ReloadStageLists", "Reloading stage lists...");
     // Backup the current stage key
     string currentStageKeyBackup;
     string currentSceneIDBackup;
@@ -281,7 +281,7 @@ void InfinityZone::ReloadStageLists()
 
         if (!scene)
         {
-            std::cerr << "[InfinityZone::ReloadStageLists] WARNING: Current scene no longer exists! Returning to the title screen..." << std::endl;
+            LogWarn("InfinityZone::ReloadStageLists", "WARNING: Current scene no longer exists! Returning to the title screen...");
             SonicMania::CurrentScene = SonicMania::Scene_Title;
             SonicMania::GameState = SonicMania::GameState_NotRunning;
         }
@@ -300,7 +300,7 @@ void InfinityZone::StartAssetReset()
     // Can really be any stage that's not Thanks For Playing
     SonicMania::CurrentScene = SonicMania::Scene_GHZ1;
     SonicMania::GameState = SonicMania::GameState_NotRunning;
-    std::cout << "[InfinityZone::StartAssetReset] Performing asset reset..." << std::endl;
+    LogDebug("InfinityZone::StartAssetReset", "Performing asset reset...");
 }
 
 void InfinityZone::ChangeStage(string id, string sceneID)
@@ -342,7 +342,7 @@ void InfinityZone::ChangeStage(string id, string sceneID)
         // Skip Asset Reset
         resetting = 2;
     }
-    std::cout << "[InfinityZone::ChangeStage] Loading Stage: \"" << stage->StageName << "\" with \"Scene" << scene->SceneID << ".bin\"" << std::endl;
+    LogInfo("InfinityZone::ChangeStage", "Loading Stage: \"%s\" with \"Scene%s.bin\"", stage->StageName.c_str(), scene->SceneID.c_str());
 }
 
 void InfinityZone::ChangeScene(IZScene* scene)
@@ -381,7 +381,7 @@ void InfinityZone::ChangeScene(IZScene* scene)
         // Skip Asset Reset
         resetting = 2;
     }
-    std::cout << "[InfinityZone::ChangeScene] Loading Stage: \"" << scene->Parent->StageName << "\" with \"Scene" << scene->SceneID << ".bin\"" << std::endl;
+    LogInfo("InfinityZone::ChangeStage", "Loading Stage: \"%s\" with \"Scene%s.bin\"", scene->Parent->StageName.c_str(), scene->SceneID.c_str());
 }
 
 IZScene* InfinityZone::GetCurrentScene() const
@@ -433,7 +433,6 @@ extern "C"
 
     IZ_EXPORT void PostInit(const char* path)
     {
-        printf("test\n");
         // Hook ManiaModLoader.CheckFile_i
         intptr_t addr = GetAddressFromJump(baseAddress + 0x1C540E) + 7;
         CheckFile_addr = GetAddressFromJump(addr);
@@ -445,7 +444,6 @@ extern "C"
         // Hook mid_EnterSpecialStage
         WriteCall((void*)(baseAddress + 0x0005B134), mid_EnterSpecialStage_hook);
 
-        // 00166F59
         // NOTE: Might not be stable
         WriteJump((void*)(baseAddress + 0x00166F59), mid_ExitSpecialStage_hook);
 

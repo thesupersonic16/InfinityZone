@@ -8,3 +8,7 @@ extern void* LoadAndReadFile(const char* filename, int* length);
 extern int ReadBytesFromFile(fileinfo* file, void* buffer, int bytes);
 extern int DecryptBytes(fileinfo* file, void* buffer, int bufferSize);
 extern void ReplaceString(string& str, string& from, string& to);
+extern void LogDebug(const char* name, const char* text, ...);
+extern void LogError(const char* name, const char* text, ...);
+extern void LogWarn(const char* name, const char* text, ...);
+extern void LogInfo(const char* name, const char* text, ...);
