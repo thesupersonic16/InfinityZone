@@ -7,7 +7,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "GHZ_Bridge",         {{ 0x0000D2B0, 2 }} }, // Untested
     { "GHZ_BuzzBomber",     {{ 0x000E9461, 2 }} }, // Untested
     { "GHZ_CheckerBall",    {{ 0x000F09E1, 2 }} }, // Untested
-    { "GHZ_Chopper",        {{ 0x000ED880, 2 }} }, // Untested
+    { "GHZ_Chopper",        {{ 0x000EDBB0, 2 }} }, // Untested
     { "GHZ_Crabmeat",       {{ 0x000EE6A0, 2 }} }, // Untested
     { "GHZ_Decoration",     {{ 0x00067101, 2 }} }, // Untested
     { "GHZ_Fireball",       {{ 0x0000CCE1, 2 }} }, // Untested
