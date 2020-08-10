@@ -47,22 +47,25 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
         for (auto child = xmlScenes->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
         {
             const char* sceneID    = child->Attribute("id"); // Required
+            const char* sceneName  = child->Attribute("name"); // Optional
             if (!sceneID)
             {
                 LogError("InfinityZone::IZStage::LoadXML", "The id attribute for a scene from the stage \"%s\" was not found! Current scene will be skipped!", StageName.c_str());
                 continue;
             }
 
+            // Set name to ID if a name wasn't given
+            if (!sceneName)
+                sceneName = sceneID;
+
             auto scene = new IZScene();
             scene->Parent = this;
             scene->SceneID = sceneID;
+            scene->SceneName = sceneName;
             scene->Flags = static_cast<Filter>(child->IntAttribute("flags", Flags));
             Scenes.push_back(scene);
-
         }
     }
-
-
     return true;
 }
 
@@ -89,9 +92,9 @@ bool IZStage::EnableUnlocks()
 
 bool IZStage::DisableUnlocks()
 {
-    // Write all the unlocks
-    for (auto code : EnabledUnlocks)
-        WriteData((void*)(baseAddress + code->adress), code->restore, code->size);
+    // Write back the original code
+    for (vector<IZStage_UnlockCode*>::reverse_iterator iter = EnabledUnlocks.rbegin(); iter != EnabledUnlocks.rend(); ++iter)
+        WriteData((void*)(baseAddress + (*iter)->adress), (*iter)->restore, (*iter)->size);
     EnabledUnlocks.clear();
     return true;
 }

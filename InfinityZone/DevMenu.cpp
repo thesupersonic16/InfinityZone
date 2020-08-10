@@ -87,7 +87,7 @@ int InfinityZone_MainDevMenu()
     DevMenu_DrawText_(centerX, "Resume", YPosition, Alignment_Center, optionColors[0]);            YPosition += 12;
     DevMenu_DrawText_(centerX, "Restart", YPosition, Alignment_Center, optionColors[1]);           YPosition += 12;
     DevMenu_DrawText_(centerX, "Stage Select", YPosition, Alignment_Center, optionColors[2]);      YPosition += 12;
-    DevMenu_DrawText_(centerX, "Stage Select+", YPosition, Alignment_Center, optionColors[3]);    YPosition += 12;
+    DevMenu_DrawText_(centerX, "Stage Select+", YPosition, Alignment_Center, optionColors[3]);     YPosition += 12;
     DevMenu_DrawText_(centerX, "Options", YPosition, Alignment_Center, optionColors[4]);           YPosition += 12;
     DevMenu_DrawText_(centerX, "Exit", YPosition, Alignment_Center, optionColors[5]);              YPosition += 12;
     YPosition += 10;
@@ -201,7 +201,7 @@ int InfinityZone_StageSelect()
         {
             auto stage = IZInstance->registeredScenes[i]->Parent;
             sprintf_s(stringBuffer, "%s %s", 
-                lastStage != stage ? IZInstance->registeredScenes[i]->Parent->StageName.c_str() : "", IZInstance->registeredScenes[i]->SceneID.c_str());
+                lastStage != stage ? IZInstance->registeredScenes[i]->Parent->StageName.c_str() : "", IZInstance->registeredScenes[i]->SceneName.c_str());
             DevMenu_DrawText_(centerX + 96, stringBuffer, YPosition, Alignment_Right, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
             lastStage = stage;
         }

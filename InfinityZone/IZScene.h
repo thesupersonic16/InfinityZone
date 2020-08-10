@@ -11,6 +11,8 @@ public:
     IZStage* Parent;
     // The id of this scene (Scene%s.bin)
     string SceneID;
+    // The name of this scene. Name should be short
+    string SceneName;
     // The scene flags for this scene
     SonicMania::Filter Flags;
 };

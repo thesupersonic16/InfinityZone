@@ -21,7 +21,7 @@ public:
     string OnFileLoad(string path);
     IZStage* FindIZStage(string key);
     IZScene* FindIZScene(const IZStage* stage, string id);
-    void SetIZStage(IZStage* stage);
+    void RegisterIZStage(IZStage* stage);
     void OnFrame();
     void OnActCompleted();
     void Init();

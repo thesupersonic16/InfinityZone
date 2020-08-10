@@ -58,7 +58,7 @@ IZScene* InfinityZone::FindIZScene(const IZStage* stage, string id)
     return nullptr;
 }
 
-void InfinityZone::SetIZStage(IZStage* stage)
+void InfinityZone::RegisterIZStage(IZStage* stage)
 {
     // Check if stage exists
     auto izStage = FindIZStage(stage->StageKey);
@@ -164,14 +164,16 @@ void InfinityZone::OnFrame()
     }
     bool keyState = GetCtrlKeyState();
 
+    // Reload the stage list
     if (CheckKey('L', keyState, &TrackerL))
     {
         ReloadStageLists();
     }
 
+    // Reload custom stage
     if (CheckKey('R', keyState, &TrackerR))
     {
-        // Check if a custom stage is loaded
+        // Reload if a custom stage is loaded
         if (currentCustomScene)
         {
             auto stage = currentCustomScene->Parent;
@@ -183,6 +185,7 @@ void InfinityZone::OnFrame()
 
 }
 
+// TODO: Caller needs reworking
 void InfinityZone::OnActCompleted()
 {
     LogDebug("InfinityZone::OnActCompleted", "Act Completed");
@@ -191,7 +194,7 @@ void InfinityZone::OnActCompleted()
 
 void InfinityZone::Init()
 {
-    LogDebug("InfinityZone::Init", "Starting InfinityZone...");
+    LogDebug("InfinityZone::Init", "Starting InfinityZone... Built at %s %s", __DATE__, __TIME__);
 }
 
 // Loads and registers the stage information
@@ -199,7 +202,6 @@ void InfinityZone::LoadStages(string path, bool registerList)
 {
     LogDebug("InfinityZone::LoadStages", "Loading Stage List: %s", path.c_str());
     unsigned int size = 0;
-    //void* xml = LoadAndReadFile(path.c_str(), &size);
 
     // Open file
     std::ifstream file(path);
@@ -212,7 +214,6 @@ void InfinityZone::LoadStages(string path, bool registerList)
     
     // Read file
     file.read(xml, size);
-
     
     if (xml && size)
     {
@@ -233,7 +234,7 @@ void InfinityZone::LoadStages(string path, bool registerList)
                     if (FindIZStage(stage->StageKey) != nullptr)
                         LogWarn("InfinityZone::LoadStages", "Duplicate stage key of \"%s\" has been detected! Keys must be unique to work correctly.", stage->StageKey.c_str());
 
-                    SetIZStage(stage);
+                    RegisterIZStage(stage);
                     LogDebug("InfinityZone::LoadStages", "Loaded Stage \"%s\"", stage->StageName.c_str());
                 }
             }
@@ -243,6 +244,7 @@ void InfinityZone::LoadStages(string path, bool registerList)
             LogError("InfinityZone::LoadStages", "Failed to find the \"Stages\" element in \"%s\". Make sure the file structure is correct!", path.c_str());
         }
     }
+    // Clean up
     free(xml);
 }
 
@@ -314,7 +316,7 @@ void InfinityZone::ChangeStage(string id, string sceneID)
         // Raise OnStageUnload event
         RaseStageEvent(oldStage, OnStageUnload, StageLoadPhase_NotLoaded);
 
-        // Disable old unlocks
+        // Disables the old unlock codes
         oldStage->DisableUnlocks();
         
         // Set current modded scene
@@ -325,20 +327,26 @@ void InfinityZone::ChangeStage(string id, string sceneID)
 
         // Enable new unlocks
         stage->EnableUnlocks();;
+
+        // Reset the stage
         StartAssetReset();
     }
     else
     {
         // Raise OnStageLoad event
         RaseStageEvent(stage, OnStageLoad, StageLoadPhase_Load);
-
+        
+        // Enables the unlock codes
         stage->EnableUnlocks();
+        
         // Set current modded scene
         currentCustomScene = scene;
+        
         // Reset the scene (This needs changing)
         SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
         currentLevelID = SonicMania::Scene_ThanksForPlaying;
         SonicMania::GameState = SonicMania::GameState_NotRunning;
+        
         // Skip Asset Reset
         resetting = 2;
     }
@@ -372,12 +380,15 @@ void InfinityZone::ChangeScene(IZScene* scene)
         RaseStageEvent(scene->Parent, OnStageLoad, StageLoadPhase_Load);
 
         scene->Parent->EnableUnlocks();
+        
         // Set current modded scene
         currentCustomScene = scene;
+        
         // Reset the scene (This needs changing)
         SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
         currentLevelID = SonicMania::Scene_ThanksForPlaying;
         SonicMania::GameState = SonicMania::GameState_NotRunning;
+        
         // Skip Asset Reset
         resetting = 2;
     }
@@ -444,7 +455,7 @@ extern "C"
         // Hook mid_EnterSpecialStage
         WriteCall((void*)(baseAddress + 0x0005B134), mid_EnterSpecialStage_hook);
 
-        // NOTE: Might not be stable
+        // Hook mid_ExitSpecialStage
         WriteJump((void*)(baseAddress + 0x00166F59), mid_ExitSpecialStage_hook);
 
 #ifdef _DEBUG
