@@ -69,4 +69,26 @@ extern "C"
             scene->SceneID.c_str()
         };
     }
+
+    // Sets a stage asset redirect
+    IZ_EXPORT void SetStageAsset(const char* stageKey, const char* basePath, const char* newPath)
+    {
+        if (stageKey)
+        {
+            auto stage = IZInstance->FindIZStage(stageKey);
+            if (!newPath)
+                stage->Assets.erase(string(basePath));
+            else
+                stage->Assets[string(basePath)] = string(newPath);
+        }
+    }
+    // Sets a global asset redirect
+    IZ_EXPORT void SetGlobalAsset(const char* basePath, const char* newPath)
+    {
+        if (!newPath)
+            IZInstance->GlobalAssets.erase(string(basePath));
+        else
+            IZInstance->GlobalAssets[string(basePath)] = string(newPath);
+    }
+
 }

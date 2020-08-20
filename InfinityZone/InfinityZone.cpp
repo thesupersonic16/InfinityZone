@@ -102,11 +102,11 @@ string InfinityZone::OnFileLoad(string path)
     ReplaceString(path, oldStageID, scene.Parent->StageID);
 
     // Load custom stage assets
-    const auto iter = scene.Parent->Assets.find(path);
+    auto iter = scene.Parent->Assets.find(path);
     if (iter != scene.Parent->Assets.cend())
     {
         path = iter->second;
-        LogDebug("InfinityZone::OnFileLoad", "Loading Asset: %s", path.c_str());
+        LogDebug("InfinityZone::OnFileLoad", "Loading Stage Asset: %s", path.c_str());
     }else
     {
         auto position = path.find("/Scene");
@@ -115,6 +115,12 @@ string InfinityZone::OnFileLoad(string path)
             position += 6;
             return path.substr(0, position) + currentCustomScene->SceneID + ".bin";
         }
+    }
+    iter = GlobalAssets.find(path);
+    if (iter != GlobalAssets.cend())
+    {
+        path = iter->second;
+        LogDebug("InfinityZone::OnFileLoad", "Loading Global Asset: %s", path.c_str());
     }
     return path;
 }

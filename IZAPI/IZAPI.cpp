@@ -1,5 +1,4 @@
 #include "IZAPI.h"
-#include "windows.h"
 #include <string>
 
 #define IZAPI_MAJORVERSION 0
@@ -14,8 +13,9 @@ extern "C"
         // Function Types
         typedef int(__cdecl* GetIZVersion_type)();
         typedef void(__cdecl* RegisterStageLoadEvent_type)(StageLoadEvent);
-        typedef void(__cdecl* CStringFunc)(const char*, const char*);
-        typedef void(__cdecl* CString2Func)(const char*);
+        typedef void(__cdecl* CString3Func)(const char*, const char*, const char*);
+        typedef void(__cdecl* CString2Func)(const char*, const char*);
+        typedef void(__cdecl* CStringFunc)(const char*);
         typedef void(__cdecl* Func)();
         typedef StageInfo(__cdecl* GetCurrentStage_type)();
 
@@ -23,10 +23,12 @@ extern "C"
         GetIZVersion_type GetIZAPIMajorVersion_ptr = nullptr;
         RegisterStageLoadEvent_type RegisterStageLoadEvent_ptr = nullptr;
         RegisterStageLoadEvent_type RegisterStageUnloadEvent_ptr = nullptr;
-        CString2Func LoadStagesFile_ptr = nullptr;
-        CStringFunc ChangeStage_ptr = nullptr;
+        CStringFunc LoadStagesFile_ptr = nullptr;
+        CString2Func ChangeStage_ptr = nullptr;
         Func PerformAssetReset_ptr = nullptr;
         GetCurrentStage_type GetCurrentStage_ptr = nullptr;
+        CString3Func SetStageAsset_ptr = nullptr;
+        CString2Func SetGlobalAsset_ptr = nullptr;
 
         void ShowError(const char* error)
         {
@@ -35,25 +37,30 @@ extern "C"
             MessageBoxA(NULL, message, "Fatal InfinityZone Error", MB_OK | MB_ICONERROR);
         }
 
-        void IZInit()
+        bool IZInit()
         {
             // Write placeholder
             strcpy_s(VersionString, "NOT LOADED");
             
             // Detect InfinityZone
-            InfinityZoneModule = LoadLibraryA("InfinityZone.dll");
+            InfinityZoneModule = DetectIZDLL();
             if (!InfinityZoneModule)
-                return ShowError("Could not detect InfinityZone!\nPlease make sure InfinityZone is installed and enabled.");
+            {
+                ShowError("Could not detect InfinityZone!\nPlease make sure InfinityZone is installed and enabled.");
+                return false;
+            }
 
             // Pull exports
             GetIZVersion_ptr             = (GetIZVersion_type)GetProcAddress(InfinityZoneModule, "GetIZVersion");
             GetIZAPIMajorVersion_ptr     = (GetIZVersion_type)GetProcAddress(InfinityZoneModule, "GetIZAPIMajorVersion");
             RegisterStageLoadEvent_ptr   = (RegisterStageLoadEvent_type)GetProcAddress(InfinityZoneModule, "RegisterStageLoadEvent");
             RegisterStageUnloadEvent_ptr = (RegisterStageLoadEvent_type)GetProcAddress(InfinityZoneModule, "RegisterStageUnloadEvent");
-            LoadStagesFile_ptr           = (CString2Func)GetProcAddress(InfinityZoneModule, "LoadStagesFile");
-            ChangeStage_ptr              = (CStringFunc)GetProcAddress(InfinityZoneModule, "ChangeStage");
+            LoadStagesFile_ptr           = (CStringFunc)GetProcAddress(InfinityZoneModule, "LoadStagesFile");
+            ChangeStage_ptr              = (CString2Func)GetProcAddress(InfinityZoneModule, "ChangeStage");
             PerformAssetReset_ptr        = (Func)GetProcAddress(InfinityZoneModule, "PerformAssetReset");
             GetCurrentStage_ptr          = (GetCurrentStage_type)GetProcAddress(InfinityZoneModule, "GetCurrentStage");
+            SetStageAsset_ptr            = (CString3Func)GetProcAddress(InfinityZoneModule, "SetStageAsset");
+            SetGlobalAsset_ptr           = (CString2Func)GetProcAddress(InfinityZoneModule, "SetGlobalAsset");
 
             // Read Version from InfinityZone
             if (GetIZVersion_ptr && GetIZAPIMajorVersion_ptr)
@@ -61,10 +68,17 @@ extern "C"
 
             // Check IZAPI base version
             if (GetIZAPIMajorVersion_ptr && GetIZAPIMajorVersion() < IZAPI_MAJORVERSION)
-                return ShowError("The detected version of InfinityZone is out of date!\nPlease make sure you are running the latest version of InfinityZone.\n");
+            {
+                ShowError("The detected version of InfinityZone is out of date!\nPlease make sure you are running the latest version of InfinityZone.\n");
+                return false;
+            }
 
         }
 
+        HMODULE DetectIZDLL()
+        {
+            return LoadLibraryA("InfinityZone.dll");
+        }
 
         // Gets the version of InfinityZone
         int GetIZVersion()
@@ -113,6 +127,18 @@ extern "C"
         {
             return (*GetCurrentStage_ptr)();
         }
+
+        void SetStageAsset(const char* stageKey, const char* basePath, const char* newPath)
+        {
+            return (*SetStageAsset_ptr)(stageKey, basePath, newPath);
+        }
+
+        // Sets a global asset redirect
+        extern void SetGlobalAsset(const char* basePath, const char* newPath)
+        {
+            return (*SetGlobalAsset_ptr)(basePath, newPath);
+        }
+
 
     }
 }

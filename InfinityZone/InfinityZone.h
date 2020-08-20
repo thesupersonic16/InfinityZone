@@ -16,6 +16,7 @@ protected:
     char resetting = 0;
     vector<string*> loadedStageLists;
 public:
+    unordered_map<string, string> GlobalAssets;
     vector<IZStage*> registeredStages;
     vector<IZScene*> registeredScenes;
     string OnFileLoad(string path);

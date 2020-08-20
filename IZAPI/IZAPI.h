@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <windows.h>
 
 extern "C"
 {
@@ -27,7 +28,9 @@ extern "C"
         typedef void(__cdecl* StageLoadEvent)(StageInfo, StageLoadPhase);
 
         // Functions
-        extern void IZInit();
+        extern bool IZInit();
+
+        extern HMODULE DetectIZDLL();
 
         // Gets the version of InfinityZone
         extern int GetIZVersion();
@@ -52,5 +55,11 @@ extern "C"
 
         // Gets the key of the current custom stage
         extern StageInfo GetCurrentStage();
+
+        // Sets a stage asset redirect
+        extern void SetStageAsset(const char* stageKey, const char* basePath, const char* newPath = nullptr);
+        
+        // Sets a global asset redirect
+        extern void SetGlobalAsset(const char* basePath, const char* newPath = nullptr);
     }
 }
