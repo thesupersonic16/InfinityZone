@@ -2,6 +2,7 @@
 // Includes
 #include "Common.h"
 #include "IZStage.h"
+#include "IZGameSession.h"
 #include "Helpers.h"
 #include "DevMenu.h"
 

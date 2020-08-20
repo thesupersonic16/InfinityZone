@@ -51,6 +51,15 @@
     <ClInclude Include="IZScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IZGameSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IZBinary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IZDataSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -81,6 +90,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IZScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IZGameSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IZBinary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IZDataSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
