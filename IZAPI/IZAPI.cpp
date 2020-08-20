@@ -134,7 +134,7 @@ extern "C"
         }
 
         // Sets a global asset redirect
-        extern void SetGlobalAsset(const char* basePath, const char* newPath)
+        void SetGlobalAsset(const char* basePath, const char* newPath)
         {
             return (*SetGlobalAsset_ptr)(basePath, newPath);
         }
