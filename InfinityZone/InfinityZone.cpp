@@ -198,9 +198,10 @@ void InfinityZone::OnActCompleted()
 }
 
 
-void InfinityZone::Init()
+void InfinityZone::Init(string path)
 {
     LogDebug("InfinityZone::Init", "Starting InfinityZone... Built at %s %s", __DATE__, __TIME__);
+    LoadUnlockSets((path + "\\Unlocks.xml").c_str());
 }
 
 // Loads and registers the stage information
@@ -248,6 +249,58 @@ void InfinityZone::LoadStages(string path, bool registerList)
         else
         {
             LogError("InfinityZone::LoadStages", "Failed to find the \"Stages\" element in \"%s\". Make sure the file structure is correct!", path.c_str());
+        }
+    }
+    // Clean up
+    free(xml);
+}
+
+void InfinityZone::LoadUnlockSets(string path)
+{
+    LogDebug("InfinityZone::LoadUnlockSets", "Loading Unlock Set List: %s", path.c_str());
+    unsigned int size = 0;
+
+    // Open file
+    std::ifstream file(path);
+
+    // Get size and allocate memory
+    file.seekg(0, std::ios::end);
+    size = static_cast<unsigned int>(file.tellg());
+    char* xml = (char*)malloc(size);
+    file.seekg(0, std::ios::beg);
+
+    // Read file
+    file.read(xml, size);
+
+    if (xml && size)
+    {
+        tinyxml2::XMLDocument document;
+        document.Parse(static_cast<const char*>(xml), size);
+
+        auto xmlSets = document.FirstChildElement("UnlockSets");
+        if (xmlSets)
+        {
+            for (auto xmlSet = xmlSets->FirstChildElement(); xmlSet != nullptr; xmlSet = xmlSet->NextSiblingElement())
+            {
+                // Build unlock set
+                IZStage_Unlock set;
+                set.UnlockName = string(xmlSet->Name());
+                for (auto child = xmlSet->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
+                {
+                    auto unlock = FindUnlock(child->Name());
+                    if (unlock)
+                        for (auto& code : unlock->UnlockCodes)
+                            set.UnlockCodes.push_back(code);
+                    else
+                        LogWarn("InfinityZone::LoadUnlockSets", "The unlock code \"%s\" was not found! Was building \"%s\".", child->Name(), set.UnlockName.c_str());
+                }
+                AllUnlocks.push_back(set);
+                LogDebug("InfinityZone::LoadUnlockSets", "Created Set \"%s\"", set.UnlockName.c_str());
+            }
+        }
+        else
+        {
+            LogError("InfinityZone::LoadUnlockSets", "Failed to find the \"UnlockSets\" element in \"%s\". Make sure the file structure is correct!", path.c_str());
         }
     }
     // Clean up
@@ -474,7 +527,7 @@ extern "C"
     {
 
         IZInstance = new InfinityZone();
-        IZInstance->Init();
+        IZInstance->Init(path);
 
         // Apply DevMenu patches for IZ
         PatchInfinityZoneDevMenu();

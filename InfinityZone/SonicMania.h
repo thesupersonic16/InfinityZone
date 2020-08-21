@@ -191,6 +191,8 @@ namespace SonicMania
     FunctionPointer(char, DevMenu_StageSelect, (), 0x001C2B60);
     FunctionPointer(char, DevMenu_SceneSelect, (), 0x001C2DB0);
     FunctionPointer(char, DevMenu_Options, (), 0x001C3090);
+    FunctionPointer(int, TrySaveUserFile, (const char* filename, void* buffer, unsigned int bufSize, int(__cdecl* setStatus)(int), unsigned int a5), 0x001BE010);
+    FunctionPointer(int, TryLoadUserFile, (const char* filename, void* buffer, unsigned int bufSize, int(__cdecl* setStatus)(int)), 0x001BDFF0);
 
 
 }
