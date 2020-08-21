@@ -203,8 +203,15 @@ vector<IZStage_Unlock> AllUnlocks =
     { "TMZ_WallBumper",     {{ 0x001A2E92, 2 }} }, // untested
 
     // Angel Island Zone (AIZ)
-    { "AIZ_Decoration",     {{ 0x0005EDD1, 2 }} }, // Untested
-    { "AIZ_Platform",       {{ 0x0008ADA3, 2 }} }, // Untested
+    { "AIZ_Decoration",     {{ 0x0005EDD1, 2 }} }, 
+    { "AIZ_Platform",       {{ 0x0008ADA3, 2 }} }, 
+    { "AIZ_Claw",           {{ 0x000CFCC0, 2 }} },
+    { "AIZ_Bloominator",    {{ 0x000DBBC1, 2 }} }, 
+    { "AIZ_CaterkillerJr",  {{ 0x000ED3A1, 2 }} },
+    { "AIZ_Rhinobot",       {{ 0x00173EE1, 2 }} },
+    { "AIZ_Sweep",          {{ 0x00190991, 2 }} }, 
+    { "AIZ_SwingRope",      {{ 0x0019192B, 2 }} },
+    { "AIZ_AIZTornado",     {{ 0x000D0E64, 2 }} },
 
     // Hidden Palace Zone (HPZ - UNUSED)
     { "HPZ_Jellygnite",     {{ 0x00146A90, 2 }} },
