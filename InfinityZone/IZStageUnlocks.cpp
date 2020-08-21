@@ -87,7 +87,6 @@ vector<IZStage_Unlock> AllUnlocks =
     { "PSZ2_Spikes",        {{ 0x000A06CB, 2 }} }, // untested
     { "PSZ2_FrostThrower",  {{ 0x0012B67B, 2 }} }, // untested
 
-
     // Stardust Speedway Zone (SSZ)
     { "SSZ_SDashWheel",     {{ 0x001A58B0, 2 }} },
     { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, // Untested
@@ -192,6 +191,7 @@ vector<IZStage_Unlock> AllUnlocks =
 
     // Titanic Monarch Zone (TMZ)
     { "TMZ1_Platform",      {{ 0x0008AD6D, 2 }} }, // Untested
+    { "TMZ1_Decoration",    {{ 0x00067296, 2 }} }, // Untested
     { "TMZ_Ballhog",        {{ 0x000D81F2, 2 }} }, // untested
     { "TMZ_Button",         {{ 0x00086723, 2 }} }, // untested
     { "TMZ_FlasherMKII",    {{ 0x00129333, 2 }} }, // untested
@@ -203,13 +203,13 @@ vector<IZStage_Unlock> AllUnlocks =
     { "TMZ_WallBumper",     {{ 0x001A2E92, 2 }} }, // untested
 
     // Angel Island Zone (AIZ)
-    { "AIZ_Decoration",     {{ 0x0005EDD1, 2 }} }, 
-    { "AIZ_Platform",       {{ 0x0008ADA3, 2 }} }, 
+    { "AIZ_Decoration",     {{ 0x0005EDD1, 2 }} },
+    { "AIZ_Platform",       {{ 0x0008ADA3, 2 }} },
     { "AIZ_Claw",           {{ 0x000CFCC0, 2 }} },
-    { "AIZ_Bloominator",    {{ 0x000DBBC1, 2 }} }, 
+    { "AIZ_Bloominator",    {{ 0x000DBBC1, 2 }} },
     { "AIZ_CaterkillerJr",  {{ 0x000ED3A1, 2 }} },
     { "AIZ_Rhinobot",       {{ 0x00173EE1, 2 }} },
-    { "AIZ_Sweep",          {{ 0x00190991, 2 }} }, 
+    { "AIZ_Sweep",          {{ 0x00190991, 2 }} },
     { "AIZ_SwingRope",      {{ 0x0019192B, 2 }} },
     { "AIZ_AIZTornado",     {{ 0x000D0E64, 2 }} },
 
