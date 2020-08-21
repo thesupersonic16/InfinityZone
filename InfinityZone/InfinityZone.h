@@ -26,8 +26,9 @@ public:
     void RegisterIZStage(IZStage* stage);
     void OnFrame();
     void OnActCompleted();
-    void Init();
+    void Init(string path);
     void LoadStages(string path, bool registerList);
+    void LoadUnlockSets(string path);
     void ReloadStageLists();
     void StartAssetReset();
     void ChangeStage(string id, string sceneID);

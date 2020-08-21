@@ -99,7 +99,7 @@ bool IZStage::DisableUnlocks()
     return true;
 }
 
-static IZStage_Unlock* FindUnlock(string name)
+IZStage_Unlock* FindUnlock(string name)
 {
     for (auto& unlock : AllUnlocks)
     {
