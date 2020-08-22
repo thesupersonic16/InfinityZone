@@ -92,7 +92,8 @@ vector<IZStage_Unlock> AllUnlocks =
     { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, // Untested
     { "SSZ2_Platform",      {{ 0x0008AC5A, 2 }} }, // Untested
     { "SSZ_LaunchSpring",   {{ 0x0014A5A1, 2 }} }, // untested
-    { "SSZ_SpeedBooster",   {{ 0x0013392A, 2 }} }, // untested
+    { "NoSSZ_SpeedBooster", {{ 0x0013392A, 2 }} }, // Not the right code. TODO: Double check what on earth this does if anything
+    { "SSZ_SpeedBooster",   {{ 0x00133912, 6 }} }, // untested
     { "SSZ1_Dango",         {{ 0x00101E41, 2 }} }, // untested
     { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} }, // untested
     { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} }, // untested
@@ -132,6 +133,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "MSZ_Armadilloid",    {{ 0x0006A530, 2 }} }, // untested
     { "MSZ_Bumpalo",        {{ 0x000E74D0, 2 }} }, // untested
     { "MSZ_Cactula",        {{ 0x000EAF86, 2 }} }, // untested
+    { "MSZ_Vultron",        {{ 0x0006678B, 2 }} }, // untested
     { "MSZ_Ending",         {{ 0x0006723C, 2 }} }, // untested
     { "MSZ_HeavyMystic",    {{ 0x0007D8B3, 6 }} }, // untested
     { "MSZ_Rogues",         {{ 0x0007D95C, 6 }, { 0x0007d976, 6}, { 0x0007d9ad, 6} } }, // untested

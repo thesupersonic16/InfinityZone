@@ -144,6 +144,7 @@
 		<MSZ_RotatingSpikes/>
 		<MSZ_SwingRope/>
 		<MSZ_Tornado/>
+		<MSZ_Vultron/>
 	</Core_MSZ>
 	<Core_OOZ>
 		<OOZ_Platform/>
