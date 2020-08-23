@@ -91,9 +91,9 @@
 	<Core_SSZ>
 		<SSZ_SDashWheel/>
 		<SSZ_LaunchSpring/>
-		<SSZ_SpeedBooster/>
 	</Core_SSZ>
 	<Core_SSZ1>
+		<SSZ1_SpeedBooster/>
 		<SSZ1_Platform/>
 		<SSZ1_Dango/>
 		<SSZ1_Flowerpod/>
@@ -110,6 +110,7 @@
 		<SSZ1_SpikeBall/>
 	</Core_SSZ1>
 	<Core_SSZ2>
+		<SSZ2_SpeedBooster/>
 		<SSZ2_Platform/>
 		<SSZ2_MetalSonic/>
 	</Core_SSZ2>

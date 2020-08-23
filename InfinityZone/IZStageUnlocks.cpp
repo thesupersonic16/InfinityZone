@@ -88,25 +88,25 @@ vector<IZStage_Unlock> AllUnlocks =
     { "PSZ2_FrostThrower",  {{ 0x0012B67B, 2 }} }, // untested
 
     // Stardust Speedway Zone (SSZ)
-    { "SSZ_SDashWheel",     {{ 0x001A58B0, 2 }} },
+    { "SSZ_SDashWheel",     {{ 0x001A58B0, 2 }} }, // Untested, But Valid in Comparision to Rob Morisions Documentation
     { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, // Untested
     { "SSZ2_Platform",      {{ 0x0008AC5A, 2 }} }, // Untested
-    { "SSZ_LaunchSpring",   {{ 0x0014A5A1, 2 }} }, // untested
-    { "NoSSZ_SpeedBooster", {{ 0x0013392A, 2 }} }, // Not the right code. TODO: Double check what on earth this does if anything
-    { "SSZ_SpeedBooster",   {{ 0x00133912, 6 }} }, // untested
-    { "SSZ1_Dango",         {{ 0x00101E41, 2 }} }, // untested
-    { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} }, // untested
-    { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} }, // untested
-    { "SSZ1_HotauraMKII",   {{ 0x00144367, 2 }} }, // untested
-    { "SSZ1_JunctionWheel", {{ 0x00148850, 2 }} }, // untested
-    { "SSZ1_Kabasira",      {{ 0x00148BA1, 2 }} }, // untested
-    { "SSZ1_Kanabun",       {{ 0x00149440, 2 }} }, // untested
-    { "SSZ1_MSHologram",    {{ 0x00134077, 2 }} }, // untested
-    { "SSZ1_RotatingSpike", {{ 0x00177B2F, 2 }} }, // untested
-    { "SSZ1_RTeleporter",   {{ 0x00178DB4, 13}} }, // untested
-    { "SSZ1_SDashWheel",    {{ 0x001A58B0, 2 }} }, // untested
-    { "SSZ1_Spark",         {{ 0x00182C83, 2 }} }, // untested
-    { "SSZ1_SpikeBall",     {{ 0x0018E379, 2 }} }, // untested
+    { "SSZ_LaunchSpring",   {{ 0x0014A5A1, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_SpeedBooster",   {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ2_SpeedBooster",   {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_Dango",         {{ 0x00101E41, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_HotauraMKII",   {{ 0x00144367, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_JunctionWheel", {{ 0x00148850, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_Kabasira",      {{ 0x00148BA1, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_Kanabun",       {{ 0x00149440, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_MSHologram",    {{ 0x00134077, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_RotatingSpike", {{ 0x00177B2F, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_RTeleporter",   {{ 0x00178D7E, 2}} },
+    { "SSZ1_SDashWheel",    {{ 0x001A58B0, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_Spark",         {{ 0x00182C83, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_SpikeBall",     {{ 0x0018E379, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
     { "SSZ2_MetalSonic",    {{ 0x001366F1, 2 }} }, // untested
 
     // Hydrocity Zone (HCZ)
@@ -114,7 +114,6 @@ vector<IZStage_Unlock> AllUnlocks =
     { "HCZ_Bridge",         {{ 0x0000D2DC, 2 }} },
     { "HCZ_Platform",       {{ 0x0008ACC4, 2 }} },
     { "HCZ_Blastoid",       {{ 0x000DB500, 2 }} }, // untested
-    { "HCZ_Bridge",         {{ 0x0000D2DC, 2 }} }, // untested
     { "HCZ_Button",         {{ 0x00086707, 2 }} }, // untested
     { "HCZ_ButtonDoor",     {{ 0x000E8DDF, 2 }} }, // untested
     { "HCZ_DiveEggman",     {{ 0x00105416, 2 }, { 0x00108426, 2} } }, // untested
@@ -125,7 +124,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "HCZ_PointDexter",    {{ 0x0016B8F0, 2 }} }, // untested
     { "HCZ_ScrewMobile",    {{ 0x001064B6, 2 }} }, // untested
     { "HCZ_TurboSpiker",    {{ 0x001989D1, 2 }} }, // untested
-    { "HCZ_Wake",           {{ 0x000196E9, 2 }} }, // untested
+    { "HCZ_Wake",           {{ 0x000196E9, 6 }} }, // untested
 
     // Mirage Saloon Zone (MSZ)
     { "MSZ_Decoration",     {{ 0x0006720F, 2 }} }, // Untested
