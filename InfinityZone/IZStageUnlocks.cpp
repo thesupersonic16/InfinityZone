@@ -64,7 +64,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "FBZ_TwistingDoor",   {{ 0x0019C841, 2 }} }, // untested
 
     // Press Garden Zone (PSZ)
-    { "PSZ1_Platform",      {{ 0x0008AC02, 2 }} }, // Untested
+    { "PSZ1_Platform",      {{ 0x0008AC00, 2 }} }, // Untested
     { "PSZ2_Platform",      {{ 0x0008AC1E, 2 }} }, // Untested
     { "PSZ1_Acetone",       {{ 0x000CF0A0, 2 }} }, // untested
     { "PSZ1_Crate",         {{ 0x00090EC0, 2 }} }, // untested
