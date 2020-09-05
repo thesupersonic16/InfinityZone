@@ -114,7 +114,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "HCZ_Bridge",         {{ 0x0000D2DC, 2 }} },
     { "HCZ_Platform",       {{ 0x0008ACC4, 2 }} },
     { "HCZ_Blastoid",       {{ 0x000DB500, 2 }} }, // untested
-    { "HCZ_Button",         {{ 0x00086707, 2 }} }, // untested
+    { "HCZ_Button",         {{ 0x00086707, 2 }} },
     { "HCZ_ButtonDoor",     {{ 0x000E8DDF, 2 }} }, // untested
     { "HCZ_DiveEggman",     {{ 0x00105416, 2 }, { 0x00108426, 2} } }, // untested
     { "HCZ_Fan",            {{ 0x0012193E, 6 }} }, // untested
@@ -142,15 +142,15 @@ vector<IZStage_Unlock> AllUnlocks =
     { "MSZ_Tornado",        {{ 0x00067784, 2 }} }, // untested
 
     // Oil Ocean Zone (OOZ)
-    { "OOZ_Platform",       {{ 0x0008ADC7, 2 }} }, // Untested
-    { "OOZ_Aquis",          {{ 0x000D6154, 2 }} }, // untested
-    { "OOZ_Fan",            {{ 0x00121A0E, 6 }} }, // untested
-    { "OOZ_Hatch",          {{ 0x0013E174, 2 }} }, // untested
-    { "OOZ_Octus",          {{ 0x0015FC44, 2 }} }, // untested
-    { "OOZ_PullSwitch",     {{ 0x001709C4, 0 }} }, // untested
-    { "OOZ_PushSpring",     {{ 0x00170BD4, 2 }} }, // untested
-    { "OOZ_Sol",            {{ 0x00020574, 2 }} }, // untested
-    { "OOZ_Valve",          {{ 0x00159F94, 0 }} }, // untested
+    { "OOZ_Platform",       {{ 0x0008ADC7, 2 }} },
+    { "OOZ_Aquis",          {{ 0x000D6154, 2 }} }, 
+    { "OOZ_Fan",            {{ 0x0012193E, 6 }, { 0x00121A0E, 5 }} },
+    { "OOZ_Hatch",          {{ 0x0013E174, 2 }} }, 
+    { "OOZ_Octus",          {{ 0x0015FC44, 2 }} }, 
+    { "OOZ_PullSwitch",     {{ 0x001709C4, 0 }} }, 
+    { "OOZ_PushSpring",     {{ 0x00170BD4, 2 }} },
+    { "OOZ_Sol",            {{ 0x00020574, 2 }} }, 
+    { "OOZ_Valve",          {{ 0x00159F94, 0 }} },
 
     // Lava Reef Zone (LRZ)
     { "LRZ1_Platform",      {{ 0x0008AD16, 2 }} }, // Untested
