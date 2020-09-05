@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "../IZAPI/IZAPI.h"
 
+extern "C" IZ_EXPORT const HelperFunctions* MML_HelperFunctions = nullptr;
+
 #define RaseStageEvent(stage, handler, phase) \
 for (auto& event : handler) \
 event({ \
@@ -102,12 +104,23 @@ string InfinityZone::OnFileLoad(string path)
     ReplaceString(path, oldStageID, scene.Parent->StageID);
 
     // Load custom stage assets
-    auto iter = scene.Parent->Assets.find(path);
-    if (iter != scene.Parent->Assets.cend())
+    bool found = false;
+    for (auto asset : scene.Parent->Assets)
     {
-        path = iter->second;
-        LogDebug("InfinityZone::OnFileLoad", "Loading Stage Asset: %s", path.c_str());
-    }else
+        if (path.rfind(asset.first, 0) == 0)
+        {
+            string newPath = asset.second + path.substr(asset.first.length());
+            if (MML_HelperFunctions->CheckFile(newPath.c_str()))
+            {
+                path = newPath;
+                LogDebug("InfinityZone::OnFileLoad", "Loading Stage Asset: %s", path.c_str());
+                found = true;
+                break;
+            }
+        }
+    }
+    // Load custom scene file
+    if (!found)
     {
         auto position = path.find("/Scene");
         if (position != string::npos && path.find(".bin") != string::npos)
@@ -116,11 +129,20 @@ string InfinityZone::OnFileLoad(string path)
             return path.substr(0, position) + currentCustomScene->SceneID + ".bin";
         }
     }
-    iter = GlobalAssets.find(path);
-    if (iter != GlobalAssets.cend())
+
+    for (auto asset : GlobalAssets)
     {
-        path = iter->second;
-        LogDebug("InfinityZone::OnFileLoad", "Loading Global Asset: %s", path.c_str());
+        if (path.rfind(asset.first, 0) == 0)
+        {
+            string newPath = asset.second + path.substr(asset.first.length());
+            if (MML_HelperFunctions->CheckFile(newPath.c_str()))
+            {
+                path = newPath;
+                LogDebug("InfinityZone::OnFileLoad", "Loading Global Asset: %s", path.c_str());
+                found = true;
+                break;
+            }
+        }
     }
     return path;
 }
