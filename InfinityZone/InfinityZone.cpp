@@ -489,6 +489,12 @@ extern "C"
     // Workaround
     static intptr_t CheckFile_addr;
 
+    void ShowError(const char* error)
+    {
+        char message[255];
+        sprintf_s(message, "%s\n\nIZ Version: %d", error,  IZ_VERSION);
+        MessageBoxA(NULL, message, "Fatal InfinityZone Error", MB_OK | MB_ICONERROR);
+    }
 
     int CheckFile_i_wrapper(char* buf)
     {
@@ -525,28 +531,36 @@ extern "C"
 
     IZ_EXPORT void PostInit(const char* path)
     {
-        // Hook ManiaModLoader.CheckFile_i
-        intptr_t addr = GetAddressFromJump(baseAddress + 0x1C540E) + 7;
-        CheckFile_addr = GetAddressFromJump(addr);
-        WriteCall((void*)addr, CheckFile_i_wrapper);
+        if (IZInstance)
+        {
+            // Hook ManiaModLoader.CheckFile_i
+            intptr_t addr = GetAddressFromJump(baseAddress + 0x1C540E) + 7;
+            CheckFile_addr = GetAddressFromJump(addr);
+            WriteCall((void*)addr, CheckFile_i_wrapper);
 
-        // Hook ActComplete
-        WriteJump((void*)(baseAddress + 0x001EF0B2), ActComplete_hook);
+            // Hook ActComplete
+            WriteJump((void*)(baseAddress + 0x001EF0B2), ActComplete_hook);
 
-        // Hook mid_EnterSpecialStage
-        WriteCall((void*)(baseAddress + 0x0005B134), mid_EnterSpecialStage_hook);
+            // Hook mid_EnterSpecialStage
+            WriteCall((void*)(baseAddress + 0x0005B134), mid_EnterSpecialStage_hook);
 
-        // Hook mid_ExitSpecialStage
-        WriteJump((void*)(baseAddress + 0x00166F59), mid_ExitSpecialStage_hook);
+            // Hook mid_ExitSpecialStage
+            WriteJump((void*)(baseAddress + 0x00166F59), mid_ExitSpecialStage_hook);
 
 #ifdef _DEBUG
-        const std::string path_cpp = path;
-        IZInstance->LoadStages((path_cpp + "\\Stages.xml").c_str(), true);
+            const std::string path_cpp = path;
+            IZInstance->LoadStages((path_cpp + "\\Stages.xml").c_str(), true);
 #endif
+        }
     }
 
     IZ_EXPORT void Init(const char* path)
     {
+        if (!MML_HelperFunctions || MML_HelperFunctions->Version < 1)
+        {
+            ShowError("ManiaModLoader is too old for InfinityZone to operate correctly\nPlease update ManiaModLoader!");
+            return;
+        }
 
         IZInstance = new InfinityZone();
         IZInstance->Init(path);
