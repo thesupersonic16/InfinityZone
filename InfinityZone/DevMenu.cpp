@@ -202,7 +202,7 @@ int InfinityZone_StageSelect()
             auto stage = IZInstance->registeredScenes[i]->Parent;
             sprintf_s(stringBuffer, "%s %s", 
                 lastStage != stage ? IZInstance->registeredScenes[i]->Parent->StageName.c_str() : "", IZInstance->registeredScenes[i]->SceneName.c_str());
-            DevMenu_DrawText_(centerX + 96, stringBuffer, YPosition, Alignment_Right, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
+            DevMenu_DrawText_(centerX + 114, stringBuffer, YPosition, Alignment_Right, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
             lastStage = stage;
         }
     }
