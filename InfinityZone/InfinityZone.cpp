@@ -546,11 +546,6 @@ extern "C"
 
             // Hook mid_ExitSpecialStage
             WriteJump((void*)(baseAddress + 0x00166F59), mid_ExitSpecialStage_hook);
-
-#ifdef _DEBUG
-            const std::string path_cpp = path;
-            IZInstance->LoadStages((path_cpp + "\\Stages.xml").c_str(), true);
-#endif
         }
     }
 
