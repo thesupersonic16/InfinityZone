@@ -11,7 +11,7 @@ extern "C" IZ_EXPORT const HelperFunctions* MML_HelperFunctions = nullptr;
 for (auto& event : handler) \
 event({ \
         stage->StageKey.c_str(), \
-        stage->StageID.c_str(), \
+        stage->StageDir.c_str(), \
         stage->StageName.c_str(), \
     }, phase); \
 
@@ -48,35 +48,14 @@ IZStage* InfinityZone::FindIZStage(const string key)
     return nullptr;
 }
 
-IZScene* InfinityZone::FindIZScene(const IZStage* stage, string id)
+IZScene* InfinityZone::FindIZScene(string sceneKey)
 {
-    if (!stage)
-        return nullptr;
-    for (IZScene* scene : stage->Scenes)
+    for (IZScene* scene : registeredScenes)
     {
-        if (scene->SceneID == id)
+        if (scene->SceneKey == sceneKey)
             return scene;
     }
     return nullptr;
-}
-
-void InfinityZone::RegisterIZStage(IZStage* stage)
-{
-    // Check if stage exists
-    auto izStage = FindIZStage(stage->StageKey);
-    if (izStage)
-    {
-        // Clear
-        registeredStages.erase(std::remove(registeredStages.begin(), registeredStages.end(), izStage));
-        for (auto scene : izStage->Scenes)
-            registeredScenes.erase(std::remove(registeredScenes.begin(), registeredScenes.end(), scene));
-    }
-    registeredStages.push_back(stage);
-    if (stage)
-    {
-        for (auto scene : stage->Scenes)
-            registeredScenes.push_back(scene);
-    }
 }
 
 string InfinityZone::OnFileLoad(string path)
@@ -101,7 +80,7 @@ string InfinityZone::OnFileLoad(string path)
     SonicMania::SceneFlags = scene.Flags;
 
     // Replace the stage ID with the custom stage ID from the file path
-    ReplaceString(path, oldStageID, scene.Parent->StageID);
+    ReplaceString(path, oldStageID, scene.Parent->StageDir);
 
     // Load custom stage assets
     bool found = false;
@@ -252,7 +231,9 @@ void InfinityZone::LoadStages(string path, bool registerList)
         tinyxml2::XMLDocument document;
         document.Parse(static_cast<const char*>(xml), size);
 
-        auto xmlStages = document.FirstChildElement("Stages");
+        auto root = document.FirstChildElement("InfinityZone");
+
+        auto xmlStages = root->FirstChildElement("Stages");
         if (xmlStages)
         {
             for (auto xmlStage = xmlStages->FirstChildElement(); xmlStage != nullptr; xmlStage = xmlStage->NextSiblingElement())
@@ -263,7 +244,7 @@ void InfinityZone::LoadStages(string path, bool registerList)
                     if (FindIZStage(stage->StageKey) != nullptr)
                         LogWarn("InfinityZone::LoadStages", "Duplicate stage key of \"%s\" has been detected! Keys must be unique to work correctly.", stage->StageKey.c_str());
 
-                    RegisterIZStage(stage);
+                    registeredStages.push_back(stage);
                     LogDebug("InfinityZone::LoadStages", "Loaded Stage \"%s\"", stage->StageName.c_str());
                 }
             }
@@ -272,6 +253,38 @@ void InfinityZone::LoadStages(string path, bool registerList)
         {
             LogError("InfinityZone::LoadStages", "Failed to find the \"Stages\" element in \"%s\". Make sure the file structure is correct!", path.c_str());
         }
+        auto xmlCategories = root->FirstChildElement("Categories");
+        if (xmlCategories)
+        {
+            for (auto xmlCategory = xmlCategories->FirstChildElement(); xmlCategory != nullptr; xmlCategory = xmlCategory->NextSiblingElement())
+            {
+                auto category = new IZCategory();
+                registeredCategories.push_back(category);
+                category->CategoryName = xmlCategory->Attribute("categoryName");
+                for (auto xmlGroup = xmlCategory->FirstChildElement(); xmlGroup != nullptr; xmlGroup = xmlGroup->NextSiblingElement())
+                {
+                    auto group = new IZCategoryGroup();
+                    category->Groups.push_back(group);
+                    group->GroupName = xmlGroup->Attribute("groupName");
+                    for (auto xmlScene = xmlGroup->FirstChildElement(); xmlScene != nullptr; xmlScene = xmlScene->NextSiblingElement())
+                    {
+                        auto scene = new IZScene();
+                        if (scene->LoadXML(xmlScene, registeredStages))
+                        {
+                            group->Scenes.push_back(scene);
+                            registeredScenes.push_back(scene);
+                        }
+                        else
+                            delete scene;
+                    }
+                }
+            }
+        }
+        else
+        {
+            LogError("InfinityZone::LoadStages", "Failed to find the \"Categories\" element in \"%s\". Make sure the file structure is correct!", path.c_str());
+        }
+
     }
     // Clean up
     free(xml);
@@ -333,13 +346,9 @@ void InfinityZone::ReloadStageLists()
 {
     LogDebug("InfinityZone::ReloadStageLists", "Reloading stage lists...");
     // Backup the current stage key
-    string currentStageKeyBackup;
-    string currentSceneIDBackup;
+    string currentSceneKeyBackup;
     if (currentCustomScene)
-    {
-        currentStageKeyBackup += currentCustomScene->Parent->StageKey;
-        currentSceneIDBackup += currentCustomScene->SceneID;
-    }
+        currentSceneKeyBackup += currentCustomScene->SceneID;
 
     // Clear soon to be invalid key
     currentCustomScene = nullptr;
@@ -350,17 +359,22 @@ void InfinityZone::ReloadStageLists()
     registeredStages.clear();
 
     // Clear Scene List (IZStage will deallocate the data)
+    // Remove all registered stages
+    for (auto scene : registeredScenes)
+        delete scene;
     registeredScenes.clear();
+
+    // Clear Category List
+    registeredCategories.clear();
 
     // Load all stage lists
     for (auto filepath : loadedStageLists)
         LoadStages(*filepath, false);
 
     // Check if the stage still exists
-    if (!currentStageKeyBackup.empty())
+    if (!currentSceneKeyBackup.empty())
     {
-        IZStage* stage = FindIZStage(currentStageKeyBackup);
-        IZScene* scene = FindIZScene(stage, currentSceneIDBackup);
+        IZScene* scene = FindIZScene(currentSceneKeyBackup);
 
         if (!scene)
         {
@@ -384,54 +398,6 @@ void InfinityZone::StartAssetReset()
     SonicMania::CurrentScene = SonicMania::Scene_GHZ1;
     SonicMania::GameState = SonicMania::GameState_NotRunning;
     LogDebug("InfinityZone::StartAssetReset", "Performing asset reset...");
-}
-
-void InfinityZone::ChangeStage(string id, string sceneID)
-{
-    auto stage = FindIZStage(id);
-    auto scene = FindIZScene(stage, sceneID);
-
-    if (currentCustomScene && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
-    {
-        auto oldStage = currentCustomScene->Parent;
-        // Raise OnStageUnload event
-        RaseStageEvent(oldStage, OnStageUnload, StageLoadPhase_NotLoaded);
-
-        // Disables the old unlock codes
-        oldStage->DisableUnlocks();
-        
-        // Set current modded scene
-        currentCustomScene = scene;
-
-        // Raise OnStageLoad event
-        RaseStageEvent(stage, OnStageLoad, StageLoadPhase_NotLoaded);
-
-        // Enable new unlocks
-        stage->EnableUnlocks();;
-
-        // Reset the stage
-        StartAssetReset();
-    }
-    else
-    {
-        // Raise OnStageLoad event
-        RaseStageEvent(stage, OnStageLoad, StageLoadPhase_Load);
-        
-        // Enables the unlock codes
-        stage->EnableUnlocks();
-        
-        // Set current modded scene
-        currentCustomScene = scene;
-        
-        // Reset the scene (This needs changing)
-        SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
-        currentLevelID = SonicMania::Scene_ThanksForPlaying;
-        SonicMania::GameState = SonicMania::GameState_NotRunning;
-        
-        // Skip Asset Reset
-        resetting = 2;
-    }
-    LogInfo("InfinityZone::ChangeStage", "Loading Stage: \"%s\" with \"Scene%s.bin\"", stage->StageName.c_str(), scene->SceneID.c_str());
 }
 
 void InfinityZone::ChangeScene(IZScene* scene)

@@ -9,14 +9,12 @@ class IZStage
 {
 protected:
 public:
-    // List of scenes
-    vector<IZScene*> Scenes;
     // The name of the stage
     string StageName;
     // The internal name of this stage (Must be unique)
     string StageKey;
     // The name of the folder for this stage
-    string StageID;
+    string StageDir;
     // The scene flags for this stage
     SonicMania::Filter Flags = SonicMania::Filter_Common | SonicMania::Filter_Mania;
 
@@ -25,7 +23,7 @@ public:
     // List of paths to assets that needs to be replaced. old => new
     unordered_map<string, string> Assets;
 
-    // Loads XML stage data form a file
+    // Loads XML stage data from a file
     bool LoadXML(tinyxml2::XMLElement* xmlStage);
     // Write all the needed unlocks
     bool EnableUnlocks();

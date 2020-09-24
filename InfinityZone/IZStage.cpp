@@ -7,16 +7,12 @@ static vector<IZStage_UnlockCode*> EnabledUnlocks;
 
 IZStage::~IZStage()
 {
-    // Remove all scenes
-    for (auto scene : Scenes)
-        delete scene;
-    Scenes.clear();
 }
 
 bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
 {
     StageName = xmlStage->Attribute("stageName"); // Required
-    StageID = xmlStage->Attribute("stageID");     // Required
+    StageDir = xmlStage->Attribute("stageDir");   // Required
     StageKey = xmlStage->Attribute("stageKey");   // Required
     Flags = (Filter)xmlStage->IntAttribute("flags", Filter::Filter_Common | Filter::Filter_Mania); // Filter_Common | Filter_Mania = 3
 
@@ -41,31 +37,6 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
             Assets[child->Attribute("basePath")] = child->Attribute("newPath");
     }
 
-    auto xmlScenes = xmlStage->FirstChildElement("Scenes");
-    if (xmlScenes)
-    {
-        for (auto child = xmlScenes->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
-        {
-            const char* sceneID    = child->Attribute("id"); // Required
-            const char* sceneName  = child->Attribute("name"); // Optional
-            if (!sceneID)
-            {
-                LogError("InfinityZone::IZStage::LoadXML", "The id attribute for a scene from the stage \"%s\" was not found! Current scene will be skipped!", StageName.c_str());
-                continue;
-            }
-
-            // Set name to ID if a name wasn't given
-            if (!sceneName)
-                sceneName = sceneID;
-
-            auto scene = new IZScene();
-            scene->Parent = this;
-            scene->SceneID = sceneID;
-            scene->SceneName = sceneName;
-            scene->Flags = static_cast<Filter>(child->IntAttribute("flags", Flags));
-            Scenes.push_back(scene);
-        }
-    }
     return true;
 }
 

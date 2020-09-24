@@ -36,17 +36,12 @@ extern "C"
     }
 
     // Switches custom stages
-    IZ_EXPORT void ChangeStage(const char* key, const char* sceneID)
+    // TODO: Change Name to "ChangeScene"
+    IZ_EXPORT void ChangeStage(const char* sceneKey)
     {
-        if (sceneID)
-            IZInstance->ChangeStage(key, sceneID);
-        else
-        {
-            // Load default scene
-            auto stage = IZInstance->FindIZStage(key);
-            if (stage->Scenes.size())
-                IZInstance->ChangeStage(key, stage->Scenes[0]->SceneID);
-        }
+        auto scene = IZInstance->FindIZScene(sceneKey);
+        if (scene)
+            IZInstance->ChangeScene(scene);
     }
 
     // Performs an asset reset
@@ -64,7 +59,7 @@ extern "C"
         return
         {
             scene->Parent->StageKey.c_str(),
-            scene->Parent->StageID.c_str(),
+            scene->Parent->StageDir.c_str(),
             scene->Parent->StageName.c_str(),
             scene->SceneID.c_str()
         };

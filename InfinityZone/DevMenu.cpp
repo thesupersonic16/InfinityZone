@@ -27,6 +27,8 @@ static __declspec(naked) WORD DevMenu_DrawText_(int XPosition, const char* text,
     }
 }
 
+static IZCategory* SelectedCategory = nullptr;
+
 void PatchInfinityZoneDevMenu()
 {
     WriteCall((void*)(baseAddress + 0x001C25DB), InfinityZone_MainDevMenu);
@@ -143,7 +145,7 @@ int InfinityZone_MainDevMenu()
                 DevMenu_Scroll = 0;
                 break;
             case 3:
-                DevMenu_Address = InfinityZone_StageSelect;
+                DevMenu_Address = InfinityZone_CategorySelect;
                 DevMenu_Option = 0;
                 DevMenu_Scroll = 0;
                 break;
@@ -163,8 +165,103 @@ int InfinityZone_MainDevMenu()
     return result;
 }
 
+int InfinityZone_CategorySelect()
+{
+    char result;
+
+    // Centre of the Screen
+
+    int centerX = *(_DWORD*)(dword_D3CC00 + 614416);
+    int centerY = *(_DWORD*)(dword_D3CC00 + 614420);
+    int YPosition = centerY - 84;
+
+    // Title
+    YPosition += 6;
+    YPosition += 14;
+
+    YPosition += 40;
+
+    // Bottom Panel
+    DevMenu_DrawRect(centerX - 128, YPosition - 8, 256, 84, 0x00000080, 255, 0, 1);
+
+    // Give selected Option a lighter colour
+    if ((DevMenu_Option - DevMenu_Scroll) < 0)
+        DevMenu_Scroll = 0;
+
+    YPosition -= 10;
+    for (int i = DevMenu_Scroll; i <= static_cast<int>(IZInstance->registeredCategories.size()); ++i)
+    {
+        if (i - DevMenu_Scroll > 6)
+            break;
+        YPosition += 10;
+        if (i == IZInstance->registeredCategories.size())
+            DevMenu_DrawText_(centerX, "Back", YPosition, Alignment_Center, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
+        else
+        {
+            auto categories = IZInstance->registeredCategories[i];
+            DevMenu_DrawText_(centerX - 96, categories->CategoryName.c_str(), YPosition, Alignment_Left, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
+        }
+    }
+
+    if (Key_Up)
+    {
+        if (!dword_6F0AE4)
+        {
+            --DevMenu_Option;
+            if (DevMenu_Option < 0)
+            {
+                DevMenu_Option = IZInstance->registeredCategories.size();
+                DevMenu_Scroll = DevMenu_Option - 6;
+                if (DevMenu_Scroll < 0) DevMenu_Scroll = 0;
+            }
+            if (DevMenu_Option - DevMenu_Scroll < 0 && DevMenu_Scroll > 0)
+                --DevMenu_Scroll;
+        }
+        result = (dword_6F0AE4 + 1) & 7;
+        dword_6F0AE4 = result;
+    }
+    else if (Key_Down)
+    {
+        if (!dword_6F0AE4)
+        {
+            ++DevMenu_Option;
+            if ((DevMenu_Option - DevMenu_Scroll) > 6)
+                ++DevMenu_Scroll;
+            if (DevMenu_Option > static_cast<int>(IZInstance->registeredCategories.size()))
+                DevMenu_Option = 0;
+        }
+        result = (dword_6F0AE4 + 1) & 7;
+        dword_6F0AE4 = result;
+    }
+    else
+    {
+        result = Key_Enter | Controller_A;
+        dword_6F0AE4 = 0;
+        if ((Key_Enter | Controller_A) == 1)
+        {
+            if (DevMenu_Option == IZInstance->registeredCategories.size())
+            {
+                DevMenu_Address = InfinityZone_MainDevMenu;
+                DevMenu_Option = 3;
+                DevMenu_Scroll = 0;
+            }
+            else
+            {
+                SelectedCategory = IZInstance->registeredCategories[DevMenu_Option];
+                DevMenu_Address = InfinityZone_StageSelect;
+                DevMenu_Option = 0;
+                DevMenu_Scroll = 0;
+            }
+        }
+    }
+    return result;
+}
+
 int InfinityZone_StageSelect()
 {
+    if (!SelectedCategory)
+        DevMenu_Address = InfinityZone_CategorySelect;
+
     char result;
 
     // Centre of the Screen
@@ -188,24 +285,37 @@ int InfinityZone_StageSelect()
 
     // Buffer
     char stringBuffer[255];
-    IZStage* lastStage = nullptr;
+    int sceneCount = 0;
     YPosition -= 10;
-    for (int i = DevMenu_Scroll; i <= static_cast<int>(IZInstance->registeredScenes.size()); ++i)
+
+    // Debug
+    //sprintf_s(stringBuffer, "O:%d S:%d", DevMenu_Option, DevMenu_Scroll);
+    //DevMenu_DrawText_(centerX - 120, stringBuffer, YPosition + 70, Alignment_Left, 0xF0F0F0);
+
+    int scrollIndex = 0;
+
+    for (auto group : SelectedCategory->Groups)
     {
-        if (i - DevMenu_Scroll > 6)
-            break;
-        YPosition += 10;
-        if (i == IZInstance->registeredScenes.size())
-            DevMenu_DrawText_(centerX, "Back", YPosition, Alignment_Center, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
-        else
+        sceneCount += group->Scenes.size();
+        bool first = true;
+        for (auto scene : group->Scenes)
         {
-            auto stage = IZInstance->registeredScenes[i]->Parent;
-            sprintf_s(stringBuffer, "%s %s", 
-                lastStage != stage ? IZInstance->registeredScenes[i]->Parent->StageName.c_str() : "", IZInstance->registeredScenes[i]->SceneName.c_str());
-            DevMenu_DrawText_(centerX + 114, stringBuffer, YPosition, Alignment_Right, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
-            lastStage = stage;
+            if (scrollIndex - DevMenu_Scroll > 6)
+                break;
+            if (DevMenu_Scroll <= scrollIndex)
+            {
+                YPosition += 10;
+                sprintf_s(stringBuffer, "%s %s", first ? group->GroupName.c_str() : "", scene->SceneName.c_str());
+                DevMenu_DrawText_(centerX + 114, stringBuffer, YPosition, Alignment_Right, scrollIndex == DevMenu_Option ? 0xF0F0F0 : 0x808090);
+            }
+            first = false;
+            ++scrollIndex;
         }
     }
+
+    // Back Option
+    if (!(scrollIndex - DevMenu_Scroll > 6))
+        DevMenu_DrawText_(centerX, "Back", YPosition += 10, Alignment_Center, scrollIndex == DevMenu_Option ? 0xF0F0F0 : 0x808090);
     
     if (Key_Up)
     {
@@ -214,7 +324,7 @@ int InfinityZone_StageSelect()
             --DevMenu_Option;
             if (DevMenu_Option < 0)
             {
-                DevMenu_Option = IZInstance->registeredScenes.size();
+                DevMenu_Option = sceneCount;
                 DevMenu_Scroll = DevMenu_Option - 6;
                 if (DevMenu_Scroll < 0) DevMenu_Scroll = 0;
             }
@@ -231,7 +341,7 @@ int InfinityZone_StageSelect()
             ++DevMenu_Option;
             if ((DevMenu_Option - DevMenu_Scroll) > 6)
                 ++DevMenu_Scroll;
-            if (DevMenu_Option > static_cast<int>(IZInstance->registeredScenes.size()))
+            if (DevMenu_Option > sceneCount)
                 DevMenu_Option = 0;
         }
         result = (dword_6F0AE4 + 1) & 7;
@@ -243,15 +353,27 @@ int InfinityZone_StageSelect()
         dword_6F0AE4 = 0;
         if ((Key_Enter | Controller_A) == 1)
         {
-            if (DevMenu_Option == IZInstance->registeredScenes.size())
+            if (DevMenu_Option == sceneCount)
             {
-                DevMenu_Address = InfinityZone_MainDevMenu;
-                DevMenu_Option = 3;
+                DevMenu_Address = InfinityZone_CategorySelect;
+                DevMenu_Option = 0;
                 DevMenu_Scroll = 0;
             }
             else
             {
-                IZInstance->ChangeScene(IZInstance->registeredScenes[DevMenu_Option]);
+                int index = 0;
+                for (auto group : SelectedCategory->Groups)
+                {
+                    for (auto scene : group->Scenes)
+                    {
+                        if (DevMenu_Option == index)
+                        {
+                            IZInstance->ChangeScene(scene);
+                            return result;
+                        }
+                        ++index;
+                    }
+                }
             }
         }
     }

@@ -18,9 +18,9 @@ extern "C"
         struct StageInfo
         {
             const char* StageKey;
-            const char* StageID;
+            const char* StageDir;
             const char* StageName;
-            const char* SceneID;
+            const char* SceneKey;
         };
 
 
@@ -47,8 +47,8 @@ extern "C"
         // Loads and registers all stages
         extern void LoadStagesFile(const char* path);
 
-        // Switches custom stages
-        extern void ChangeStage(const char* key, const char* sceneID = nullptr);
+        // Loads a custom scene
+        extern void ChangeScene(const char* sceneKey);
 
         // Performs an asset reset
         extern void PerformAssetReset();

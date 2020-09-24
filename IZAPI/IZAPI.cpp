@@ -24,7 +24,7 @@ extern "C"
         RegisterStageLoadEvent_type RegisterStageLoadEvent_ptr = nullptr;
         RegisterStageLoadEvent_type RegisterStageUnloadEvent_ptr = nullptr;
         CStringFunc LoadStagesFile_ptr = nullptr;
-        CString2Func ChangeStage_ptr = nullptr;
+        CStringFunc ChangeScene_ptr = nullptr;
         Func PerformAssetReset_ptr = nullptr;
         GetCurrentStage_type GetCurrentStage_ptr = nullptr;
         CString3Func SetStageAsset_ptr = nullptr;
@@ -56,7 +56,7 @@ extern "C"
             RegisterStageLoadEvent_ptr   = (RegisterStageLoadEvent_type)GetProcAddress(InfinityZoneModule, "RegisterStageLoadEvent");
             RegisterStageUnloadEvent_ptr = (RegisterStageLoadEvent_type)GetProcAddress(InfinityZoneModule, "RegisterStageUnloadEvent");
             LoadStagesFile_ptr           = (CStringFunc)GetProcAddress(InfinityZoneModule, "LoadStagesFile");
-            ChangeStage_ptr              = (CString2Func)GetProcAddress(InfinityZoneModule, "ChangeStage");
+            ChangeScene_ptr              = (CStringFunc)GetProcAddress(InfinityZoneModule, "ChangeScene");
             PerformAssetReset_ptr        = (Func)GetProcAddress(InfinityZoneModule, "PerformAssetReset");
             GetCurrentStage_ptr          = (GetCurrentStage_type)GetProcAddress(InfinityZoneModule, "GetCurrentStage");
             SetStageAsset_ptr            = (CString3Func)GetProcAddress(InfinityZoneModule, "SetStageAsset");
@@ -110,10 +110,10 @@ extern "C"
             (*LoadStagesFile_ptr)(path);
         }
 
-        // Switches custom stages
-        void ChangeStage(const char* key, const char* sceneID)
+        // Loads a custom scene
+        void ChangeScene(const char* sceneKey)
         {
-            (*ChangeStage_ptr)(key, sceneID);
+            (*ChangeScene_ptr)(sceneKey);
         }
 
         // Performs an asset reset

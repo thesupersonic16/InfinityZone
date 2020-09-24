@@ -16,9 +16,9 @@ extern "C"
     struct StageInfo
     {
         const char* StageKey;
-        const char* StageID;
+        const char* StageDir;
         const char* StageName;
-        const char* SceneID;
+        const char* SceneKey;
     };
 
     typedef void(__cdecl* StageLoadEvent)(StageInfo, StageLoadPhase);

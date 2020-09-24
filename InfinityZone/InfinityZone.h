@@ -2,6 +2,7 @@
 // Includes
 #include "Common.h"
 #include "IZStage.h"
+#include "IZCategory.h"
 #include "IZGameSession.h"
 #include "Helpers.h"
 #include "DevMenu.h"
@@ -20,10 +21,10 @@ public:
     unordered_map<string, string> GlobalAssets;
     vector<IZStage*> registeredStages;
     vector<IZScene*> registeredScenes;
+    vector<IZCategory*> registeredCategories;
     string OnFileLoad(string path);
     IZStage* FindIZStage(string key);
-    IZScene* FindIZScene(const IZStage* stage, string id);
-    void RegisterIZStage(IZStage* stage);
+    IZScene* FindIZScene(string sceneKey);
     void OnFrame();
     void OnActCompleted();
     void Init(string path);
@@ -31,7 +32,6 @@ public:
     void LoadUnlockSets(string path);
     void ReloadStageLists();
     void StartAssetReset();
-    void ChangeStage(string id, string sceneID);
     void ChangeScene(IZScene* scene);
     IZScene* GetCurrentScene() const;
 };

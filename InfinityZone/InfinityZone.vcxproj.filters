@@ -60,6 +60,9 @@
     <ClInclude Include="IZDataSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IZCategory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IZDataSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IZCategory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
