@@ -199,7 +199,7 @@ int InfinityZone_CategorySelect()
         else
         {
             auto categories = IZInstance->registeredCategories[i];
-            DevMenu_DrawText_(centerX - 96, categories->CategoryName.c_str(), YPosition, Alignment_Left, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
+            DevMenu_DrawText_(centerX, categories->CategoryName.c_str(), YPosition, Alignment_Center, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
         }
     }
 
@@ -305,7 +305,10 @@ int InfinityZone_StageSelect()
             if (DevMenu_Scroll <= scrollIndex)
             {
                 YPosition += 10;
-                sprintf_s(stringBuffer, "%s %s", first ? group->GroupName.c_str() : "", scene->SceneName.c_str());
+
+                if (scene->SceneName.empty()) sprintf_s(stringBuffer, "%s", first ? group->GroupName.c_str() : "");
+                else sprintf_s(stringBuffer, "%s %s", first ? group->GroupName.c_str() : "", scene->SceneName.c_str());
+
                 DevMenu_DrawText_(centerX + 114, stringBuffer, YPosition, Alignment_Right, scrollIndex == DevMenu_Option ? 0xF0F0F0 : 0x808090);
             }
             first = false;
