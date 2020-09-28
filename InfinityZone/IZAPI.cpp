@@ -36,8 +36,7 @@ extern "C"
     }
 
     // Switches custom stages
-    // TODO: Change Name to "ChangeScene"
-    IZ_EXPORT void ChangeStage(const char* sceneKey)
+    IZ_EXPORT void ChangeScene(const char* sceneKey)
     {
         auto scene = IZInstance->FindIZScene(sceneKey);
         if (scene)

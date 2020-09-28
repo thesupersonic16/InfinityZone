@@ -7,12 +7,12 @@
 
 extern "C" IZ_EXPORT const HelperFunctions* MML_HelperFunctions = nullptr;
 
-#define RaseStageEvent(stage, handler, phase) \
+#define RaseStageEvent(scene, handler, phase) \
 for (auto& event : handler) \
 event({ \
-        stage->StageKey.c_str(), \
-        stage->StageDir.c_str(), \
-        stage->StageName.c_str(), \
+        scene->Parent->StageKey.c_str(), \
+        scene->Parent->StageDir.c_str(), \
+        scene->Parent->StageName.c_str(), \
     }, phase); \
 
 static bool TrackerL, TrackerR, InSpecialStage;
@@ -137,9 +137,9 @@ void InfinityZone::OnFrame()
         SonicMania::GameState = SonicMania::GameState_NotRunning;
         if (currentCustomScene)
         {
-            auto stage = currentCustomScene->Parent;
-            if (stage)
-                RaseStageEvent(stage, OnStageLoad, StageLoadPhase_Load);
+            auto scene = currentCustomScene;
+            if (scene && scene->Parent)
+                RaseStageEvent(scene, OnStageLoad, StageLoadPhase_Load);
         }
     }
     if (resetting >= 3)
@@ -148,9 +148,9 @@ void InfinityZone::OnFrame()
         resetting = 0;
         if (currentCustomScene)
         {
-            auto stage = currentCustomScene->Parent;
-            if (stage)
-                RaseStageEvent(stage, OnStageLoad, StageLoadPhase_Loaded);
+            auto scene = currentCustomScene;
+            if (scene && scene->Parent)
+                RaseStageEvent(scene, OnStageLoad, StageLoadPhase_Loaded);
         }
     }
     if (resetting)
@@ -161,12 +161,12 @@ void InfinityZone::OnFrame()
         currentLevelID = SonicMania::CurrentScene;
         
         // Unload custom stage
-        auto stage = currentCustomScene->Parent;
+        auto scene = currentCustomScene;
 
         // Raise OnStageUnload event
-        RaseStageEvent(stage, OnStageUnload, StageLoadPhase_NotLoaded);
+        RaseStageEvent(scene, OnStageUnload, StageLoadPhase_NotLoaded);
 
-        stage->DisableUnlocks();
+        scene->Parent->DisableUnlocks();
         currentCustomScene = nullptr;
     }
     bool keyState = GetCtrlKeyState();
@@ -183,9 +183,9 @@ void InfinityZone::OnFrame()
         // Reload if a custom stage is loaded
         if (currentCustomScene)
         {
-            auto stage = currentCustomScene->Parent;
-            RaseStageEvent(stage, OnStageUnload, StageLoadPhase_Load);
-            RaseStageEvent(stage, OnStageLoad, StageLoadPhase_NotLoaded);
+            auto scene = currentCustomScene;
+            RaseStageEvent(scene, OnStageUnload, StageLoadPhase_Load);
+            RaseStageEvent(scene, OnStageLoad, StageLoadPhase_NotLoaded);
             StartAssetReset();
         }
     }
@@ -404,18 +404,18 @@ void InfinityZone::ChangeScene(IZScene* scene)
 {
     if (currentCustomScene && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
     {
-        auto oldStage = currentCustomScene->Parent;
+        auto oldScene = currentCustomScene;
         // Raise OnStageUnload event
-        RaseStageEvent(oldStage, OnStageUnload, StageLoadPhase_NotLoaded);
+        RaseStageEvent(oldScene, OnStageUnload, StageLoadPhase_NotLoaded);
 
         // Disable old unlocks
-        oldStage->DisableUnlocks();
+        oldScene->Parent->DisableUnlocks();
 
         // Set current modded scene
         currentCustomScene = scene;
 
         // Raise OnStageLoad event
-        RaseStageEvent(scene->Parent, OnStageLoad, StageLoadPhase_NotLoaded);
+        RaseStageEvent(scene, OnStageLoad, StageLoadPhase_NotLoaded);
 
         // Enable new unlocks
         scene->Parent->EnableUnlocks();;
@@ -424,7 +424,7 @@ void InfinityZone::ChangeScene(IZScene* scene)
     else
     {
         // Raise OnStageLoad event
-        RaseStageEvent(scene->Parent, OnStageLoad, StageLoadPhase_Load);
+        RaseStageEvent(scene, OnStageLoad, StageLoadPhase_Load);
 
         scene->Parent->EnableUnlocks();
         
