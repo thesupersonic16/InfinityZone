@@ -30,7 +30,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "CPZ_Decoration",     {{ 0x0006712E, 2 }} }, // Untested
     { "CPZ_Platform",       {{ 0x0008ABC4, 2 }} }, // Untested
 
-    // Studiopolis Zone (SPZ)
+    // Studiopolis Zone (SPZ) : Act 1
     { "SPZ1_Parallax",      {{ 0x0005EE2D, 2 }} }, // Untested 
     { "SPZ1_Boss",          {{ 0x0007D824, 2 }} }, // Untested
     { "SPZ1_Canista",       {{ 0x000EB5E0, 2 }} }, // Untested
@@ -42,10 +42,12 @@ vector<IZStage_Unlock> AllUnlocks =
     { "SPZ1_Rockemsockem",  {{ 0x00176114, 2 }} }, // Untested
     { "SPZ1_Shutterbug",    {{ 0x00180122, 2 }} }, // Untested
     { "SPZ1_Turbinaut",     {{ 0x00195B02, 2 }} }, // Untested
-    { "SPZ2_Canista",       {{ 0x000EB5FB, 2 }} }, // Untested
-    { "SPZ2_Pathinverter",  {{ 0x00162E71, 2 }} }, // Untested
     { "SPZ1_Decoration",    {{ 0x0006715C, 2 }} }, // Untested
     { "SPZ1_Platform",      {{ 0x0008AB2E, 2 }} }, // Untested
+
+    // Studiopolis Zone (SPZ) : Act 2
+    { "SPZ2_Canista",       {{ 0x000EB5FB, 2 }} }, // Untested
+    { "SPZ2_Pathinverter",  {{ 0x00162E71, 2 }} }, // Untested
     { "SPZ2_Platform",      {{ 0x0008AB4C, 2 }} }, // Untested
 
     // Flying Battery Zone (FBZ)
@@ -67,9 +69,8 @@ vector<IZStage_Unlock> AllUnlocks =
     { "FBZ_Tuesday",        {{ 0x00196FA6, 2 }} },
     { "FBZ_TwistingDoor",   {{ 0x0019C841, 2 }} },
 
-    // Press Garden Zone (PSZ)
+    // Press Garden Zone (PSZ) : Act 1
     { "PSZ1_Platform",      {{ 0x0008AC00, 2 }} }, 
-    { "PSZ2_Platform",      {{ 0x0008AC1E, 2 }} }, // Untested
     { "PSZ1_Acetone",       {{ 0x000CF0A0, 2 }} }, 
     { "PSZ1_Crate",         {{ 0x00090EC0, 2 }} }, 
     { "PSZ1_DoorTrigger",   {{ 0x00111F31, 2 }} }, 
@@ -87,18 +88,20 @@ vector<IZStage_Unlock> AllUnlocks =
     { "PSZ1_SP500",         {{ 0x00181507, 2 }} }, 
     { "PSZ1_Splats",        {{ 0x000EFEA7, 2 }} }, 
     { "PSZ1_Woodrow",       {{ 0x001A48C0, 2 }} }, 
+
+    // Press Garden Zone (PSZ) : Act 2
+    { "PSZ2_Platform",      {{ 0x0008AC1E, 2 }} }, // Untested
     { "PSZ2_Shinobi",       {{ 0x0007D857, 2 }} }, // untested
     { "PSZ2_Spikes",        {{ 0x000A06CB, 2 }} }, // untested
     { "PSZ2_FrostThrower",  {{ 0x0012B67B, 2 }} }, // untested
+    
+    // Stardust Speedway Zone (SSZ) : Universal?
+    { "SSZ_SDashWheel",     {{ 0x001A58B0, 2 }} }, // Untested
 
-    // Stardust Speedway Zone (SSZ)
-    { "SSZ_SDashWheel",     {{ 0x001A58B0, 2 }} }, // Untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, // Untested
-    { "SSZ2_Platform",      {{ 0x0008AC5A, 2 }} }, // Untested
-    { "SSZ1_LaunchSpring",  {{ 0x0014A5A1, 2 }} },
-    { "SSZ2_LaunchSpring",  {{ 0x0014A5BD, 2 }} },
+    // Stardust Speedway Zone (SSZ) : Act 1
     { "SSZ1_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }} },
-    { "SSZ2_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }} },
+    { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, // Untested
+    { "SSZ1_LaunchSpring",  {{ 0x0014A5A1, 2 }} },
     { "SSZ1_Dango",         {{ 0x00101E41, 2 }} }, // untested
     { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} }, // untested
     { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} }, // untested
@@ -112,6 +115,11 @@ vector<IZStage_Unlock> AllUnlocks =
     { "SSZ1_SDashWheel",    {{ 0x001A58B0, 2 }} }, // untested
     { "SSZ1_Spark",         {{ 0x00182C83, 2 }} }, // untested
     { "SSZ1_SpikeBall",     {{ 0x0018E379, 2 }} }, // untested
+
+    // Stardust Speedway Zone (SSZ) : Act 2
+    { "SSZ2_LaunchSpring",  {{ 0x0014A5BD, 2 }} },
+    { "SSZ2_Platform",      {{ 0x0008AC5A, 2 }} }, // Untested
+    { "SSZ2_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }} },
     { "SSZ2_MetalSonic",    {{ 0x001366F1, 2 }} }, // untested
 
     // Hydrocity Zone (HCZ)
@@ -146,8 +154,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "MSZ_SwingRope",      {{ 0x00191910, 2 }} }, // untested
     { "MSZ_Tornado",        {{ 0x00067784, 2 }} }, // untested
 
-    // Oil Ocean Zone (OOZ)
-    { "OOZ2_Parallax",      {{ 0x0005EEB3, 2 }} }, // Untested 
+    // Oil Ocean Zone (OOZ) : Act 1/2
     { "OOZ_Platform",       {{ 0x0008ADC7, 2 }} },
     { "OOZ_Aquis",          {{ 0x000D6154, 2 }} }, 
     { "OOZ_Fan",            {{ 0x0012193E, 6 }, { 0x00121A0E, 5 }} },
@@ -158,10 +165,11 @@ vector<IZStage_Unlock> AllUnlocks =
     { "OOZ_Sol",            {{ 0x00020574, 2 }} }, 
     { "OOZ_Valve",          {{ 0x00159F94, 0 }} },
 
-    // Lava Reef Zone (LRZ)
-    { "LRZ2_Parallax",      {{ 0x0005EEE1, 2 }, { 0x0005EEF4, 2 }} }, // Untested 
+    // Oil Ocean Zone (OOZ) : Act 2
+    { "OOZ2_Parallax",      {{ 0x0005EEB3, 2 }} }, // Untested 
+
+    // Lava Reef Zone (LRZ) : Act 1
     { "LRZ1_Platform",      {{ 0x0008AD16, 2 }} }, // Untested
-    { "LRZ2_Platform",      {{ 0x0008AD34, 2 }} }, // Untested
     { "LRZ1_Bridge",        {{ 0x0000D308, 2 }} }, // untested  
     { "LRZ1_Button",        {{ 0x000866BC, 2 }} }, // untested
     { "LRZ1_ButoonDoor",    {{ 0x000E8D91, 2 }} }, // untested
@@ -178,9 +186,15 @@ vector<IZStage_Unlock> AllUnlocks =
     { "LRZ1_Stalactite",    {{ 0x000E1136, 2 }} }, // untested
     { "LRZ1_Toxomister",    {{ 0x000E52D6, 2 }} }, // untested
     { "LRZ1_WalkerLegs",    {{ 0x001A1B61, 2 }} }, // untested
+
+    // Lava Reef Zone (LRZ) : Act 2
+    { "LRZ2_Parallax",      {{ 0x0005EEE1, 2 }, { 0x0005EEF4, 2 }} }, // Untested 
+    { "LRZ2_Platform",      {{ 0x0008AD34, 2 }} }, // Untested
     { "LRZ2_Flamethrower",  {{ 0x00075924, 2 }} }, // untested
     { "LRZ2_ParallaxSprite",{{ 0x0005EEF4, 2 }} }, // untested
     { "LRZ2_Turbine",       {{ 0x001983F1, 2 }} }, // untested
+
+    // Lava Reef Zone (LRZ) : Act 3
     { "LRZ3_HeavyKing",     {{ 0x0007D900, 2 }} }, // untested
     { "LRZ3_HeavyRider",    {{ 0x0007D8C0, 6 }} }, // untested
 
@@ -197,9 +211,11 @@ vector<IZStage_Unlock> AllUnlocks =
     { "MMZ_PohBee",         {{ 0x0016AEB0, 2 }} }, // untested
     { "MMZ_Scarab",         {{ 0x00179360, 2 }} }, // untested
 
-    // Titanic Monarch Zone (TMZ)
+    // Titanic Monarch Zone (TMZ) : Act 1
     { "TMZ1_Platform",      {{ 0x0008AD6D, 2 }} }, // Untested
     { "TMZ1_Decoration",    {{ 0x00067296, 2 }} }, // Untested
+
+    // Titanic Monarch Zone (TMZ) : Universal?
     { "TMZ_Ballhog",        {{ 0x000D81F2, 2 }} }, // untested
     { "TMZ_Button",         {{ 0x00086723, 2 }} }, // untested
     { "TMZ_FlasherMKII",    {{ 0x00129333, 2 }} }, // untested
