@@ -95,10 +95,10 @@ vector<IZStage_Unlock> AllUnlocks =
     { "SSZ_SDashWheel",     {{ 0x001A58B0, 2 }} }, // Untested, But Valid in Comparision to Rob Morisions Documentation
     { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, // Untested
     { "SSZ2_Platform",      {{ 0x0008AC5A, 2 }} }, // Untested
-    { "SSZ1_LaunchSpring",   {{ 0x0014A5A1, 2 }} },
-    { "SSZ2_LaunchSpring",   {{ 0x0014A5BD, 2 }} },
-    { "SSZ1_SpeedBooster",   {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }} },
-    { "SSZ2_SpeedBooster",   {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }} },
+    { "SSZ1_LaunchSpring",  {{ 0x0014A5A1, 2 }} },
+    { "SSZ2_LaunchSpring",  {{ 0x0014A5BD, 2 }} },
+    { "SSZ1_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }} },
+    { "SSZ2_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }} },
     { "SSZ1_Dango",         {{ 0x00101E41, 2 }} }, // untested
     { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} }, // untested
     { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} }, // untested
@@ -232,6 +232,6 @@ vector<IZStage_Unlock> AllUnlocks =
     { "Summary_UIPicture",  {{ 0x00151148, 2 }} },
 
     // Dummy - Please don't actually use this
-    { "Dummy",           {{ 0x00000000, 2} }}
+    { "Dummy",              {{ 0x00000000, 2} }}
 
 };
