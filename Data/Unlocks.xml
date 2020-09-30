@@ -16,6 +16,7 @@
     <GHZ_ZipLine/>
   </Core_GHZ>
   <Core_CPZ>
+    <CPZ_Parallax/>
     <CPZ_Ball/>
     <CPZ_Bubbler/>
     <CPZ_CaterkillerJr/>
@@ -27,6 +28,7 @@
     <CPZ_Platform/>
   </Core_CPZ>
   <Core_SPZ1>
+    <SPZ1_Parallax/>
     <SPZ1_Boss/>
     <SPZ1_Canista/>
     <SPZ1_Circlebumper/>
@@ -46,6 +48,8 @@
     <SPZ2_Platform/>
   </Core_SPZ2>
   <Core_FBZ>
+    <FBZ_WarpDoor/>
+    <FBZ_Parallax/>
     <FBZ_Decoration/>
     <FBZ_Platform/>
     <FBZ_Blaster/>
@@ -158,6 +162,9 @@
     <OOZ_Sol/>
     <OOZ_Valve/>
   </Core_OOZ>
+  <Core_OOZ2>
+    <OOZ2_Parallax/>
+  </Core_OOZ2>
   <Core_LRZ1>
     <LRZ1_Platform/>
     <LRZ1_Bridge/>
@@ -178,6 +185,7 @@
     <LRZ1_WalkerLegs/>
   </Core_LRZ1>
   <Core_LRZ2>
+    <LRZ2_Parallax/>
     <LRZ2_Platform/>
     <LRZ2_Flamethrower/>
     <LRZ2_ParallaxSprite/>
@@ -216,6 +224,7 @@
     <TMZ1_Decoration/>
   </Core_TMZ1>
   <Core_AIZ>
+    <AIZ_Parallax/>
     <AIZ_Decoration/>
     <AIZ_Platform/>
     <AIZ_Claw/>

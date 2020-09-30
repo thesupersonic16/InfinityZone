@@ -7,6 +7,8 @@
 
 extern "C" IZ_EXPORT const HelperFunctions* MML_HelperFunctions = nullptr;
 
+extern const SonicMania::Scene IZ_SceneID = SonicMania::Scene_ThanksForPlaying;
+
 #define RaseStageEvent(scene, handler, phase) \
 for (auto& event : handler) \
 event({ \
@@ -134,7 +136,7 @@ void InfinityZone::OnFrame()
     {
         LogDebug("InfinityZone::OnFrame", "Finalising asset reset...");
 
-        SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
+        SonicMania::CurrentScene = IZ_SceneID;
         SonicMania::GameState = SonicMania::GameState_NotRunning;
         if (currentCustomScene)
         {
@@ -403,7 +405,7 @@ void InfinityZone::StartAssetReset()
 
 void InfinityZone::ChangeScene(IZScene* scene)
 {
-    if (currentCustomScene && SonicMania::CurrentScene == SonicMania::Scene_ThanksForPlaying)
+    if (currentCustomScene && SonicMania::CurrentScene == IZ_SceneID)
     {
         auto oldScene = currentCustomScene;
         // Raise OnStageUnload event
@@ -433,8 +435,8 @@ void InfinityZone::ChangeScene(IZScene* scene)
         currentCustomScene = scene;
         
         // Reset the scene (This needs changing)
-        SonicMania::CurrentScene = SonicMania::Scene_ThanksForPlaying;
-        currentLevelID = SonicMania::Scene_ThanksForPlaying;
+        SonicMania::CurrentScene = IZ_SceneID;
+        currentLevelID = IZ_SceneID;
         SonicMania::GameState = SonicMania::GameState_NotRunning;
         
         // Skip Asset Reset

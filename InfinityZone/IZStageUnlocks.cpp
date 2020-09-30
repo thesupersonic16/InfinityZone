@@ -19,6 +19,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "GHZ_ZipLine",        {{ 0x001A6541, 2 }} }, // Untested
 
     // Chemical Plant Zone (CPZ)
+    { "CPZ_Parallax",       {{ 0x0005EDFF, 2 }} }, // Untested 
     { "CPZ_Ball",           {{ 0x000D6BA0, 2 }} }, // Untested
     { "CPZ_Bubbler",        {{ 0x000DE130, 2 }} }, // Untested
     { "CPZ_CaterkillerJr",  {{ 0x000ED386, 2 }} }, // Untested
@@ -30,6 +31,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "CPZ_Platform",       {{ 0x0008ABC4, 2 }} }, // Untested
 
     // Studiopolis Zone (SPZ)
+    { "SPZ1_Parallax",      {{ 0x0005EE2D, 2 }} }, // Untested 
     { "SPZ1_Boss",          {{ 0x0007D824, 2 }} }, // Untested
     { "SPZ1_Canista",       {{ 0x000EB5E0, 2 }} }, // Untested
     { "SPZ1_Circlebumper",  {{ 0x000F2A40, 2 }} }, // Untested
@@ -47,42 +49,44 @@ vector<IZStage_Unlock> AllUnlocks =
     { "SPZ2_Platform",      {{ 0x0008AB4C, 2 }} }, // Untested
 
     // Flying Battery Zone (FBZ)
-    { "FBZ_Decoration",     {{ 0x0006718A, 2 }} }, // Untested
-    { "FBZ_Platform",       {{ 0x0008ABE2, 2 }} }, // Untested
-    { "FBZ_Blaster",        {{ 0x00025780, 2 }} }, // untested
-    { "FBZ_Button",         {{ 0x00086670, 2 }} }, // untested
-    { "FBZ_Current",        {{ 0x0001C4E2, 2 }} }, // untested
-    { "FBZ_Electromagnet",  {{ 0x0011B44A, 2 }} }, // untested
-    { "FBZ_Flamespring",    {{ 0x00128AD1, 2 }} }, // untested
-    { "FBZ_HangGlider",     {{ 0x001230A9, 2 }} }, // untested
-    { "FBZ_HangPoint",      {{ 0x00088C50, 2 }} }, // untested
-    { "FBZ_MagSpikeball",   {{ 0x0011B261, 2 }} }, // untested
-    { "FBZ_Spikes",         {{ 0x000A06AD, 2 }} }, // untested
-    { "FBZ_Technosqueek",   {{ 0x00024ED0, 2 }} }, // untested
-    { "FBZ_TubeSpring",     {{ 0x001952F2, 2 }} }, // untested
-    { "FBZ_Tuesday",        {{ 0x00196FA6, 2 }} }, // untested
-    { "FBZ_TwistingDoor",   {{ 0x0019C841, 2 }} }, // untested
+    { "FBZ_WarpDoor",       {{ 0x000325A6, 6 }, { 0x00032758, 2 }, { 0x00033034, 2 }} },
+    { "FBZ_Parallax",       {{ 0x0005EE5B, 2 }} }, 
+    { "FBZ_Decoration",     {{ 0x0006718A, 2 }} }, 
+    { "FBZ_Platform",       {{ 0x0008ABE2, 2 }} },
+    { "FBZ_Blaster",        {{ 0x00025780, 2 }} },
+    { "FBZ_Button",         {{ 0x00086670, 2 }} },
+    { "FBZ_Current",        {{ 0x0001C4E2, 2 }} },
+    { "FBZ_Electromagnet",  {{ 0x0011B44A, 2 }} },
+    { "FBZ_Flamespring",    {{ 0x00128AD1, 2 }} },
+    { "FBZ_HangGlider",     {{ 0x001230A9, 2 }} },
+    { "FBZ_HangPoint",      {{ 0x00088C50, 2 }} },
+    { "FBZ_MagSpikeball",   {{ 0x0011B261, 2 }} },
+    { "FBZ_Spikes",         {{ 0x000A06AD, 2 }} },
+    { "FBZ_Technosqueek",   {{ 0x00024ED0, 2 }} },
+    { "FBZ_TubeSpring",     {{ 0x001952F2, 2 }} },
+    { "FBZ_Tuesday",        {{ 0x00196FA6, 2 }} },
+    { "FBZ_TwistingDoor",   {{ 0x0019C841, 2 }} },
 
     // Press Garden Zone (PSZ)
-    { "PSZ1_Platform",      {{ 0x0008AC00, 2 }} }, // Untested
+    { "PSZ1_Platform",      {{ 0x0008AC00, 2 }} }, 
     { "PSZ2_Platform",      {{ 0x0008AC1E, 2 }} }, // Untested
-    { "PSZ1_Acetone",       {{ 0x000CF0A0, 2 }} }, // untested
-    { "PSZ1_Crate",         {{ 0x00090EC0, 2 }} }, // untested
-    { "PSZ1_DoorTrigger",   {{ 0x00111F31, 2 }} }, // untested
-    { "PSZ1_Dragonfly",     {{ 0x001121F0, 2 }} }, // untested
-    { "PSZ1_FrostThrower",  {{ 0x0012B660, 2 }} }, // untested
-    { "PSZ1_Ice",           {{ 0x000A1C00, 2 }} }, // untested
-    { "PSZ1_IceBomba",      {{ 0x001452C0, 2 }} }, // untested
-    { "PSZ1_Ink",           {{ 0x000CEE81, 2 }} }, // untested
-    { "PSZ1_InkWipe",       {{ 0x00145D51, 2 }} }, // untested
-    { "PSZ1_JuggleSaw",     {{ 0x00147716, 2 }} }, // untested
-    { "PSZ1_PSZDoor",       {{ 0x00118110, 2 }} }, // untested
-    { "PSZ1_Petal",         {{ 0x00167EE0, 2 }} }, // untested
-    { "PSZ1_Press",         {{ 0x0009F6E1, 2 }} }, // untested
-    { "PSZ1_PrintBlock",    {{ 0x0016CDD0, 2 }} }, // untested
-    { "PSZ1_SP500",         {{ 0x00181507, 2 }} }, // untested
-    { "PSZ1_Splats",        {{ 0x000EFEA7, 2 }} }, // untested
-    { "PSZ1_Woodrow",       {{ 0x001A48C0, 2 }} }, // untested
+    { "PSZ1_Acetone",       {{ 0x000CF0A0, 2 }} }, 
+    { "PSZ1_Crate",         {{ 0x00090EC0, 2 }} }, 
+    { "PSZ1_DoorTrigger",   {{ 0x00111F31, 2 }} }, 
+    { "PSZ1_Dragonfly",     {{ 0x001121F0, 2 }} }, 
+    { "PSZ1_FrostThrower",  {{ 0x0012B660, 2 }} }, 
+    { "PSZ1_Ice",           {{ 0x000A1C00, 2 }} }, 
+    { "PSZ1_IceBomba",      {{ 0x001452C0, 2 }} }, 
+    { "PSZ1_Ink",           {{ 0x000CEE81, 2 }} }, 
+    { "PSZ1_InkWipe",       {{ 0x00145D51, 2 }} }, 
+    { "PSZ1_JuggleSaw",     {{ 0x00147716, 2 }} }, 
+    { "PSZ1_PSZDoor",       {{ 0x00111811, 2 }} }, 
+    { "PSZ1_Petal",         {{ 0x00167EE0, 2 }} }, 
+    { "PSZ1_Press",         {{ 0x0009F6E1, 2 }} }, 
+    { "PSZ1_PrintBlock",    {{ 0x0016CDD0, 2 }} }, 
+    { "PSZ1_SP500",         {{ 0x00181507, 2 }} }, 
+    { "PSZ1_Splats",        {{ 0x000EFEA7, 2 }} }, 
+    { "PSZ1_Woodrow",       {{ 0x001A48C0, 2 }} }, 
     { "PSZ2_Shinobi",       {{ 0x0007D857, 2 }} }, // untested
     { "PSZ2_Spikes",        {{ 0x000A06CB, 2 }} }, // untested
     { "PSZ2_FrostThrower",  {{ 0x0012B67B, 2 }} }, // untested
@@ -91,23 +95,23 @@ vector<IZStage_Unlock> AllUnlocks =
     { "SSZ_SDashWheel",     {{ 0x001A58B0, 2 }} }, // Untested, But Valid in Comparision to Rob Morisions Documentation
     { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, // Untested
     { "SSZ2_Platform",      {{ 0x0008AC5A, 2 }} }, // Untested
-    { "SSZ1_LaunchSpring",   {{ 0x0014A5A1, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ2_LaunchSpring",   {{ 0x0014A5BD, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_SpeedBooster",   {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ2_SpeedBooster",   {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_Dango",         {{ 0x00101E41, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_HotauraMKII",   {{ 0x00144367, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_JunctionWheel", {{ 0x00148850, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_Kabasira",      {{ 0x00148BA1, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_Kanabun",       {{ 0x00149440, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_MSHologram",    {{ 0x00134077, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_RotatingSpike", {{ 0x00177B2F, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_LaunchSpring",   {{ 0x0014A5A1, 2 }} },
+    { "SSZ2_LaunchSpring",   {{ 0x0014A5BD, 2 }} },
+    { "SSZ1_SpeedBooster",   {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }} },
+    { "SSZ2_SpeedBooster",   {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }} },
+    { "SSZ1_Dango",         {{ 0x00101E41, 2 }} }, // untested
+    { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} }, // untested
+    { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} }, // untested
+    { "SSZ1_HotauraMKII",   {{ 0x00144367, 2 }} }, // untested
+    { "SSZ1_JunctionWheel", {{ 0x00148850, 2 }} }, // untested
+    { "SSZ1_Kabasira",      {{ 0x00148BA1, 2 }} }, // untested
+    { "SSZ1_Kanabun",       {{ 0x00149440, 2 }} }, // untested
+    { "SSZ1_MSHologram",    {{ 0x00134077, 2 }} }, // untested
+    { "SSZ1_RotatingSpike", {{ 0x00177B2F, 2 }} }, // untested
     { "SSZ1_RTeleporter",   {{ 0x00178D7E, 2}} },
-    { "SSZ1_SDashWheel",    {{ 0x001A58B0, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_Spark",         {{ 0x00182C83, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
-    { "SSZ1_SpikeBall",     {{ 0x0018E379, 2 }} }, // untested, But Valid in Comparision to Rob Morisions Documentation
+    { "SSZ1_SDashWheel",    {{ 0x001A58B0, 2 }} }, // untested
+    { "SSZ1_Spark",         {{ 0x00182C83, 2 }} }, // untested
+    { "SSZ1_SpikeBall",     {{ 0x0018E379, 2 }} }, // untested
     { "SSZ2_MetalSonic",    {{ 0x001366F1, 2 }} }, // untested
 
     // Hydrocity Zone (HCZ)
@@ -143,6 +147,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "MSZ_Tornado",        {{ 0x00067784, 2 }} }, // untested
 
     // Oil Ocean Zone (OOZ)
+    { "OOZ2_Parallax",      {{ 0x0005EEB3, 2 }} }, // Untested 
     { "OOZ_Platform",       {{ 0x0008ADC7, 2 }} },
     { "OOZ_Aquis",          {{ 0x000D6154, 2 }} }, 
     { "OOZ_Fan",            {{ 0x0012193E, 6 }, { 0x00121A0E, 5 }} },
@@ -154,6 +159,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "OOZ_Valve",          {{ 0x00159F94, 0 }} },
 
     // Lava Reef Zone (LRZ)
+    { "LRZ2_Parallax",      {{ 0x0005EEE1, 2 }, { 0x0005EEF4, 2 }} }, // Untested 
     { "LRZ1_Platform",      {{ 0x0008AD16, 2 }} }, // Untested
     { "LRZ2_Platform",      {{ 0x0008AD34, 2 }} }, // Untested
     { "LRZ1_Bridge",        {{ 0x0000D308, 2 }} }, // untested  
@@ -205,6 +211,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "TMZ_WallBumper",     {{ 0x001A2E92, 2 }} }, // untested
 
     // Angel Island Zone (AIZ)
+    { "AIZ_Parallax",       {{ 0x0005EDD1, 2 }} },
     { "AIZ_Decoration",     {{ 0x0005EDD1, 2 }} },
     { "AIZ_Platform",       {{ 0x0008ADA3, 2 }} },
     { "AIZ_Claw",           {{ 0x000CFCC0, 2 }} },
