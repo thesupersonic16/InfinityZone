@@ -250,4 +250,23 @@ vector<IZStage_Unlock> AllUnlocks =
     // Dummy - Please don't actually use this
     { "Dummy",              {{ 0x00000000, 2} }}
 
+
+    //  Incomplete Unlock Code Notes:
+    //
+    //      Launch Spring
+    //        - SSZ1
+    //          jmp 0x14A384, jne
+    //          jmp 0x13A4D7, jne
+    //          nop 0x0014A5A1, 2
+    //
+    //        - SSZ2
+    //          jmp 0x14A396, jne
+    //          jmp 0x13A4E9, jne
+    //          nop 0x0014A5BD, 2
+    //
+    //        - TMZ1
+    //          jmp 0x14A4FB, jne
+    //
+    //        - TMZ2
+    //          jmp 0x14A50D, je
 };
