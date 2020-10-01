@@ -95,32 +95,41 @@ vector<IZStage_Unlock> AllUnlocks =
     { "PSZ2_Spikes",        {{ 0x000A06CB, 2 }} }, // untested
     { "PSZ2_FrostThrower",  {{ 0x0012B67B, 2 }} }, // untested
     
-    // Stardust Speedway Zone (SSZ) : Universal?
-    { "SSZ_SDashWheel",     {{ 0x001A58B0, 2 }} }, // Untested
+    // Stardust Speedway Zone (SSZ) : Multi-Act
+    { "SSZ_RTeleporter",   {{ 0x00178D7E, 2 }} },
 
     // Stardust Speedway Zone (SSZ) : Act 1
-    { "SSZ1_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }} },
-    { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, // Untested
-    { "SSZ1_LaunchSpring",  {{ 0x0014A5A1, 2 }} },
-    { "SSZ1_Dango",         {{ 0x00101E41, 2 }} }, // untested
-    { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} }, // untested
-    { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} }, // untested
-    { "SSZ1_HotauraMKII",   {{ 0x00144367, 2 }} }, // untested
-    { "SSZ1_JunctionWheel", {{ 0x00148850, 2 }} }, // untested
-    { "SSZ1_Kabasira",      {{ 0x00148BA1, 2 }} }, // untested
-    { "SSZ1_Kanabun",       {{ 0x00149440, 2 }} }, // untested
-    { "SSZ1_MSHologram",    {{ 0x00134077, 2 }} }, // untested
-    { "SSZ1_RotatingSpike", {{ 0x00177B2F, 2 }} }, // untested
-    { "SSZ1_RTeleporter",   {{ 0x00178D7E, 2 }} },
-    { "SSZ1_SDashWheel",    {{ 0x001A58B0, 2 }} }, // untested
-    { "SSZ1_Spark",         {{ 0x00182C83, 2 }} }, // untested
-    { "SSZ1_SpikeBall",     {{ 0x0018E379, 2 }} }, // untested
+    // Common Unlocks
+    { "SSZ1_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x133A8F, 2 }, { 0x133AA0, 2, new unsigned char[2] { 0xEB, 0x05 } }} },
+    { "SSZ1_Platform",      {{ 0x0008AC3C, 2 }} }, 
+    { "SSZ1_LaunchSpring",  {{ 0x0014A5A1, 2 }, { 0x14A4D7, 2, new unsigned char[2] { 0xEB, 0x5C } }, { 0x14A384, 2, new unsigned char[2] { 0xEB, 0x17 } } }},
+    { "SSZ1_Dango",         {{ 0x00101E41, 2 }} },
+    { "SSZ1_Hotaru",        {{ 0x00140E71, 2 }} },
+    { "SSZ1_Kabasira",      {{ 0x00148BA1, 2 }} },
+    { "SSZ1_Kanabun",       {{ 0x00149440, 2 }} },
+    { "SSZ1_MSHologram",    {{ 0x00134077, 2 }} },
+    { "SSZ1_Spark",         {{ 0x00182C83, 2 }} },
+    { "SSZ1_HotauraMKII",   {{ 0x00144367, 2 }} },
+    { "SSZ1_SpikeBall",     {{ 0x0018E379, 2 }} },
+    // Act Specific
+    { "SSZ1_SDashWheel",    {{ 0x001A58B0, 2 }, { 0x8794F, 2 }, { 0x875E9, 6 }}},
+    { "SSZ1_RotatingSpike", {{ 0x00177B2F, 2 }} },
+    { "SSZ1_JunctionWheel", {{ 0x00148850, 2 }} },
+    { "SSZ1_Flowerpod",     {{ 0x0012A600, 2 }} },
 
     // Stardust Speedway Zone (SSZ) : Act 2
-    { "SSZ2_LaunchSpring",  {{ 0x0014A5BD, 2 }} },
-    { "SSZ2_Platform",      {{ 0x0008AC5A, 2 }} }, // Untested
-    { "SSZ2_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }} },
-    { "SSZ2_MetalSonic",    {{ 0x001366F1, 2 }} }, // untested
+    // Common Unlocks
+    { "SSZ2_LaunchSpring",  {{ 0x0014A5BD, 2 }, { 0x14A4E9, 2, new unsigned char[2] { 0xEB, 0x4A } } , { 0x14A396, 2, new unsigned char[2] { 0xEB, 0x05 } }  }},
+    { "SSZ2_Platform",      {{ 0x0008AC5A, 2 }} },
+    { "SSZ2_SpeedBooster",  {{ 0x0013392A, 2 }, { 0x00133900, 2 }, { 0x00133912, 6 }, { 0x0013392C, 7 }, { 0x00133931, 2 }, { 0x133A8F, 2 }, { 0x133AA0, 2, new unsigned char[2] { 0xEB, 0x05 } }} },
+    { "SSZ2_Dango",         {{ 0x00101E5D, 2 }} },
+    { "SSZ2_Hotaru",        {{ 0x00140E8D, 2 }} },
+    { "SSZ2_Kabasira",      {{ 0x00148BBD, 2 }} },
+    { "SSZ2_Kanabun",       {{ 0x0014945B, 2 }} },
+    { "SSZ2_MSHologram",    {{ 0x00134093, 2 }} },
+    { "SSZ2_HotauraMKII",   {{ 0x00144383, 2 }} },
+    // Act Specific
+    { "SSZ2_MetalSonic",    {{ 0x001366F1, 2 }} },
 
     // Hydrocity Zone (HCZ)
     { "HCZ_Decoration",     {{ 0x00067269, 2 }} },
@@ -214,8 +223,12 @@ vector<IZStage_Unlock> AllUnlocks =
     // Titanic Monarch Zone (TMZ) : Act 1
     { "TMZ1_Platform",      {{ 0x0008AD6D, 2 }} }, // Untested
     { "TMZ1_Decoration",    {{ 0x00067296, 2 }} }, // Untested
+    { "TMZ1_LaunchSpring",  {{ 0x14A4E9, 2, new unsigned char[2] { 0xEB, 0x12 } }} }, // Untested
 
-    // Titanic Monarch Zone (TMZ) : Universal?
+    // Titanic Monarch Zone (TMZ) : Act 2
+    { "TMZ2_LaunchSpring",  {{ 0x14A50D, 2, new unsigned char[2] { 0xEB, 0xF5 } }} }, // Untested
+
+    // Titanic Monarch Zone (TMZ) : Multi-Act
     { "TMZ_Ballhog",        {{ 0x000D81F2, 2 }} }, // untested
     { "TMZ_Button",         {{ 0x00086723, 2 }} }, // untested
     { "TMZ_FlasherMKII",    {{ 0x00129333, 2 }} }, // untested
@@ -255,18 +268,18 @@ vector<IZStage_Unlock> AllUnlocks =
     //
     //      Launch Spring
     //        - SSZ1
-    //          jmp 0x14A384, jne
-    //          jmp 0x13A4D7, jne
+    //          jmp 0x14A384, jne //75 17
+    //          jmp 0x14A4D7, jne //75 39 - 0x13A4D9
     //          nop 0x0014A5A1, 2
     //
     //        - SSZ2
-    //          jmp 0x14A396, jne
-    //          jmp 0x13A4E9, jne
+    //          jmp 0x14A396, jne //75 05
+    //          jmp 0x14A4E9, jne //75 39 - 0x13A4D9
     //          nop 0x0014A5BD, 2
     //
     //        - TMZ1
-    //          jmp 0x14A4FB, jne
+    //          jmp 0x14A4FB, jne //75 12
     //
     //        - TMZ2
-    //          jmp 0x14A50D, je
+    //          jmp 0x14A50D, je //74 F5
 };

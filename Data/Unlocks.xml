@@ -93,30 +93,36 @@
     <PSZ2_FrostThrower/>
   </Core_PSZ2>
   <Core_SSZ>
-    <SSZ_SDashWheel/>
-    <SSZ_LaunchSpring/>
+    <SSZ_RTeleporter/>
   </Core_SSZ>
   <Core_SSZ1>
     <SSZ1_SpeedBooster/>
-    <SSZ1_Platform/>
-    <SSZ1_Dango/>
-    <SSZ1_Flowerpod/>
-    <SSZ1_Hotaru/>
-    <SSZ1_HotauraMKII/>
-    <SSZ1_JunctionWheel/>
+    <SSZ1_Platform/>  
+    <SSZ1_LaunchSpring/>
+    <SSZ1_Dango/>    
+    <SSZ1_Hotaru/>    
     <SSZ1_Kabasira/>
     <SSZ1_Kanabun/>
     <SSZ1_MSHologram/>
+    <SSZ1_Spark/>    
+    <SSZ1_SDashWheel/> 
     <SSZ1_RotatingSpike/>
-    <SSZ1_RTeleporter/>
-    <SSZ1_SDashWheel/>
-    <SSZ1_Spark/>
-    <SSZ1_SpikeBall/>
+    <SSZ1_JunctionWheel/>
+    <SSZ1_SpikeBall/> 
+    <SSZ1_HotauraMKII/>
+    <SSZ1_Flowerpod/>
   </Core_SSZ1>
   <Core_SSZ2>
+    <SSZ2_LaunchSpring/>
+    <SSZ2_Platform/>  
     <SSZ2_SpeedBooster/>
-    <SSZ2_Platform/>
+    <SSZ2_Dango/>    
+    <SSZ2_Hotaru/>    
+    <SSZ2_Kabasira/>
+    <SSZ2_Kanabun/>
+    <SSZ2_MSHologram/>
     <SSZ2_MetalSonic/>
+    <SSZ2_HotauraMKII/>
   </Core_SSZ2>
   <Core_HCZ>
     <HCZ_Decoration/>
@@ -222,7 +228,11 @@
   <Core_TMZ1>
     <TMZ1_Platform/>
     <TMZ1_Decoration/>
+    <TMZ1_LaunchSpring/>
   </Core_TMZ1>
+  <Core_TMZ2>
+    <TMZ2_LaunchSpring/>
+  </Core_TMZ2>
   <Core_AIZ>
     <AIZ_Parallax/>
     <AIZ_Decoration/>
