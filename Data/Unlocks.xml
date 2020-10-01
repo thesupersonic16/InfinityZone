@@ -215,6 +215,7 @@
     <MMZ_Scarab/>
   </Core_MMZ>
   <Core_TMZ>
+    <TMZ_WarpDoor/>
     <TMZ_Ballhog/>
     <TMZ_Button/>
     <TMZ_FlasherMKII/>
@@ -224,14 +225,14 @@
     <TMZ_SentryBug/>
     <TMZ_TeeterTotter/>
     <TMZ_WallBumper/>
+    <TMZ_LaunchSpring/>
+    <TMZ_Decoration/>
   </Core_TMZ>
   <Core_TMZ1>
     <TMZ1_Platform/>
-    <TMZ1_Decoration/>
-    <TMZ1_LaunchSpring/>
   </Core_TMZ1>
   <Core_TMZ2>
-    <TMZ2_LaunchSpring/>
+    <TMZ2_Platform/>
   </Core_TMZ2>
   <Core_AIZ>
     <AIZ_Parallax/>

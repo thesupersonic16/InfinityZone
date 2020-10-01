@@ -220,24 +220,26 @@ vector<IZStage_Unlock> AllUnlocks =
     { "MMZ_PohBee",         {{ 0x0016AEB0, 2 }} }, // untested
     { "MMZ_Scarab",         {{ 0x00179360, 2 }} }, // untested
 
+    // Titanic Monarch Zone (TMZ) : Multi-Act
+    // TODO: Issues with the Final Portal
+    { "TMZ_WarpDoor",       {{ 0x00032785, 6 }, { 0x00032758, 2 }, { 0x323FE, 6 }, { 0x6706A, 2 } }},
+    { "TMZ_Decoration",     {{ 0x00067296, 2 }} },
+    { "TMZ_Ballhog",        {{ 0x000D81F2, 2 }} },
+    { "TMZ_Button",         {{ 0x00086723, 2 }} },
+    { "TMZ_FlasherMKII",    {{ 0x00129333, 2 }} },
+    { "TMZ_GymBar",         {{ 0x0001FC82, 2 }} },
+    { "TMZ_MagnetSphere",   {{ 0x00156DC8, 2 }} },
+    { "TMZ_Portal",         {{ 0x00080455, 2 }} },
+    { "TMZ_SentryBug",      {{ 0x0017B313, 2 }} },
+    { "TMZ_TeeterTotter",   {{ 0x001926E2, 2 }} },
+    { "TMZ_WallBumper",     {{ 0x001A2E92, 2 }} },
+    { "TMZ_LaunchSpring",   {{ 0x0014A4FB, 2, new unsigned char[2] { 0xEB, 0x12 } }} },
+
     // Titanic Monarch Zone (TMZ) : Act 1
-    { "TMZ1_Platform",      {{ 0x0008AD6D, 2 }} }, // Untested
-    { "TMZ1_Decoration",    {{ 0x00067296, 2 }} }, // Untested
-    { "TMZ1_LaunchSpring",  {{ 0x14A4E9, 2, new unsigned char[2] { 0xEB, 0x12 } }} }, // Untested
+    { "TMZ1_Platform",      {{ 0x0008AD6D, 2 }} },
 
     // Titanic Monarch Zone (TMZ) : Act 2
-    { "TMZ2_LaunchSpring",  {{ 0x14A50D, 2, new unsigned char[2] { 0xEB, 0xF5 } }} }, // Untested
-
-    // Titanic Monarch Zone (TMZ) : Multi-Act
-    { "TMZ_Ballhog",        {{ 0x000D81F2, 2 }} }, // untested
-    { "TMZ_Button",         {{ 0x00086723, 2 }} }, // untested
-    { "TMZ_FlasherMKII",    {{ 0x00129333, 2 }} }, // untested
-    { "TMZ_GymBar",         {{ 0x0001FC82, 2 }} }, // untested
-    { "TMZ_MagnetSphere",   {{ 0x00156DC8, 2 }} }, // untested
-    { "TMZ_Portal",         {{ 0x00080455, 2 }} }, // untested
-    { "TMZ_SentryBug",      {{ 0x0017B313, 2 }} }, // untested
-    { "TMZ_TeeterTotter",   {{ 0x001926E2, 2 }} }, // untested
-    { "TMZ_WallBumper",     {{ 0x001A2E92, 2 }} }, // untested
+    { "TMZ2_Platform",      {{ 0x0008AD88, 2 } } },
 
     // Angel Island Zone (AIZ)
     { "AIZ_Parallax",       {{ 0x0005EDD1, 2 }} },
