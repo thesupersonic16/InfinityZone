@@ -5,7 +5,8 @@ struct IZStage_UnlockCode
 {
     intptr_t adress;
     size_t size;
-    char restore[8];
+    char* data = nullptr;
+    char restore[32];
 };
 
 struct IZStage_Unlock

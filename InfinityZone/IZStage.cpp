@@ -47,7 +47,7 @@ bool IZStage::EnableUnlocks()
         return false;
 
     // NOP bytes
-    char nops[24];
+    char nops[32];
     memset(nops, 0x90, sizeof nops);
     
     // Write all the unlocks
@@ -55,7 +55,10 @@ bool IZStage::EnableUnlocks()
     {
         auto address = (void*)(baseAddress + unlock->adress);
         memcpy(unlock->restore, address, unlock->size);
-        WriteData(address, nops, unlock->size);
+        if (unlock->data)
+            WriteData(address, unlock->data, unlock->size);
+        else
+            WriteData(address, nops, unlock->size);
         EnabledUnlocks.push_back(unlock);
     }
     return true;

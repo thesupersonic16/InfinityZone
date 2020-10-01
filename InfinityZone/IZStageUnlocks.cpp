@@ -111,7 +111,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "SSZ1_Kanabun",       {{ 0x00149440, 2 }} }, // untested
     { "SSZ1_MSHologram",    {{ 0x00134077, 2 }} }, // untested
     { "SSZ1_RotatingSpike", {{ 0x00177B2F, 2 }} }, // untested
-    { "SSZ1_RTeleporter",   {{ 0x00178D7E, 2}} },
+    { "SSZ1_RTeleporter",   {{ 0x00178D7E, 2 }} },
     { "SSZ1_SDashWheel",    {{ 0x001A58B0, 2 }} }, // untested
     { "SSZ1_Spark",         {{ 0x00182C83, 2 }} }, // untested
     { "SSZ1_SpikeBall",     {{ 0x0018E379, 2 }} }, // untested
@@ -129,7 +129,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "HCZ_Blastoid",       {{ 0x000DB500, 2 }} }, // untested
     { "HCZ_Button",         {{ 0x00086707, 2 }} },
     { "HCZ_ButtonDoor",     {{ 0x000E8DDF, 2 }} }, // untested
-    { "HCZ_DiveEggman",     {{ 0x00105416, 2 }, { 0x00108426, 2} } }, // untested
+    { "HCZ_DiveEggman",     {{ 0x00105416, 2 }, { 0x00108426, 2 }} }, // untested
     { "HCZ_Fan",            {{ 0x0012193E, 6 }} }, // untested
     { "HCZ_Jaws",           {{ 0x00146560, 2 }} }, // untested
     { "HCZ_Jellygnite",     {{ 0x00146AAB, 2 }} }, // untested
@@ -148,7 +148,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "MSZ_Vultron",        {{ 0x0006678B, 2 }} }, // untested
     { "MSZ_Ending",         {{ 0x0006723C, 2 }} }, // untested
     { "MSZ_HeavyMystic",    {{ 0x0007D8B3, 6 }} }, // untested
-    { "MSZ_Rogues",         {{ 0x0007D95C, 6 }, { 0x0007d976, 6}, { 0x0007d9ad, 6} } }, // untested
+    { "MSZ_Rogues",         {{ 0x0007D95C, 6 }, { 0x0007d976, 6 }, { 0x0007d9ad, 6 }} }, // untested
     { "MSZ_RollerMKII",     {{ 0x00176480, 2 }} }, // untested
     { "MSZ_RotatingSpikes", {{ 0x00177B01, 2 }} }, // untested
     { "MSZ_SwingRope",      {{ 0x00191910, 2 }} }, // untested
@@ -173,7 +173,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "LRZ1_Bridge",        {{ 0x0000D308, 2 }} }, // untested  
     { "LRZ1_Button",        {{ 0x000866BC, 2 }} }, // untested
     { "LRZ1_ButoonDoor",    {{ 0x000E8D91, 2 }} }, // untested
-    { "LRZ1_DrillerDroid",  {{ 0x000E1906, 2 }, { 0x0011357c, 2} } }, // untested
+    { "LRZ1_DrillerDroid",  {{ 0x000E1906, 2 }, { 0x0011357c, 2 }} }, // untested
     { "LRZ1_Fireworm",      {{ 0x000E4786, 2 }} }, // untested
     { "LRZ1_Iwamodoki",     {{ 0x000A3E66, 2 }} }, // untested
     { "LRZ1_LRZFireball",   {{ 0x00112D11, 2 }} }, // untested
@@ -203,7 +203,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "MMZ_Bomb",           {{ 0x000DC1E0, 2 }} }, // untested
     { "MMZ_Button",         {{ 0x00086641, 2 }} }, // untested
     { "MMZ_Caterkiller",    {{ 0x000EC410, 2 }} }, // untested
-    { "MMZ_ConveyorWheel",  {{ 0x000F60A1, 2 }, { 0x000F6511, 2} } }, // untested
+    { "MMZ_ConveyorWheel",  {{ 0x000F60A1, 2 }, { 0x000F6511, 2 }} }, // untested
     { "MMZ_Matryoshkabom",  {{ 0x00157610, 2 }} }, // untested
     { "MMZ_Mechabu",        {{ 0x001583A7, 2 }} }, // untested
     { "MMZ_OneWayDoor",     {{ 0x001604C1, 2 }} }, // untested
@@ -248,7 +248,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "Summary_UIPicture",  {{ 0x00151148, 2 }} },
 
     // Dummy - Please don't actually use this
-    { "Dummy",              {{ 0x00000000, 2} }}
+    { "Dummy",              {{ 0x00000000, 2 }} }
 
 
     //  Incomplete Unlock Code Notes:
