@@ -56,7 +56,6 @@ SonicMania::Color ColorFromString(const char* value)
     std::stringstream sstream;
     sstream << std::hex << value;
     sstream >> colorValue;
-    std::cout << colorValue << std::endl;
     return SonicMania::Color(colorValue);
 }
 
