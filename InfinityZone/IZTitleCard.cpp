@@ -129,12 +129,12 @@ void UpdateInfinityZoneTitleCard()
     if (hasCustomEncore && encore)
     {
         // Write Custom Encore Mode Background Colour
-        *(int*)addr = scene->Parent->TitleCardColors.Encore_BackgroundColor.ToRGB888();
+        *(int*)addr = scene->Parent->TitleCardColors.Encore_BackgroundColor.Red << 16 | scene->Parent->TitleCardColors.Encore_BackgroundColor.Green << 8 | scene->Parent->TitleCardColors.Encore_BackgroundColor.Blue;
     }
     else if (hasCustomMania)
     {
         // Write Custom Mania Mode Background Colour
-        *(int*)addr = scene->Parent->TitleCardColors.Mania_BackgroundColor.ToRGB888();
+        *(int*)addr = scene->Parent->TitleCardColors.Mania_BackgroundColor.Red << 16 | scene->Parent->TitleCardColors.Mania_BackgroundColor.Green << 8 | scene->Parent->TitleCardColors.Mania_BackgroundColor.Blue;
     }
     else if (encore) 
     {
