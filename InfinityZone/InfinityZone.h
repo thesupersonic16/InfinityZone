@@ -17,6 +17,8 @@ protected:
     short currentLevelID = 0;
     char resetting = 0;
     vector<string*> loadedStageLists;
+    void LoadCategoriesSection(tinyxml2::XMLDocument* root, string path);
+    void LoadStagesSection(tinyxml2::XMLDocument* root, string path);
 public:
     unordered_map<string, string> GlobalAssets;
     vector<IZStage*> registeredStages;

@@ -4,6 +4,7 @@
 #include "depends\tinyxml2\tinyxml2.h"
 #include "IZStageUnlocks.h"
 #include "IZScene.h"
+#include "IZTitleCard.h"
 
 class IZStage
 {
@@ -23,13 +24,16 @@ public:
     // List of paths to assets that needs to be replaced. old => new
     unordered_map<string, string> Assets;
 
+    // Custom Titlecard colors
+    IZTitleCard TitleCardColors;
+
     // Loads XML stage data from a file
     bool LoadXML(tinyxml2::XMLElement* xmlStage);
     // Write all the needed unlocks
     bool EnableUnlocks();
     // Restore all the unlocks
-    bool DisableUnlocks();
-    
+    bool DisableUnlocks(); 
+
     ~IZStage();
 };
 

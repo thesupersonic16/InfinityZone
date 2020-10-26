@@ -26,13 +26,13 @@
     <CPZ_SpringTube/>
     <CPZ_Decoration/>
     <CPZ_Platform/>
+    <CPZ_Staircase/>
   </Core_CPZ>
   <Core_SPZ1>
     <SPZ1_Parallax/>
     <SPZ1_Boss/>
     <SPZ1_Canista/>
     <SPZ1_Circlebumper/>
-    <SPZ1_Clapperboard/>
     <SPZ1_Directorchair/>
     <SPZ1_Filmreel/>
     <SPZ1_Micdrop/>
@@ -41,11 +41,13 @@
     <SPZ1_Turbinaut/>
     <SPZ1_Decoration/>
     <SPZ1_Platform/>
+    <SPZ1_Clapperboard/>
   </Core_SPZ1>
   <Core_SPZ2>
     <SPZ2_Canista/>
     <SPZ2_Pathinverter/>
     <SPZ2_Platform/>
+	<SPZ2_Circlebumper/>
   </Core_SPZ2>
   <Core_FBZ>
     <FBZ_WarpDoor/>
@@ -87,10 +89,16 @@
     <PSZ1_Platform/>
   </Core_PSZ1>
   <Core_PSZ2>
-    <PSZ2_Platform/>
-    <PSZ2_Shinobi/>
-    <PSZ2_Spikes/>
+    <PSZ2_Platform/>    
+    <PSZ2_Shinobi/>     
+    <PSZ2_Spikes/>      
     <PSZ2_FrostThrower/>
+    <PSZ2_Ice/>         
+    <PSZ2_Dragonfly/>   
+    <PSZ2_IceBomba/>    
+    <PSZ2_JuggleSaw/>   
+    <PSZ2_Petal/>       
+    <PSZ1_Woodrow/>     
   </Core_PSZ2>
   <Core_SSZ>
     <SSZ_RTeleporter/>
@@ -156,6 +164,8 @@
     <MSZ_SwingRope/>
     <MSZ_Tornado/>
     <MSZ_Vultron/>
+	<MSZ_Cutscene/>
+	<MSZ_Parallax/>
   </Core_MSZ>
   <Core_OOZ>
     <OOZ_Platform/>
@@ -175,7 +185,7 @@
     <LRZ1_Platform/>
     <LRZ1_Bridge/>
     <LRZ1_Button/>
-    <LRZ1_ButoonDoor/>
+    <LRZ1_ButtonDoor/>
     <LRZ1_DrillerDroid/>
     <LRZ1_Fireworm/>
     <LRZ1_Iwamodoki/>
@@ -191,11 +201,24 @@
     <LRZ1_WalkerLegs/>
   </Core_LRZ1>
   <Core_LRZ2>
-    <LRZ2_Parallax/>
     <LRZ2_Platform/>
+    <LRZ2_Button/>
+    <LRZ2_ButtonDoor/>
+    <LRZ2_Fireworm/>
+    <LRZ2_Iwamodoki/>
+    <LRZ2_LRZRockPile/>
+    <LRZ2_LavaGeyser/>
+    <LRZ2_OrbitSpike/>
+    <LRZ2_Parallax/>
+    <LRZ2_Rexon/>
+    <LRZ2_Toxomister/>
     <LRZ2_Flamethrower/>
     <LRZ2_ParallaxSprite/>
     <LRZ2_Turbine/>
+    <LRZ2_WalkerLegs/>
+    <LRZ2_Unknown1/>
+    <LRZ2_Unknown2/>
+    <LRZ2_Unknown3/>
   </Core_LRZ2>
   <Core_LRZ3>
     <LRZ3_HeavyKing/>
@@ -203,6 +226,7 @@
   </Core_LRZ3>
   <Core_MMZ>
     <MMZ_Platform/>
+    <MMZ_Decoration/>
     <MMZ_Bomb/>
     <MMZ_Button/>
     <MMZ_Caterkiller/>
@@ -221,7 +245,6 @@
     <TMZ_FlasherMKII/>
     <TMZ_GymBar/>
     <TMZ_MagnetSphere/>
-    <TMZ_Portal/>
     <TMZ_SentryBug/>
     <TMZ_TeeterTotter/>
     <TMZ_WallBumper/>
@@ -233,8 +256,10 @@
   </Core_TMZ1>
   <Core_TMZ2>
     <TMZ2_Platform/>
+	  <TMZ2_Setup/>
   </Core_TMZ2>
   <Core_AIZ>
+    <AIZ_Portal/>
     <AIZ_Parallax/>
     <AIZ_Decoration/>
     <AIZ_Platform/>

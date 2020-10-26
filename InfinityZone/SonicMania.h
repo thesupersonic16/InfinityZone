@@ -177,6 +177,81 @@ namespace SonicMania
         /* 0x00000078 */ ControllerInput Start;
         /* 0x00000084 */ ControllerInput Select;
     };
+
+    struct Color
+    {
+        byte Red = 0;
+        byte Green = 0;
+        byte Blue = 0;
+
+        Color()
+        {
+
+        }
+
+        Color(int r, int g, int b)
+        {
+            Red = r & 0xFF;
+            Green = g & 0xFF;
+            Blue = b & 0xFF;
+        }
+
+        Color(int rgb)
+        {
+            Red = (rgb >> 16) & 0xFF;
+            Green = (rgb >> 8) & 0xFF;
+            Blue = rgb & 0xFF;
+        }
+
+        inline SHORT ToRGB565()
+        {
+            //return ((Red & 0b11111000) << 8) | ((Green & 0b11111100) << 3) | (Blue >> 3);
+            return (Blue >> 3) | 32 * (Green >> 2) | ((Red >> 3) << 11);
+        }
+
+        inline int ToRGB888()
+        {
+            return ((Red & 0xFF) << 16) + ((Green & 0xFF) << 16) + (Blue & 0xFF);
+        }
+
+        inline void FromRGB565(SHORT RGB565)
+        {
+            Red = (RGB565 & 0b1111100000000000) >> 8;
+            Green = (RGB565 & 0b0000011111100000) >> 3;
+            Blue = (RGB565 & 0b0000000000011111) << 3;
+        }
+
+        inline void FromINT(int rgb)
+        {
+            Red = (rgb >> 16) & 0xFF;
+            Green = (rgb >> 8) & 0xFF;
+            Blue = rgb & 0xFF;
+        }
+
+        inline void Tint(float tint)
+        {
+            Red = (byte)(Red * tint);
+            Green = (byte)(Green * tint);
+            Blue = (byte)(Blue * tint);
+        }
+
+        inline void Blend(byte r, byte g, byte b, float a)
+        {
+            Red = (byte)(a * r + (1 - a) * Red);
+            Green = (byte)(a * g + (1 - a) * Green);
+            Blue = (byte)(a * b + (1 - a) * Blue);
+        }
+
+        inline void Blend(Color color, float a)
+        {
+            Red = (byte)(a * color.Red + (1 - a) * Red);
+            Green = (byte)(a * color.Green + (1 - a) * Green);
+            Blue = (byte)(a * color.Blue + (1 - a) * Blue);
+        }
+
+
+
+    };
     
     DataPointer(HWND, MainWindowHandle, 0x00A53C10);
     DataPointer(bool, DevMenu_Enabled, 0x002FC867);
@@ -193,6 +268,8 @@ namespace SonicMania
     FunctionPointer(char, DevMenu_Options, (), 0x001C3090);
     FunctionPointer(int, TrySaveUserFile, (const char* filename, void* buffer, unsigned int bufSize, int(__cdecl* setStatus)(int), unsigned int a5), 0x001BE010);
     FunctionPointer(int, TryLoadUserFile, (const char* filename, void* buffer, unsigned int bufSize, int(__cdecl* setStatus)(int)), 0x001BDFF0);
+    FunctionPointer(char, LoadGif, (int a1, char* filepath, int buffer), 0x001CBA90);
+
 
 
 }

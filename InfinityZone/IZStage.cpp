@@ -37,6 +37,17 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
             Assets[child->Attribute("basePath")] = child->Attribute("newPath");
     }
 
+    auto xmlColors = xmlStage->FirstChildElement("TileCardColors");
+    if (xmlColors)
+    {
+        TitleCardColors = IZTitleCard();
+        TitleCardColors.LoadXML(xmlColors);
+    }
+    else 
+    {
+        TitleCardColors = IZTitleCard();
+    }
+
     return true;
 }
 

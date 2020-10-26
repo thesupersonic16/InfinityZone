@@ -174,6 +174,7 @@ int InfinityZone_CategorySelect()
     int centerX = *(_DWORD*)(dword_D3CC00 + 614416);
     int centerY = *(_DWORD*)(dword_D3CC00 + 614420);
     int YPosition = centerY - 84;
+    int XPosition = centerX - 84;
 
     // Title
     YPosition += 6;
@@ -199,7 +200,7 @@ int InfinityZone_CategorySelect()
         else
         {
             auto categories = IZInstance->registeredCategories[i];
-            DevMenu_DrawText_(centerX, categories->CategoryName.c_str(), YPosition, Alignment_Center, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
+            DevMenu_DrawText_(XPosition, categories->CategoryName.c_str(), YPosition, Alignment_Left, i == DevMenu_Option ? 0xF0F0F0 : 0x808090);
         }
     }
 

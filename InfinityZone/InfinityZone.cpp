@@ -531,6 +531,9 @@ extern "C"
 
         // Apply DevMenu patches for IZ
         PatchInfinityZoneDevMenu();
+
+        // Apply TitleCard patches for IZ
+        PatchInfinityZoneTitleCard();
     }
 
     IZ_EXPORT ModInfo ManiaModInfo = { ModLoaderVer, GameVer };
