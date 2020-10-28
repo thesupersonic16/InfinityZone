@@ -211,7 +211,7 @@ namespace SonicMania
 
         inline int ToRGB888()
         {
-            return ((Red & 0xFF) << 16) + ((Green & 0xFF) << 16) + (Blue & 0xFF);
+            return (Red & 0xFF) << 16 | (Green & 0xFF) << 8 | Blue & 0xFF;
         }
 
         inline void FromRGB565(SHORT RGB565)
@@ -270,6 +270,13 @@ namespace SonicMania
     FunctionPointer(int, TryLoadUserFile, (const char* filename, void* buffer, unsigned int bufSize, int(__cdecl* setStatus)(int)), 0x001BDFF0);
     FunctionPointer(char, LoadGif, (int a1, char* filepath, int buffer), 0x001CBA90);
 
+    inline int* GetAddress(int baseAddress, int offset1)
+    {
+        return (int*)((*(int*)baseAddress) + offset1);
+    }
 
-
+    inline int* GetAddress(int baseAddress, int offset1, int offset2)
+    {
+        return (int*)(*(int*)GetAddress(baseAddress, offset1) + offset2);
+    }
 }
