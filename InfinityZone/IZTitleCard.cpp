@@ -15,15 +15,15 @@ bool IZTitleCard::LoadXML(tinyxml2::XMLElement* xmlColors)
 
     auto xmlManiaMode = xmlColors->FirstChildElement("ManiaMode");
     if (xmlManiaMode)
-        ManiaModeColorSet = LoadColorSetFromXML(xmlManiaMode, IZTitleCard::ManiaModeColorSet);
+        ManiaModeColorSet = LoadColorSetFromXML(xmlManiaMode, DefaultManiaColorSet);
     else
-        ManiaModeColorSet = IZTitleCard::ManiaModeColorSet;
+        ManiaModeColorSet = DefaultManiaColorSet;
 
     auto xmlEncoreMode = xmlColors->FirstChildElement("EncoreMode");
     if (xmlEncoreMode)
-        EncoreModeColorSet = LoadColorSetFromXML(xmlEncoreMode, IZTitleCard::EncoreModeColorSet);
+        EncoreModeColorSet = LoadColorSetFromXML(xmlEncoreMode, DefaultEncoreColorSet);
     else
-        EncoreModeColorSet = IZTitleCard::EncoreModeColorSet;
+        EncoreModeColorSet = DefaultEncoreColorSet;
 
     return true;
 }

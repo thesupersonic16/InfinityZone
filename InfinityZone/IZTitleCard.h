@@ -13,8 +13,6 @@ public:
     
     ColorSet ManiaModeColorSet;
     ColorSet EncoreModeColorSet;
-    bool EnableManiaMode;
-    bool EnableEncoreMode;
 
     bool LoadXML(tinyxml2::XMLElement* xmlColors);
     ColorSet LoadColorSetFromXML(tinyxml2::XMLElement* xmlColor, IZTitleCard::ColorSet defaultColorSet);
