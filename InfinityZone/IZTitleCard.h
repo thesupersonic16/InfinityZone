@@ -17,6 +17,7 @@ public:
     bool LoadXML(tinyxml2::XMLElement* xmlColors);
     ColorSet LoadColorSetFromXML(tinyxml2::XMLElement* xmlColor, IZTitleCard::ColorSet defaultColorSet);
 
+    IZTitleCard();
 };
 
 extern IZTitleCard::ColorSet DefaultManiaColorSet;

@@ -9,22 +9,20 @@
 static IZTitleCard::ColorSet DefaultManiaColorSet  { {240, 200, 0},   { {240, 140, 24 }, {96, 192, 160}, {240, 80 , 48 }, {64 , 96 , 170}, {240, 240, 240}} };
 static IZTitleCard::ColorSet DefaultEncoreColorSet { {107, 174, 153}, { {55 , 81 , 162}, {199, 82, 91 }, {66 , 143, 195}, {223, 177, 63 }, {240, 240, 240}} };
 
+IZTitleCard::IZTitleCard()
+{
+    ManiaModeColorSet = DefaultManiaColorSet;
+    EncoreModeColorSet = DefaultEncoreColorSet;
+}
 
 bool IZTitleCard::LoadXML(tinyxml2::XMLElement* xmlColors)
 {
-
     auto xmlManiaMode = xmlColors->FirstChildElement("ManiaMode");
     if (xmlManiaMode)
         ManiaModeColorSet = LoadColorSetFromXML(xmlManiaMode, DefaultManiaColorSet);
-    else
-        ManiaModeColorSet = DefaultManiaColorSet;
-
     auto xmlEncoreMode = xmlColors->FirstChildElement("EncoreMode");
     if (xmlEncoreMode)
         EncoreModeColorSet = LoadColorSetFromXML(xmlEncoreMode, DefaultEncoreColorSet);
-    else
-        EncoreModeColorSet = DefaultEncoreColorSet;
-
     return true;
 }
 
