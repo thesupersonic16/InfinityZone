@@ -15,11 +15,15 @@ bool IZTitleCard::LoadXML(tinyxml2::XMLElement* xmlColors)
 
     auto xmlManiaMode = xmlColors->FirstChildElement("ManiaMode");
     if (xmlManiaMode)
-        LoadColorSetFromXML(xmlManiaMode, IZTitleCard::ManiaModeColorSet);
+        ManiaModeColorSet = LoadColorSetFromXML(xmlManiaMode, IZTitleCard::ManiaModeColorSet);
+    else
+        ManiaModeColorSet = IZTitleCard::ManiaModeColorSet;
 
     auto xmlEncoreMode = xmlColors->FirstChildElement("EncoreMode");
     if (xmlEncoreMode)
-        LoadColorSetFromXML(xmlEncoreMode, IZTitleCard::EncoreModeColorSet);
+        EncoreModeColorSet = LoadColorSetFromXML(xmlEncoreMode, IZTitleCard::EncoreModeColorSet);
+    else
+        EncoreModeColorSet = IZTitleCard::EncoreModeColorSet;
 
     return true;
 }
@@ -32,7 +36,7 @@ IZTitleCard::ColorSet IZTitleCard::LoadColorSetFromXML(tinyxml2::XMLElement* xml
         set.BackgroundColor = ColorFromString(attr);
     for (int i = 0; i < 5; ++i)
     {
-        attr = xmlColor->Attribute("Foreground" + i);
+        attr = xmlColor->Attribute(("Foreground" + std::to_string(i)).c_str());
         if (attr)
             set.ForegroundColors[i] = ColorFromString(attr);
     }
