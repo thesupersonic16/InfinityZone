@@ -42,6 +42,7 @@
     <SPZ1_Decoration/>
     <SPZ1_Platform/>
     <SPZ1_Clapperboard/>
+    <SPZ1_LEDPanel/>
   </Core_SPZ1>
   <Core_SPZ2>
     <SPZ2_Canista/>
@@ -180,6 +181,7 @@
   </Core_OOZ>
   <Core_OOZ2>
     <OOZ2_Parallax/>
+    <OOZ2_WarpDoor/>
   </Core_OOZ2>
   <Core_LRZ1>
     <LRZ1_Platform/>

@@ -45,6 +45,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "SPZ1_Decoration",    {{ 0x0006715C, 2 }} },
     { "SPZ1_Platform",      {{ 0x0008AB2E, 2 }} },
     { "SPZ1_Clapperboard",  {{ 0x000F33A2, 2 }} },
+    { "SPZ1_LEDPanel",      {{ 0x0014F951, 2 }} },
 
     // Studiopolis Zone (SPZ) : Act 2
     { "SPZ2_Canista",       {{ 0x000EB5FB, 2 }} },
@@ -188,6 +189,7 @@ vector<IZStage_Unlock> AllUnlocks =
 
     // Oil Ocean Zone (OOZ) : Act 2
     { "OOZ2_Parallax",      {{ 0x0005EEB3, 2 }} },
+    { "OOZ2_WarpDoor",      {{ 0x00032558, 2 }} },
 
     // Lava Reef Zone (LRZ) : Act 1
     { "LRZ1_Platform",      {{ 0x0008AD16, 2 }} }, 
