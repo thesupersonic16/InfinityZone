@@ -3,6 +3,9 @@
 
 #define BitFlag(type, enumType) inline type operator|(type a, type b) { return (type)((enumType)a | (enumType)b); }
 
+typedef unsigned char byte;
+typedef unsigned short ushort;
+
 namespace SonicMania
 {
 
@@ -252,7 +255,233 @@ namespace SonicMania
 
 
     };
+
+    struct Vector2
+    {
+        Vector2()
+        {
+
+        }
+
+        Vector2(int x, int y) : Vector2()
+        {
+            X = x;
+            Y = y;
+        }
+
+        Vector2(float x, float y) : Vector2()
+        {
+            X = (short)x;
+            Y = (short)y;
+            SubX = (ushort)((x - (ushort)(x)) * 0x10000);
+            SubX = (ushort)((y - (ushort)(y)) * 0x10000);
+        }
+
+        Vector2(int x) : Vector2()
+        {
+            X = x;
+            Y = x;
+        }
+
+        Vector2* Add(Vector2& vec)
+        {
+            X += vec.X;
+            Y += vec.Y;
+            return this;
+        }
+
+        Vector2* Sub(Vector2& vec)
+        {
+            X -= vec.X;
+            Y -= vec.Y;
+            return this;
+        }
+
+        Vector2* Mul(Vector2& vec)
+        {
+            X *= vec.X;
+            Y *= vec.Y;
+            return this;
+        }
+
+        Vector2* Div(Vector2& vec)
+        {
+            X /= vec.X;
+            Y /= vec.Y;
+            return this;
+        }
+
+        Vector2* Abs()
+        {
+            if (X < 0)
+                X *= -1;
+            if (Y < 0)
+                Y *= -1;
+        }
+
+        Vector2 operator+(const Vector2& vec2)
+        {
+            Vector2 vec;
+            vec.Add(*this);
+            vec.Add(*(Vector2*)&vec2);
+            return vec;
+        }
+
+        Vector2 operator+=(const Vector2& vec2)
+        {
+            Add(*(Vector2*)&vec2);
+            return *this;
+        }
+
+        Vector2 operator-(const Vector2& vec2)
+        {
+            Vector2 vec;
+            vec.Add(*this);
+            vec.Sub(*(Vector2*)&vec2);
+            return vec;
+        }
+
+        Vector2 operator-=(const Vector2& vec2)
+        {
+            Sub(*(Vector2*)&vec2);
+            return *this;
+        }
+
+        Vector2 operator*(const Vector2& vec2)
+        {
+            Vector2 vec;
+            vec.Add(*this);
+            vec.Mul(*(Vector2*)&vec2);
+            return vec;
+        }
+
+        Vector2 operator*=(const Vector2& vec2)
+        {
+            Mul(*(Vector2*)&vec2);
+            return *this;
+        }
+
+        Vector2 operator/(const Vector2& vec2)
+        {
+            Vector2 vec;
+            vec.Add(*this);
+            vec.Div(*(Vector2*)&vec2);
+            return vec;
+        }
+
+        Vector2 operator/=(const Vector2& vec2)
+        {
+            Div(*(Vector2*)&vec2);
+            return *this;
+        }
+
+        /** Calculates the Angle to the target vector
+            Vector2 target: Location to the target.
+            double Return: Angle between the main and target in Radians.
+        **/
+        double CalculateAngle(Vector2 target)
+        {
+            double theta = atan2(target.X - X, Y - target.Y);
+            if (theta < 0.0)
+                theta += 6.2831853071795865;
+            return theta;
+        }
+
+        /** Calculates the Distance between to the target vector and the main vector
+            Vector2 target: Location to the target.
+            double Return: The Distance between the main and target.
+        **/
+        double inline CalculateDistance(Vector2 target)
+        {
+            return sqrt(pow(X - target.X, 2) + pow(Y - target.Y, 2));
+        }
+
+        int GetFullX()
+        {
+            return (X << 16) + SubX;
+        }
+
+        int GetFullY()
+        {
+            return (Y << 16) + SubY;
+        }
+
+        float GetFullX_F()
+        {
+            return (float)X + (float)(SubX / 0x10000);
+        }
+
+        float GetFullY_F()
+        {
+            return (float)Y + (float)(SubY / 0x10000);
+        }
+
+        void SetFullX(int x)
+        {
+            SubX = (short)x;
+            X = x >> 16;
+        }
+
+        void SetFullY(int y)
+        {
+            SubY = (short)y;
+            Y = y >> 16;
+        }
+
+        void SetFullX(float x)
+        {
+            X = (short)x;
+            SubX = (ushort)((x - (ushort)(x)) * 0x10000);
+        }
+
+        void SetFullY(float y)
+        {
+            Y = (short)y;
+            SubY = (ushort)((y - (ushort)(y)) * 0x10000);
+        }
+
+        bool inline IsNull()
+        {
+            return X == 0 && Y == 0;
+        }
+
+    public:
+        ushort SubX = 0;
+        short X = 0;
+
+        ushort SubY = 0;
+        short Y = 0;
+    };
+
+    enum InkEffect : byte
+    {
+        Ink_None,
+        Ink_Blend,
+        Ink_Alpha,
+        Ink_Add,
+        Ink_Subtract,
+        Ink_Distort,
+        Ink_Masked,
+        Ink_Unmasked
+    };
+
+    struct __declspec(align(4)) EntityAnimationData
+    {
+        /* 0x00000000 */ void* Animationptr;
+        /* 0x00000004 */ int CurrentFrame;
+        /* 0x00000008 */ short CurrentAnimation;
+        /* 0x0000000A */ short LastAnimation;
+        /* 0x0000000C */ short Speed;
+        /* 0x0000000E */ short Unknown0E;
+        /* 0x00000010 */ short Duration;
+        /* 0x00000012 */ short FrameCount; // Frame count + 1?
+        /* 0x00000014 */ BYTE unknown14;
+        /* 0x00000015 */ BYTE UserFrameCount; // I Added This Normally Unknown
+    };
     
+    FunctionPointer(void, DrawRect, (int Xpos, int Ypos, int Width, int Height, int Colour, signed int Alpha, SonicMania::InkEffect InkEffect, BOOL ScreenRelative), 0x001D8870);
+    FunctionPointer(int, DrawSprite, (SonicMania::EntityAnimationData* AnimData, SonicMania::Vector2* Position, BOOL ScreenRelative), 0x001B3B00);
+
     DataPointer(HWND, MainWindowHandle, 0x00A53C10);
     DataPointer(bool, DevMenu_Enabled, 0x002FC867);
     DataPointer(void*, DevMenu_Address, 0x002FBB40);

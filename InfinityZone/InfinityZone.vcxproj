@@ -168,6 +168,7 @@
     <ClInclude Include="IZAPI.h" />
     <ClInclude Include="IZBinary.h" />
     <ClInclude Include="IZCategory.h" />
+    <ClInclude Include="IZCustomWater.h" />
     <ClInclude Include="IZDataSystem.h" />
     <ClInclude Include="IZScene.h" />
     <ClInclude Include="IZGameSession.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="IZAPI.cpp" />
     <ClCompile Include="IZBinary.cpp" />
     <ClCompile Include="IZCategory.cpp" />
+    <ClCompile Include="IZCustomWater.cpp" />
     <ClCompile Include="IZDataSystem.cpp" />
     <ClCompile Include="IZScene.cpp" />
     <ClCompile Include="IZGameSession.cpp" />

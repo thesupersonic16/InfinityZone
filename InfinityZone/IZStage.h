@@ -5,6 +5,7 @@
 #include "IZStageUnlocks.h"
 #include "IZScene.h"
 #include "IZTitleCard.h"
+#include "IZCustomWater.h"
 
 class IZStage
 {
@@ -26,6 +27,9 @@ public:
 
     // Custom Titlecard colors
     IZTitleCard TitleCardColors;
+
+    // Custom Water colors
+    IZCustomWater CustomWaterSettings;
 
     // Loads XML stage data from a file
     bool LoadXML(tinyxml2::XMLElement* xmlStage);

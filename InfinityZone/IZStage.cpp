@@ -38,15 +38,12 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
     }
 
     auto xmlColors = xmlStage->FirstChildElement("TileCardColors");
-    if (xmlColors)
-    {
-        TitleCardColors = IZTitleCard();
-        TitleCardColors.LoadXML(xmlColors);
-    }
-    else 
-    {
-        TitleCardColors = IZTitleCard();
-    }
+    TitleCardColors = IZTitleCard();
+    if (xmlColors) TitleCardColors.LoadXML(xmlColors);
+
+    auto xmlWater = xmlStage->FirstChildElement("WaterSettings");
+    CustomWaterSettings = IZCustomWater();
+    if (xmlWater) CustomWaterSettings.LoadXML(xmlWater);
 
     return true;
 }

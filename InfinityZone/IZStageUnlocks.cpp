@@ -102,7 +102,7 @@ vector<IZStage_Unlock> AllUnlocks =
     { "PSZ2_IceBomba",      {{ 0x001452DB, 2 }} },
     { "PSZ2_JuggleSaw",     {{ 0x00147731, 2 }} },
     { "PSZ2_Petal",         {{ 0x00167EFB, 2 }} },
-    { "PSZ1_Woodrow",       {{ 0x001A48DB, 2 }} },
+    { "PSZ2_Woodrow",       {{ 0x001A48DB, 2 }} },
     
     // Stardust Speedway Zone (SSZ) : Multi-Act
     { "SSZ_RTeleporter",   {{ 0x00178D7E, 2 }} },

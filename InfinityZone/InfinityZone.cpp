@@ -534,6 +534,9 @@ extern "C"
 
         // Apply TitleCard patches for IZ
         PatchInfinityZoneTitleCard();
+
+        // Apply Water patches for IZ
+        PatchInfinityZoneCustomWater();
     }
 
     IZ_EXPORT ModInfo ManiaModInfo = { ModLoaderVer, GameVer };
