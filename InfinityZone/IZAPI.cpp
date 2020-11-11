@@ -94,9 +94,9 @@ extern "C"
         size_t index = 0;
         for (auto scene : IZInstance->registeredScenes)
         {
-            if (index++ == limit)
+            if (index == limit)
                 return;
-            buffer[index] =
+            buffer[index++] =
             {
                 scene->Parent->StageKey.c_str(),
                 scene->Parent->StageDir.c_str(),

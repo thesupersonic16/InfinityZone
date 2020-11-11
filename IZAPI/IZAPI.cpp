@@ -66,7 +66,7 @@ extern "C"
             SetStageAsset_ptr            = (CString3Func)GetProcAddress(InfinityZoneModule, "SetStageAsset");
             SetGlobalAsset_ptr           = (CString2Func)GetProcAddress(InfinityZoneModule, "SetGlobalAsset");
             GetIZScenes_ptr              = (GetIZScenes_type)GetProcAddress(InfinityZoneModule, "GetIZScenes");
-            GetIZStageCount_ptr          = (GetIZStageCount_type)GetProcAddress(InfinityZoneModule, "GetIZStageCount");
+            GetIZStageCount_ptr          = (GetIZStageCount_type)GetProcAddress(InfinityZoneModule, "GetIZSceneCount");
 
             // Read Version from InfinityZone
             if (GetIZVersion_ptr && GetIZAPIMajorVersion_ptr)
