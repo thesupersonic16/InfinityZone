@@ -54,13 +54,16 @@ extern "C"
     {
         const auto scene = IZInstance->GetCurrentScene();
         if (scene == nullptr)
-            return {nullptr, nullptr, nullptr, nullptr };
+            return {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, SonicMania::Filter_None };
         return
         {
-            scene->Parent->StageKey.c_str(),
-            scene->Parent->StageDir.c_str(),
-            scene->Parent->StageName.c_str(),
-            scene->SceneID.c_str()
+                scene->Parent->StageKey.c_str(),
+                scene->Parent->StageDir.c_str(),
+                scene->Parent->StageName.c_str(),
+                scene->SceneKey.c_str(),
+                scene->SceneID.c_str(),
+                scene->SceneName.c_str(),
+                scene->Flags
         };
     }
 
@@ -83,6 +86,34 @@ extern "C"
             IZInstance->GlobalAssets.erase(string(basePath));
         else
             IZInstance->GlobalAssets[string(basePath)] = string(newPath);
+    }
+
+    // Gets the list of scenes from IZ
+    IZ_EXPORT void GetIZScenes(StageInfo* buffer, size_t limit)
+    {
+        size_t index = 0;
+        for (auto scene : IZInstance->registeredScenes)
+        {
+            if (index++ == limit)
+                return;
+            buffer[index] =
+            {
+                scene->Parent->StageKey.c_str(),
+                scene->Parent->StageDir.c_str(),
+                scene->Parent->StageName.c_str(),
+                scene->SceneKey.c_str(),
+                scene->SceneID.c_str(),
+                scene->SceneName.c_str(),
+                scene->Flags
+            };
+
+        }
+    }
+
+    // Gets the list of scenes from IZ
+    IZ_EXPORT size_t GetIZSceneCount()
+    {
+        return IZInstance->registeredScenes.size();
     }
 
 }

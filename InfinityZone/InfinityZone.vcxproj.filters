@@ -33,9 +33,6 @@
     <ClInclude Include="IZStage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SonicMania.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,9 +81,6 @@
       <Filter>Depends</Filter>
     </ClCompile>
     <ClCompile Include="IZStage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SonicMania.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DevMenu.cpp">

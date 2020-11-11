@@ -1,5 +1,4 @@
 #include "IZTitleCard.h"
-#include "SonicMania.h"
 #include "InfinityZone.h"
 #include "depends\tinyxml2\tinyxml2.h"
 #include <string>

@@ -18,6 +18,8 @@ extern "C"
         typedef void(__cdecl* CStringFunc)(const char*);
         typedef void(__cdecl* Func)();
         typedef StageInfo(__cdecl* GetCurrentStage_type)();
+        typedef void(__cdecl* GetIZScenes_type)(StageInfo* buffer, size_t limit);
+        typedef size_t(__cdecl* GetIZStageCount_type)();
 
         GetIZVersion_type GetIZVersion_ptr = nullptr;
         GetIZVersion_type GetIZAPIMajorVersion_ptr = nullptr;
@@ -29,6 +31,8 @@ extern "C"
         GetCurrentStage_type GetCurrentStage_ptr = nullptr;
         CString3Func SetStageAsset_ptr = nullptr;
         CString2Func SetGlobalAsset_ptr = nullptr;
+        GetIZScenes_type GetIZScenes_ptr = nullptr;
+        GetIZStageCount_type GetIZStageCount_ptr = nullptr;
 
         void ShowError(const char* error)
         {
@@ -61,6 +65,8 @@ extern "C"
             GetCurrentStage_ptr          = (GetCurrentStage_type)GetProcAddress(InfinityZoneModule, "GetCurrentStage");
             SetStageAsset_ptr            = (CString3Func)GetProcAddress(InfinityZoneModule, "SetStageAsset");
             SetGlobalAsset_ptr           = (CString2Func)GetProcAddress(InfinityZoneModule, "SetGlobalAsset");
+            GetIZScenes_ptr              = (GetIZScenes_type)GetProcAddress(InfinityZoneModule, "GetIZScenes");
+            GetIZStageCount_ptr          = (GetIZStageCount_type)GetProcAddress(InfinityZoneModule, "GetIZStageCount");
 
             // Read Version from InfinityZone
             if (GetIZVersion_ptr && GetIZAPIMajorVersion_ptr)
@@ -139,6 +145,15 @@ extern "C"
             return (*SetGlobalAsset_ptr)(basePath, newPath);
         }
 
+        void GetIZScenes(StageInfo* buffer, size_t limit)
+        {
+            return (*GetIZScenes_ptr)(buffer, limit);
+        }
+
+        size_t GetIZSceneCount()
+        {
+            return (*GetIZStageCount_ptr)();
+        }
 
     }
 }

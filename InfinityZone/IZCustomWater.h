@@ -1,5 +1,5 @@
 #pragma once
-#include "SonicMania.h"
+#include "Common.h"
 #include "depends/tinyxml2/tinyxml2.h"
 class IZCustomWater
 {

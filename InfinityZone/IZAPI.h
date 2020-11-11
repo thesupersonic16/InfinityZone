@@ -15,10 +15,13 @@ extern "C"
     // Structs
     struct StageInfo
     {
-        const char* StageKey;
-        const char* StageDir;
-        const char* StageName;
-        const char* SceneKey;
+        const char* stageKey;
+        const char* stageDir;
+        const char* stageName;
+        const char* sceneKey;
+        const char* sceneID;
+        const char* sceneName;
+        SonicMania::Filter sceneFlags;
     };
 
     typedef void(__cdecl* StageLoadEvent)(StageInfo, StageLoadPhase);

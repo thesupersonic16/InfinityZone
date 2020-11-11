@@ -72,19 +72,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)mania-mod-loader\ManiaModLoader\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ManiaAPI;$(SolutionDir)mania-mod-loader\ManiaModLoader\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)mania-mod-loader\ManiaModLoader\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ManiaAPI;$(SolutionDir)mania-mod-loader\ManiaModLoader\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)mania-mod-loader\ManiaModLoader\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ManiaAPI;$(SolutionDir)mania-mod-loader\ManiaModLoader\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)mania-mod-loader\ManiaModLoader\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ManiaAPI;$(SolutionDir)mania-mod-loader\ManiaModLoader\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -174,7 +174,6 @@
     <ClInclude Include="IZGameSession.h" />
     <ClInclude Include="IZStage.h" />
     <ClInclude Include="IZStageUnlocks.h" />
-    <ClInclude Include="SonicMania.h" />
     <ClInclude Include="IZTitleCard.h" />
   </ItemGroup>
   <ItemGroup>
@@ -192,7 +191,6 @@
     <ClCompile Include="IZGameSession.cpp" />
     <ClCompile Include="IZStage.cpp" />
     <ClCompile Include="IZStageUnlocks.cpp" />
-    <ClCompile Include="SonicMania.cpp" />
     <ClCompile Include="IZTitleCard.cpp" />
   </ItemGroup>
   <ItemGroup>

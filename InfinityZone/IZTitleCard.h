@@ -1,6 +1,8 @@
 #pragma once
-#include "SonicMania.h"
+#include "Common.h"
 #include "depends/tinyxml2/tinyxml2.h"
+#include <string>
+
 class IZTitleCard
 {
 protected:
@@ -25,5 +27,5 @@ extern IZTitleCard::ColorSet DefaultEncoreColorSet;
 
 extern void UpdateInfinityZoneTitleCard();
 extern void PatchInfinityZoneTitleCard();
-extern SonicMania::Color ColorFromString(string value);
+extern SonicMania::Color ColorFromString(std::string value);
 

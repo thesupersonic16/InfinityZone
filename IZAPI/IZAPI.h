@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <windows.h>
+#include "SonicMania.h"
 
 extern "C"
 {
@@ -17,12 +18,14 @@ extern "C"
         // Structs
         struct StageInfo
         {
-            const char* StageKey;
-            const char* StageDir;
-            const char* StageName;
-            const char* SceneKey;
+            const char* stageKey;
+            const char* stageDir;
+            const char* stageName;
+            const char* sceneKey;
+            const char* sceneID;
+            const char* sceneName;
+            SonicMania::Filter sceneFlags;
         };
-
 
         // Function Types
         typedef void(__cdecl* StageLoadEvent)(StageInfo, StageLoadPhase);
@@ -61,5 +64,12 @@ extern "C"
         
         // Sets a global asset redirect
         extern void SetGlobalAsset(const char* basePath, const char* newPath = nullptr);
+
+        // Gets the list of scenes from IZ
+        extern void GetIZScenes(StageInfo* buffer, size_t limit);
+
+        // Gets the list of scenes from IZ
+        extern size_t GetIZSceneCount();
+
     }
 }

@@ -11,7 +11,6 @@ DataPointer(BYTE, Key_Up, 0x004416D8);
 DataPointer(BYTE, Key_Down, 0x004416E4);
 
 
-static int loc_DrawText = baseAddress + 0x1D58C0;
 static __declspec(naked) WORD DevMenu_DrawText_(int XPosition, const char* text, int YPosition, DevMenu_Alignment alignment, int color)
 {
     __asm

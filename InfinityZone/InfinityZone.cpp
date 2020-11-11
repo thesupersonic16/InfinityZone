@@ -16,6 +16,9 @@ event({ \
         scene->Parent->StageDir.c_str(), \
         scene->Parent->StageName.c_str(), \
         scene->SceneKey.c_str(), \
+        scene->SceneID.c_str(), \
+        scene->SceneName.c_str(), \
+        scene->Flags \
     }, phase); \
 
 static bool TrackerL, TrackerR, InSpecialStage;

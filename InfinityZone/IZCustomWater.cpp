@@ -1,5 +1,4 @@
 #include "IZCustomWater.h"
-#include "SonicMania.h"
 #include "InfinityZone.h"
 #include "depends\tinyxml2\tinyxml2.h"
 #include <string>
@@ -110,7 +109,7 @@ static __declspec(naked) void OnWaterDrawHook()
 
 void PatchInfinityZoneCustomWater()
 {
-    WriteData<6>((void*)(baseAddress + 0x19B97), 0x90);
+    WriteData<6>((BYTE*)(baseAddress + 0x19B97), (BYTE)0x90);
     WriteJump((void*)(baseAddress + 0x19B97), OnWaterDrawHook);
 }
 
