@@ -160,6 +160,7 @@ vector<IZStage_Unlock> AllUnlocks =
 
     // Mirage Saloon Zone (MSZ)
     // Notes: Need to Fix Act 1 (Non-Knuckles Crash)
+    // Solution Discovered: Rouges/HeavyMystic Look Off
     { "MSZ_Decoration",     {{ 0x0006720F, 2 }} }, 
     { "MSZ_Platform",       {{ 0x0008ACA6, 2 }} }, 
     { "MSZ_Armadilloid",    {{ 0x0006A530, 2 }} }, 

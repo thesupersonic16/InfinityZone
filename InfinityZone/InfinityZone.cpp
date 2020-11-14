@@ -496,6 +496,71 @@ extern "C"
     }
 
 
+
+    static __declspec(naked) void OnCheckSceneFolderHook(const char* path)
+    {
+        static int OnCheckSceneFolderHookReturn = baseAddress + 0x1F257A;
+        static int OnCheckSceneFolderHookPtr = baseAddress + 0xA535C4;
+
+        static IZScene* currentScene;
+        static std::string sceneS;
+        static const char* sceneC;
+        static bool exists = false;
+
+        __asm
+        {
+            pushad;
+        }
+
+        if (IZInstance)
+        {
+            currentScene = IZInstance->GetCurrentScene();
+            if (currentScene)
+            {
+                if (currentScene->Parent)
+                {
+                    sceneS = currentScene->Parent->StageBase;
+                    if (!sceneS.empty() && sceneS.size() != 0)
+                    {
+                        sceneC = sceneS.c_str();
+                        exists = true;
+                    }
+                }
+            }
+        }
+
+
+        if (exists)
+        {
+            //IZ Check
+            __asm
+            {
+                popad;
+                movzx eax, sceneC;
+                jmp OnCheckSceneFolderHookReturn;
+            }
+        }
+        else 
+        {
+            //Normal Check
+            __asm
+            {
+                popad;
+                movzx eax, word ptr[OnCheckSceneFolderHookPtr];
+                jmp OnCheckSceneFolderHookReturn;
+            }
+        }
+
+
+    }
+
+    void PatchCheckSceneFolder()
+    {
+        //TODO : Needs more work to be usable
+        //WriteData<7>((void*)(baseAddress + 0x1F2573), 0x90);
+        //WriteJump((void*)(baseAddress + 0x1F2573), OnCheckSceneFolderHook);
+    }
+
     IZ_EXPORT void OnFrame()
     {
         IZInstance->OnFrame();
@@ -531,6 +596,10 @@ extern "C"
 
         IZInstance = new InfinityZone();
         IZInstance->Init(path);
+
+
+        // Apply Scene Folder check for IZ
+        PatchCheckSceneFolder();
 
         // Apply DevMenu patches for IZ
         PatchInfinityZoneDevMenu();

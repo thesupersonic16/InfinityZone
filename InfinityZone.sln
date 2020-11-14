@@ -9,6 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IZAPI", "IZAPI\IZAPI.vcxpro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C53474B-BE8B-42A4-B878-18FBE95AF630}"
 	ProjectSection(SolutionItems) = preProject
+		ManiaAPI\SonicMania.h = ManiaAPI\SonicMania.h
 		Data\Unlocks.xml = Data\Unlocks.xml
 	EndProjectSection
 EndProject

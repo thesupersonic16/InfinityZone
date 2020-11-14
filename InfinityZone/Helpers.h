@@ -2,6 +2,7 @@
 #include "Common.h"
 
 // Functions
+extern intptr_t GetAddressFromCall(intptr_t call);
 extern intptr_t GetAddressFromJump(intptr_t jmp);
 extern int LoadFile(char* filename, fileinfo* info, void* unknown);
 extern void* LoadAndReadFile(const char* filename, int* length);

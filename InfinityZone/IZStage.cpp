@@ -14,6 +14,10 @@ bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
     StageName = xmlStage->Attribute("stageName"); // Required
     StageDir = xmlStage->Attribute("stageDir");   // Required
     StageKey = xmlStage->Attribute("stageKey");   // Required
+
+
+    if (xmlStage->FindAttribute("stageBase")) StageBase = xmlStage->Attribute("stageBase");  // Optional
+
     Flags = (Filter)xmlStage->IntAttribute("flags", Filter::Filter_Common | Filter::Filter_Mania); // Filter_Common | Filter_Mania = 3
 
     auto xmlUnlocks = xmlStage->FirstChildElement("StageUnlocks");

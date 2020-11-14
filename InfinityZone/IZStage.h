@@ -17,6 +17,8 @@ public:
     string StageKey;
     // The name of the folder for this stage
     string StageDir;
+    // The name of the folder that this stage is based off of;
+    string StageBase;
     // The scene flags for this stage
     SonicMania::Filter Flags = SonicMania::Filter_Common | SonicMania::Filter_Mania;
 

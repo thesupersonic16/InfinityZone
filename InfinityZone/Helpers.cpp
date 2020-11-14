@@ -13,6 +13,13 @@ intptr_t GetAddressFromJump(intptr_t jmp)
     return (intptr_t)abs;
 }
 
+intptr_t GetAddressFromCall(intptr_t call)
+{
+    int r = *(int*)(call + 1);
+    int abs = call + r + 5;
+    return (intptr_t)abs;
+}
+
 void* LoadFile_ptr = (void*)(baseAddress + 0x001C53C0);
 int LoadFile(char* filename, fileinfo* info, void* unknown)
 {
