@@ -134,7 +134,9 @@ int InfinityZone_MainDevMenu()
             switch (DevMenu_Option)
             {
             case 0:
-                return GameState = *(GameStates*)(baseAddress + 0x1FBB54); // TODO Doesn't work for whatever reason
+                GameState = GameState_Running;
+                //return GameState = *(GameStates*)(baseAddress + 0x1FBB54); // TODO Doesn't work for whatever reason
+                break;
             case 1:
                 GameState = GameState_NotRunning;
                 break;

@@ -19,6 +19,8 @@ public:
     string StageDir;
     // The name of the folder that this stage is based off of;
     string StageBase;
+    // The Scene ID that this stage will apply it's IZ logic to... (Intended for compatibility with normal zones)
+    string StockKey = "-1";
     // The scene flags for this stage
     SonicMania::Filter Flags = SonicMania::Filter_Common | SonicMania::Filter_Mania;
 

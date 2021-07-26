@@ -75,9 +75,9 @@ void UpdateInfinityZoneTitleCard()
 
     auto customSet = encore ? DefaultEncoreColorSet : DefaultManiaColorSet;
     
-    auto scene = IZInstance->GetCurrentScene();
-    if (scene && scene->Parent)
-        customSet = encore ? scene->Parent->TitleCardColors.EncoreModeColorSet : scene->Parent->TitleCardColors.ManiaModeColorSet;
+    auto stage = IZInstance->GetCurrentStage();
+    if (stage)
+        customSet = encore ? stage->TitleCardColors.EncoreModeColorSet : stage->TitleCardColors.ManiaModeColorSet;
    
     // NOTE: 0x00RRGGBB    
   

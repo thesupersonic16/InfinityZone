@@ -70,9 +70,9 @@ IZCustomWater::WaterColorDefintion GetCurrentWaterColorDraw()
 {
     IZCustomWater::WaterColorDefintion customSet = DefaultWater;
 
-    auto scene = IZInstance->GetCurrentScene();
-    if (scene && scene->Parent)
-        customSet = scene->Parent->CustomWaterSettings.WaterSettings;
+    auto stage = IZInstance->GetCurrentStage();
+    if (stage)
+        customSet = stage->CustomWaterSettings.WaterSettings;
 
     return customSet;
 }

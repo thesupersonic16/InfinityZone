@@ -5,7 +5,8 @@
 #include <algorithm>
 #include "../IZAPI/IZAPI.h"
 
-extern "C" IZ_EXPORT const HelperFunctions* MML_HelperFunctions = nullptr;
+
+extern "C" IZ_EXPORT const HelperFunctions * MML_HelperFunctions = nullptr;
 
 extern const SonicMania::Scene IZ_SceneID = SonicMania::Scene_ThanksForPlaying;
 
@@ -43,7 +44,6 @@ bool CheckKey(char key, bool state, bool* tracker)
     return false;
 }
 
-
 IZStage* InfinityZone::FindIZStage(const string key)
 {
     for (IZStage* stage : registeredStages)
@@ -64,33 +64,36 @@ IZScene* InfinityZone::FindIZScene(string sceneKey)
     return nullptr;
 }
 
-string InfinityZone::OnFileLoad(string path)
+IZStage* InfinityZone::FindIZStockStage(const string key) const
 {
-    // Load Null Space Zone when performing asset resetting
-    if (resetting && resetting < 3)
+    for (IZStage* stage : registeredStages)
     {
-        strcpy_s(SonicMania::CurrentSceneName, 12, "IZ_NSZ");
-        return path;
+        if (stage->StockKey == key)
+            return stage;
     }
+    return nullptr;
+}
 
-    auto oldStageID = string(SonicMania::CurrentSceneName);
+IZScene* InfinityZone::GetCurrentScene() const
+{
+    return currentCustomScene;
+}
 
-    // Check if a custom stage is loaded
-    if (!currentCustomScene || InSpecialStage)
-        return path;
+IZStage* InfinityZone::GetCurrentStage() const
+{
+    short sceneID = SonicMania::CurrentScene;
+    if (currentCustomScene) return currentCustomScene->Parent;
+    else return FindIZStockStage(std::to_string(sceneID));
+}
 
-    // The loaded custom scene
-    auto &scene = *currentCustomScene;
+#pragma endregion
 
-    // Set custom scene flags
-    SonicMania::SceneFlags = scene.Flags;
 
-    // Replace the stage ID with the custom stage ID from the file path
-    ReplaceString(path, oldStageID, scene.Parent->StageDir);
-
+string InfinityZone::OnRedirectAssets(IZStage* stage, string path, bool stockStage)
+{
     // Load custom stage assets
     bool found = false;
-    for (auto asset : scene.Parent->Assets)
+    for (auto asset : stage->Assets)
     {
         if (path.rfind(asset.first, 0) == 0)
         {
@@ -105,7 +108,7 @@ string InfinityZone::OnFileLoad(string path)
         }
     }
     // Load custom scene file
-    if (!found)
+    if (!found && !stockStage)
     {
         auto position = path.find("/Scene");
         if (position != string::npos && path.find(".bin") != string::npos)
@@ -129,7 +132,42 @@ string InfinityZone::OnFileLoad(string path)
             }
         }
     }
+
     return path;
+}
+
+string InfinityZone::OnFileLoad(string path)
+{
+    // Load Null Space Zone when performing asset resetting
+    if (resetting && resetting < 3)
+    {
+        strcpy_s(SonicMania::CurrentSceneName, 12, "IZ_NSZ");
+        return path;
+    }
+
+    auto oldStageID = string(SonicMania::CurrentSceneName);
+
+    // Check if a custom stage is loaded
+    if (currentCustomScene && !InSpecialStage) 
+    {
+        // The loaded custom scene
+        auto& scene = *currentCustomScene;
+
+        // Set custom scene flags
+        SonicMania::SceneFlags = scene.Flags;
+
+        // Replace the stage ID with the custom stage ID from the file path
+        ReplaceString(path, oldStageID, scene.Parent->StageDir);
+
+        return OnRedirectAssets(scene.Parent, path, false);
+    }
+
+    auto currentScene = InfinityZone::GetCurrentStage();
+
+    if (currentScene) return OnRedirectAssets(currentScene, path, true);
+
+    return path;
+
 }
 
 void InfinityZone::OnFrame()
@@ -162,18 +200,31 @@ void InfinityZone::OnFrame()
     if (resetting)
         ++resetting;
 
-    if (currentCustomScene && SonicMania::CurrentScene != currentLevelID && !resetting && !InSpecialStage)
+    if (SonicMania::CurrentScene != currentLevelID)
     {
+
+        auto oldScene = InfinityZone::FindIZStockStage(std::to_string(currentLevelID));
+
+        if (oldScene) oldScene->DisableUnlocks();
+
         currentLevelID = SonicMania::CurrentScene;
-        
-        // Unload custom stage
-        auto scene = currentCustomScene;
 
-        // Raise OnStageUnload event
-        RaseStageEvent(scene, OnStageUnload, StageLoadPhase_NotLoaded);
+        auto newScene = InfinityZone::FindIZStockStage(std::to_string(currentLevelID));
 
-        scene->Parent->DisableUnlocks();
-        currentCustomScene = nullptr;
+        if (newScene) newScene->EnableUnlocks();
+
+        if (currentCustomScene && !resetting && !InSpecialStage) 
+        {
+
+            // Unload custom stage
+            auto scene = currentCustomScene;
+
+            // Raise OnStageUnload event
+            RaseStageEvent(scene, OnStageUnload, StageLoadPhase_NotLoaded);
+
+            scene->Parent->DisableUnlocks();
+            currentCustomScene = nullptr;
+        }
     }
     bool keyState = GetCtrlKeyState();
 
@@ -198,17 +249,17 @@ void InfinityZone::OnFrame()
 
 }
 
-// TODO: Caller needs reworking
 void InfinityZone::OnActCompleted()
 {
+    // TODO: Caller needs reworking
     LogDebug("InfinityZone::OnActCompleted", "Act Completed");
 }
-
 
 void InfinityZone::Init(string path)
 {
     LogDebug("InfinityZone::Init", "Starting InfinityZone... Built at %s %s", __DATE__, __TIME__);
     LoadUnlockSets((path + "\\Unlocks.xml").c_str());
+    LoadStages((path + "\\Stages.xml").c_str(), true);
 }
 
 // Loads and registers the stage information
@@ -225,10 +276,10 @@ void InfinityZone::LoadStages(string path, bool registerList)
     size = static_cast<unsigned int>(file.tellg());
     char* xml = (char*)malloc(size);
     file.seekg(0, std::ios::beg);
-    
+
     // Read file
     file.read(xml, size);
-    
+
     if (xml && size)
     {
         // Record the file path to the stage list
@@ -433,26 +484,20 @@ void InfinityZone::ChangeScene(IZScene* scene)
         RaseStageEvent(scene, OnStageLoad, StageLoadPhase_Load);
 
         scene->Parent->EnableUnlocks();
-        
+
         // Set current modded scene
         currentCustomScene = scene;
-        
+
         // Reset the scene (This needs changing)
         SonicMania::CurrentScene = IZ_SceneID;
         currentLevelID = IZ_SceneID;
         SonicMania::GameState = SonicMania::GameState_NotRunning;
-        
+
         // Skip Asset Reset
         resetting = 2;
     }
     LogInfo("InfinityZone::ChangeStage", "Loading Stage: \"%s\" with \"Scene%s.bin\"", scene->Parent->StageName.c_str(), scene->SceneID.c_str());
 }
-
-IZScene* InfinityZone::GetCurrentScene() const
-{
-    return currentCustomScene;
-}
-
 
 extern "C"
 {
@@ -464,7 +509,7 @@ extern "C"
     void ShowError(const char* error)
     {
         char message[255];
-        sprintf_s(message, "%s\n\nIZ Version: %d", error,  IZ_VERSION);
+        sprintf_s(message, "%s\n\nIZ Version: %d", error, IZ_VERSION);
         MessageBoxA(NULL, message, "Fatal InfinityZone Error", MB_OK | MB_ICONERROR);
     }
 
@@ -495,14 +540,12 @@ extern "C"
         return orig();
     }
 
-
-
     static __declspec(naked) void OnCheckSceneFolderHook(const char* path)
     {
         static int OnCheckSceneFolderHookReturn = baseAddress + 0x1F257A;
         static int OnCheckSceneFolderHookPtr = baseAddress + 0xA535C4;
 
-        static IZScene* currentScene;
+        static IZStage* currentScene;
         static std::string sceneS;
         static const char* sceneC;
         static bool exists = false;
@@ -514,17 +557,15 @@ extern "C"
 
         if (IZInstance)
         {
-            currentScene = IZInstance->GetCurrentScene();
+            currentScene = IZInstance->GetCurrentStage();
+
             if (currentScene)
             {
-                if (currentScene->Parent)
+                sceneS = currentScene->StageBase;
+                if (!sceneS.empty() && sceneS.size() != 0)
                 {
-                    sceneS = currentScene->Parent->StageBase;
-                    if (!sceneS.empty() && sceneS.size() != 0)
-                    {
-                        sceneC = sceneS.c_str();
-                        exists = true;
-                    }
+                    sceneC = sceneS.c_str();
+                    exists = true;
                 }
             }
         }
@@ -540,7 +581,7 @@ extern "C"
                 jmp OnCheckSceneFolderHookReturn;
             }
         }
-        else 
+        else
         {
             //Normal Check
             __asm
@@ -613,3 +654,5 @@ extern "C"
 
     IZ_EXPORT ModInfo ManiaModInfo = { ModLoaderVer, GameVer };
 }
+
+

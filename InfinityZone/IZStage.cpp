@@ -12,8 +12,18 @@ IZStage::~IZStage()
 bool IZStage::LoadXML(tinyxml2::XMLElement* xmlStage)
 {
     StageName = xmlStage->Attribute("stageName"); // Required
-    StageDir = xmlStage->Attribute("stageDir");   // Required
     StageKey = xmlStage->Attribute("stageKey");   // Required
+
+    if (xmlStage->FindAttribute("stockKey"))
+    {
+        StockKey = xmlStage->Attribute("stockKey");
+        if (xmlStage->FindAttribute("stageDir"))
+            StageDir = xmlStage->Attribute("stageDir");
+        else
+            StageDir = StageKey;
+    }
+    else
+        StageDir = xmlStage->Attribute("stageDir");   // Required
 
 
     if (xmlStage->FindAttribute("stageBase")) StageBase = xmlStage->Attribute("stageBase");  // Optional
