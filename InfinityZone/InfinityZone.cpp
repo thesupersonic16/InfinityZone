@@ -86,8 +86,6 @@ IZStage* InfinityZone::GetCurrentStage() const
     else return FindIZStockStage(std::to_string(sceneID));
 }
 
-#pragma endregion
-
 
 string InfinityZone::OnRedirectAssets(IZStage* stage, string path, bool stockStage)
 {
